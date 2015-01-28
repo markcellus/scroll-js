@@ -1,0 +1,31 @@
+{
+  "name": "scroll",
+  "version": "0.0.0",
+  "homepage": "https://github.com/mkay581/scroll",
+  "authors": [
+    "Mark Kennedy <mkay581@gmail.com>"
+  ],
+  "description": "Scroller",
+  "moduleType": [
+    "amd",
+    "es6",
+    "node"
+  ],
+  "keywords": [
+    "scroll"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "requirejs": "~2.1.15",
+    "qunit": "~1.16.0",
+    "sinonjs": "~1.10.2",
+    "rogue": "~2.2.4"
+  }
+}
