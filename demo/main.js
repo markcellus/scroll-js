@@ -1,7 +1,3 @@
-var currentY = window.pageYOffset;
-var i = 0;
-var timer;
-
 var scroll = new Scroll({
     el: document.body
 });
