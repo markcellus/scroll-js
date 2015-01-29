@@ -44,9 +44,11 @@
          */
         initialize: function (options) {
 
-            this.options = extend({
-                el: document.createDocumentFragment()
-            }, options);
+            this.options = options;
+
+            if (!options.el) {
+                console.error('Scroll error: there was no element passed to new Scroll() instantiation! Bailing...');
+            }
 
             this.setup();
         },
@@ -90,17 +92,16 @@
          * Scrolls the browser to the supplied pos vertically.
          * @param {Number} x - The pixel along the horizontal axis of the element that you want displayed in the upper left.
          * @param {Number} y - The pixel along the vertical axis of the element that you want displayed in the upper left.
-         * @param [duration] - The amount of time for the animation
-         * @param {string} [easing] - The easing function to use
+         * @param {Object} [options] - Scroll options
+         * @param {Number} [options.duration]- The amount of time for the animation
+         * @param {string} [options.easing] - The easing function to use
          * @param {Function} [callback] - The callback that fires when the scrolling is complete
          * @memberOf Scroll
          */
-        to: function (x, y, duration, easing, callback) {
+        to: function (x, y, options, callback) {
             var start = Date.now(),
                 elem = this.options.el,
-                from = elem.scrollTop,
-                defaultEasing = 'linear',
-                easeFunc = this._easing[easing || defaultEasing];
+                from = elem.scrollTop;
 
             /* prevent scrolling, if already there */
             if (from === y) {
@@ -108,15 +109,11 @@
                 return;
             }
 
-            if (!easeFunc) {
-                console.warn('Scroll error: scroller does not support an easing option of ' + easing + '. Using "' + defaultEasing + '" instead');
-                easeFunc = this._easing[defaultEasing];
-            }
             // defaults
-            duration = duration || 400;
+            options.duration = options.duration || 400;
 
             requestAnimationFrame(function () {
-                this._scroll(elem, from, y, start, duration, easeFunc, callback);
+                this._scroll(elem, from, y, start, options.duration, this._getEasing(options.easing), callback);
             }.bind(this));
         },
 
@@ -145,6 +142,23 @@
             } else if (callback) {
                 callback();
             }
+        },
+
+        /**
+         * Gets an easing function based on supplied easing string.
+         * @param {String} easing - The easing id
+         * @returns {Function} - Returns the easing function
+         * @private
+         * @memberOf Scroll
+         */
+        _getEasing: function (easing) {
+            var defaultEasing = 'linear',
+                easeFunc = this._easing[easing || defaultEasing];
+            if (!easeFunc) {
+                console.warn('Scroll error: scroller does not support an easing option of ' + easing + '. Using "' + defaultEasing + '" instead');
+                easeFunc = this._easing[easing];
+            }
+            return easeFunc;
         },
 
         /**
