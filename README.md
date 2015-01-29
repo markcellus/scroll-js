@@ -4,17 +4,19 @@ A lighteight scroller with no dependencies, using native javascript.
 
 ## Why use this scroller over other scroll libraries and plugins?
 
-This library solves the accessibility issues on mobile devices that many scroll libraries miss. Most libraries today
-use absolutely positioning, css animations, transitions and other types of workarounds to get the scroller to behave.
+This library solves the accessibility issues on mobile devices that many scroll libraries miss.
 
-Desktop and mobile devices (mobile mainly), heavily depend on the document, html and body tags to do helpful things for the user.
-Like hiding the location url bar as you scroll down the window of the document on mobile browsers, for instance. Or
+Most libraries today use absolutely positioning, css animations, transitions and other types of workarounds directly on
+the `window.document`, `<html>`, or `<body>` elements to get the scroller to behave. But desktop and mobile devices
+(mobile mainly), heavily depend on these elements do helpful things for the user. Like hiding the location url bar as
+you scroll down the window of the document on mobile browsers, for instance. Or
 [pausing heavy processes](http://developer.telerik.com/featured/scroll-event-change-ios-8-big-deal/), until
-the user is done performing a task as to not interrupt them.
+the user is done performing a task as to not interrupt them. So it's increasingly important to avoid manipulating document,
+html and body tags for any reason (including scrolling).
 
-The other libraries out there use CSS transitioning and animations to "fake" a scrolling effect.
-Outside of this being such a "hacky" way to do things, it moves you further away from native javascript.
-Like event listening (you can not use [window.onscroll](https://developer.mozilla.org/en-US/docs/Web/API/window.onscroll) and
+The other libraries out there use CSS transitioning and animations to "fake" a scrolling effect. While this is clever,
+it moves you further away from the tools native javascript gives you, like event listening (you can not
+use [window.onscroll](https://developer.mozilla.org/en-US/docs/Web/API/window.onscroll) and
 [Element.onscroll](https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers.onscroll)) with many of these tools.
 
 The Scroll class does not suffer from any of these issues as it uses native scroll properties so that native javascript events fire
