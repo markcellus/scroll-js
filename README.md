@@ -17,8 +17,8 @@ Outside of this being such a "hacky" way to do things, it moves you further away
 Like event listening (you can not use [window.onscroll](https://developer.mozilla.org/en-US/docs/Web/API/window.onscroll) and
 [Element.onscroll](https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers.onscroll)) with many of these tools.
 
-The Scroll class does not suffer from any of these issues as it uses native scroll properties
-and animation frames for better rendering performance.
+The Scroll class does not suffer from any of these issues as it uses native scroll properties so that native javascript events fire
+([see Event Listening](#Event-listening)) and the browsers internal animation frames for better rendering performance.
 
 
 ## Scrolling
