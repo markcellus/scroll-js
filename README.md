@@ -12,8 +12,8 @@ the `window.document`, `<html>`, or `<body>` elements to get the scroller to beh
 Like hiding the location url bar as
 you scroll down the window of the document on mobile browsers, for instance. Or
 [pausing heavy processes](http://developer.telerik.com/featured/scroll-event-change-ios-8-big-deal/), until
-the user is done performing a task as to not interrupt them. So it's increasingly important to avoid manipulating document,
-html and body tags for any reason (including scrolling).
+the user is done performing a task as to not interrupt them. So it's increasingly important to use these elements in a way that
+lends nicely to native browser functionality, including scrolling logic.
 
 The other libraries out there use CSS transitioning and animations to "fake" a scrolling effect. While this is clever,
 it moves you further away from the tools native javascript gives you, like event listening (you can not
