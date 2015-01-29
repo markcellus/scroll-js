@@ -36,7 +36,8 @@ scroll.to(0, 500); //scroll 500 pixels down the page
 
 ## Event Listening
 
-With this library you can listen in on native scroll events.
+With this library you can listen in on native scroll events the same way you would if a user was scrolling the
+page with a mouse or touch event.
 
 ```javascript
 var scroll = new Scroll({
