@@ -5,7 +5,8 @@
   "authors": [
     "Mark Kennedy <mkay581@gmail.com>"
   ],
-  "description": "Scroller",
+  "description": "Light Scroller class that uses native javascript only",
+  "main": "dist/scroll.js",
   "moduleType": [
     "amd",
     "es6",

@@ -1,3 +1,8 @@
+/** 
+* Scroll - v0.0.0.
+* https://github.com/mkay581/scroll.git
+* Copyright 2015 Mark Kennedy. Licensed MIT.
+*/
 (function (factory) {
     'use strict';
     // support both AMD and non-AMD
