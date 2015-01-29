@@ -8,7 +8,8 @@ This library solves the accessibility issues on mobile devices that many scroll 
 
 Most libraries today use absolutely positioning, css animations, transitions and other types of workarounds directly on
 the `window.document`, `<html>`, or `<body>` elements to get the scroller to behave. But desktop and mobile devices
-(mobile mainly), heavily depend on these elements do helpful things for the user. Like hiding the location url bar as
+(mobile mainly), heavily depend on the event triggering on these elements to do helpful things for the user.
+Like hiding the location url bar as
 you scroll down the window of the document on mobile browsers, for instance. Or
 [pausing heavy processes](http://developer.telerik.com/featured/scroll-event-change-ios-8-big-deal/), until
 the user is done performing a task as to not interrupt them. So it's increasingly important to avoid manipulating document,
