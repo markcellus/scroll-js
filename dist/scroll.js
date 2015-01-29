@@ -113,6 +113,8 @@
                 options = {};
             }
 
+            options = options || {};
+
             /* prevent scrolling, if already there */
             if (from === y) {
                 callback ? callback() : null;
