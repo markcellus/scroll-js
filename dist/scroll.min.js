@@ -1,5 +1,5 @@
 /** 
-* Scroll - v0.0.1.
+* Scroll - v0.0.2.
 * https://github.com/mkay581/scroll.git
 * Copyright 2015 Mark Kennedy. Licensed MIT.
 */
