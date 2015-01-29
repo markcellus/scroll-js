@@ -103,6 +103,11 @@
                 elem = this.options.el,
                 from = elem.scrollTop;
 
+            if (typeof options === 'function') {
+                callback = options;
+                options = {};
+            }
+
             /* prevent scrolling, if already there */
             if (from === y) {
                 callback ? callback() : null;
@@ -137,7 +142,7 @@
 
             if (time < 1) {
                 requestAnimationFrame(function () {
-                    this._scroll(el, el.scrollTop, to, startTime, duration, easeFunc);
+                    this._scroll(el, el.scrollTop, to, startTime, duration, easeFunc, callback);
                 }.bind(this));
             } else if (callback) {
                 callback();
