@@ -1,11 +1,12 @@
 {
   "name": "scroll",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "homepage": "https://github.com/mkay581/scroll",
   "authors": [
     "Mark Kennedy <mkay581@gmail.com>"
   ],
-  "description": "Scroller",
+  "description": "Light Scroller class that uses native javascript only",
+  "main": "dist/scroll.js",
   "moduleType": [
     "amd",
     "es6",
@@ -25,7 +26,6 @@
   "devDependencies": {
     "requirejs": "~2.1.15",
     "qunit": "~1.16.0",
-    "sinonjs": "~1.10.2",
-    "rogue": "~2.2.4"
+    "sinonjs": "~1.10.2"
   }
 }

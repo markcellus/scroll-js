@@ -1,7 +1,7 @@
 {
   "name": "scroll",
-  "version": "0.0.0",
-  "description": "Scroll",
+  "version": "0.0.1",
+  "description": "Light Scroller class that uses native javascript only",
   "repository": {
     "type": "git",
     "url": "https://github.com/mkay581/scroll.git"
@@ -10,6 +10,7 @@
     "scroller",
     "scroll"
   ],
+  "main": "dist/scroll.js",
   "devDependencies": {
     "grunt": "0.4.5",
     "grunt-banner": "^0.2.3",
