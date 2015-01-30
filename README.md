@@ -26,11 +26,31 @@ The Scroll class does not suffer from any of these issues as it uses native scro
 
 ## Scrolling
 
+You can manually scroll to any portion of a page and detect when done.
+
 ```javascript
 var scroll = new Scroll({
     el: document.body
 });
-scroll.to(0, 500); //scroll 500 pixels down the page
+
+
+scroll.to(0, 500, function () {
+    //scrolling down 500 pixels has completed
+});
+
+```
+
+## Easing
+
+Easing is also supported simply by passing an options object with easing.
+
+```javascript
+var scroll = new Scroll({
+    el: document.body
+});
+scroll.to(0, 200, {easing: 'easeInOutCubic'}, function () {
+    // scrolled down 200 pixels using the easeInOutCubic easing effect
+});
 
 ```
 
