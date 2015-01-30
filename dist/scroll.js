@@ -1,5 +1,5 @@
 /** 
-* Scroll - v0.0.2.
+* Scroll - v0.0.3.
 * https://github.com/mkay581/scroll.git
 * Copyright 2015 Mark Kennedy. Licensed MIT.
 */
@@ -52,7 +52,7 @@
             this.options = options;
 
             if (!options.el) {
-                console.error('Scroll error: there was no element passed to new Scroll() instantiation! Bailing...');
+                console.error('Scroll error: element passed to Scroll constructor is ' + options.el + '! Bailing...');
             }
 
             this.setup();
@@ -94,7 +94,7 @@
         },
 
         /**
-         * Scrolls the browser to the supplied pos vertically.
+         * Scrolls the element until it's scroll properties match the coordinates provided.
          * @param {Number} x - The pixel along the horizontal axis of the element that you want displayed in the upper left.
          * @param {Number} y - The pixel along the vertical axis of the element that you want displayed in the upper left.
          * @param {Object} [options] - Scroll options
@@ -104,36 +104,28 @@
          * @memberOf Scroll
          */
         to: function (x, y, options, callback) {
-            var start = Date.now(),
-                elem = this.options.el,
-                from = elem.scrollTop;
+            var elem = this.options.el,
+                fromY = elem.scrollTop,
+                fromX = elem.scrollLeft;
 
             if (typeof options === 'function') {
                 callback = options;
                 options = {};
             }
 
-            options = options || {};
-
-            /* prevent scrolling, if already there */
-            if (from === y) {
-                callback ? callback() : null;
-                return;
-            }
-
             // defaults
+            options = options || {};
             options.duration = options.duration || 400;
 
-            requestAnimationFrame(function () {
-                this._scroll(elem, from, y, start, options.duration, this._getEasing(options.easing), callback);
-            }.bind(this));
+            this._scroll(elem, fromY, y, 'scrollTop', Date.now(), options.duration, this._getEasing(options.easing), callback);
         },
 
         /**
-         * Calculates where to actually move the element that is being scrolled.
+         * Does a bit of calculating and scrolls an element.
          * @param {HTMLElement} el - The element to be scrolled
          * @param {Number} from - The number of where to scroll from
          * @param {Number} to - The number of where to scroll to
+         * @param {string} prop - The property to animate
          * @param {Number} startTime - The timestamp of when the animation should start
          * @param {Number} duration - The amount of time for the animation
          * @param {Function} easeFunc - The easing function to use
@@ -141,19 +133,25 @@
          * @private
          * @memberOf Scroll
          */
-        _scroll: function (el, from, to, startTime, duration, easeFunc, callback) {
-            var currentTime = Date.now(),
-                time = Math.min(1, ((currentTime - startTime) / duration));
+        _scroll: function (el, from, to, prop, startTime, duration, easeFunc, callback) {
+            requestAnimationFrame(function () {
+                var currentTime = Date.now(),
+                    time = Math.min(1, ((currentTime - startTime) / duration));
 
-            el.scrollTop = (easeFunc(time) * (to - from)) + from;
+                if (from === to) {
+                    return callback ? callback() : null;
+                }
 
-            if (time < 1) {
-                requestAnimationFrame(function () {
-                    this._scroll(el, el.scrollTop, to, startTime, duration, easeFunc, callback);
-                }.bind(this));
-            } else if (callback) {
-                callback();
-            }
+                // increase scrollTop or scrollLeft
+                el[prop] = (easeFunc(time) * (to - from)) + from;
+
+                /* prevent scrolling, if already there, or at end */
+                if (time < 1) {
+                    this._scroll(el, el[prop], to, prop, startTime, duration, easeFunc, callback);
+                } else if (callback) {
+                    callback();
+                }
+            }.bind(this));
         },
 
         /**

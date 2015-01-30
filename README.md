@@ -43,10 +43,13 @@ You can manually scroll any element on a page. Just make sure the element you wa
 
 ### Scrolling the window
 
+You can manually scroll to any portion of a page and detect when done.
+
 ```javascript
 var scroll = new Scroll({
     el: document.body
 });
+
 
 scroll.to(0, 500, function () {
     //scrolling down 500 pixels has completed
@@ -54,7 +57,7 @@ scroll.to(0, 500, function () {
 
 ```
 
-### Easing
+## Easing
 
 Easing is also supported simply by passing an options object with easing.
 
