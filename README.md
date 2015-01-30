@@ -1,40 +1,74 @@
 # Scroll
 
-A lighteight scroller with no dependencies, using native javascript.
+A light-weight scroll manager with no dependencies, using native javascript. Manipulates native scroll
+properties so that native javascript events fire appropriately ([see Event Listening](#event-listening)) and
+uses browser's animation frames for fast and smooth rendering.
 
-## Why use this scroller over other scroll libraries and plugins?
+## Why use this over other scroll libraries and plugins?
 
-This library solves the accessibility issues on mobile devices that many scroll libraries miss.
+Many other scroller libraries use absolutely positioning, css animations, transitions and other types of workarounds directly on
+the `window.document`, `<html>`, `<body>` and other elements to "fake" a scrolling effect in order to get the scroller to behave.
 
-Most libraries today use absolutely positioning, css animations, transitions and other types of workarounds directly on
-the `window.document`, `<html>`, or `<body>` elements to get the scroller to behave. But desktop and mobile devices
-(mobile mainly), heavily depend on the event triggering of these elements to do helpful things for the user.
-Like hiding the location url bar as
-you scroll down the window of the document on mobile browsers, for instance. Or
+While this is clever, desktop and mobile devices (mobile mainly), heavily depend on the natural scroll events of these elements to do helpful
+things for the user.
+Like hiding the location url bar as you scroll down the window of the document (on mobile browsers), for instance. Or
 [pausing heavy processes](http://developer.telerik.com/featured/scroll-event-change-ios-8-big-deal/), until
-the user is done performing a task as to not interrupt them. So it's increasingly important to use these elements in a way that
-lends nicely to native browser functionality, including scrolling logic.
+the user is done performing a task as to not interrupt them, or adding inertia or natural momentum when scrolling. So
+it's increasingly important that the scroll logic added to these elements is done in a way that
+lends nicely to these use cases, which is what this Scroll class does.
 
-The other libraries out there use CSS transitioning and animations to "fake" a scrolling effect. While this is clever,
-it moves you further away from the tools native javascript gives you, like event listening (you can not
-use [window.onscroll](https://developer.mozilla.org/en-US/docs/Web/API/window.onscroll) and
-[Element.onscroll](https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers.onscroll)) with many of these tools.
+## Benefits
 
-The Scroll class does not suffer from any of these issues as it uses native scroll properties so that native javascript events fire
-([see Event Listening](#Event-listening)) and the browsers internal animation frames for better rendering performance.
+* pure, native javascript
+* no css transitions, animations or absolute positioning hacks
+* manually scroll to any portion of a page and detect when done
+* safe to use on the `document.body` element
+* supports easing functions when scrolling
+* battery-friendly -- uses minimal amount of CPU power (no processing on inactive tabs, and hidden elements!)
+* no dependencies
+* fast and smooth rendering (no choppiness)
+* does not hijack native browser functionality (i.e. inertia scrolling, momentum defaults)
+* native "onscroll" events can still be used ([window.onscroll](https://developer.mozilla.org/en-US/docs/Web/API/window.onscroll) and
+[Element.onscroll](https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers.onscroll))
+* Both non-AMD and AMD compatible
 
 
-## Scrolling
+## Usage
+
+You can manually scroll any element on a page. Just make sure the element you want to scroll has:
+
+1. A specified `height` css property.
+1. css `overflow` property that is set to `hidden`.
+1. Content that extends beyond the specified height.
+
+### Scrolling the window
 
 ```javascript
 var scroll = new Scroll({
     el: document.body
 });
-scroll.to(0, 500); //scroll 500 pixels down the page
+
+scroll.to(0, 500, function () {
+    //scrolling down 500 pixels has completed
+});
 
 ```
 
-## Event Listening
+### Easing
+
+Easing is also supported simply by passing an options object with easing.
+
+```javascript
+var scroll = new Scroll({
+    el: document.body
+});
+scroll.to(0, 200, {easing: 'easeInOutCubic'}, function () {
+    // scrolled down 200 pixels using the easeInOutCubic easing effect
+});
+
+```
+
+### Event Listening
 
 With this library you can listen in on native scroll events the same way you would if a user was scrolling the
 page with a mouse or touch event.
