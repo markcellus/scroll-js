@@ -7,7 +7,7 @@ module.exports = function(grunt) {
             dist: 'dist',
             uglify: {
                 files: {
-                    'dist/scroll-min.js': ['dist/scroll-min.js']
+                    'dist/scroll-min.js': ['dist/scroll.js']
                 }
             },
             browserify: {
