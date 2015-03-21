@@ -5,20 +5,17 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON("package.json"),
         bt: {
             dist: 'dist',
-            uglify: {
-                files: {
-                    'dist/scroll-min.js': ['dist/scroll.js']
-                }
-            },
-            browserify: {
+            build: {
                 files: {
                     'dist/scroll.js': ['src/dist/scroll.js']
                 },
-                options: {
-                    browserifyOptions: {
-                        standalone: 'Scroll'
-                    }
-
+                browserifyOptions: {
+                    standalone: 'Scroll'
+                }
+            },
+            min: {
+                files: {
+                    'dist/scroll-min.js': ['dist/scroll.js']
                 }
             },
             tests: {
