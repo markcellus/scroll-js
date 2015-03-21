@@ -1,13 +1,9 @@
-define([
-    'sinon',
-    'qunit',
-    'src/scroll'
-], function(
-    Sinon,
-    QUnit,
-    Scroll
-){
-    "use strict";
+'use strict';
+var Sinon = require('sinon');
+var QUnit = require('qunit');
+var Scroll = require('../src/scroll');
+
+module.exports = (function () {
 
     QUnit.module('Scroll Tests');
 
@@ -57,6 +53,5 @@ define([
         QUnit.equal(callbackSpy.callCount, 2, 'callback was fired again');
         requestAnimationFrameStub.restore();
         dateNowStub.restore();
-    });
-
-});
+    });  
+})();
