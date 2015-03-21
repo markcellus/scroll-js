@@ -7,7 +7,7 @@ module.exports = function(grunt) {
             dist: 'dist',
             build: {
                 files: {
-                    'dist/scroll.js': ['src/dist/scroll.js']
+                    'dist/scroll.js': ['src/scroll.js']
                 },
                 browserifyOptions: {
                     standalone: 'Scroll'
