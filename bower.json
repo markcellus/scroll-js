@@ -22,10 +22,5 @@
     "bower_components",
     "test",
     "tests"
-  ],
-  "devDependencies": {
-    "requirejs": "~2.1.15",
-    "qunit": "~1.16.0",
-    "sinonjs": "~1.10.2"
-  }
+  ]
 }
