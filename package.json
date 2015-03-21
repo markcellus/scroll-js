@@ -16,7 +16,7 @@
   ],
   "main": "src/scroll.js",
   "devDependencies": {
-    "grunt-build-tools": "^1.0.1",
+    "grunt-build-tools": "^1.1.1",
     "load-grunt-tasks": "^3.1.0",
     "sinon": "^1.14.1"
   },
