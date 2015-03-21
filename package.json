@@ -6,6 +6,9 @@
     "type": "git",
     "url": "https://github.com/mkay581/scroll.git"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "author": {
     "name": "Mark Kennedy",
     "url": "http://heyimmark.com"
