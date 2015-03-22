@@ -1,5 +1,6 @@
 'use strict';
 var _ = require('underscore');
+var animationFramePolyFill = require('./utils/request-anim-polyfill');
 /**
  * @constructor ScrollListener
  * @description Allows any element's scroll to be listened to
@@ -29,6 +30,8 @@ ScrollListener.prototype = {
             offsetBottom: 0,
             container: document
         }, options);
+
+        animationFramePolyFill();
         this._bindScrollListener();
     },
 
