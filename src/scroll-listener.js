@@ -9,10 +9,10 @@ var _ = require('underscore');
  * @param {Number} [options.offsetRight] - How many pixels from the right of the element to include in evaluation
  * @param {Number} [options.offsetBottom] - How many pixels from the bottom of the element to include in evaluation
  * @param {Number} [options.offsetLeft] - How many pixels from the left of the element to include in evaluation
- * @param {Function} [options.onEnterView] - Callback triggered when any piece of the element (including its offsets) starts entering the viewport
- * @param {Function} [options.onEnteredView] - Callback triggered when all of the element (including its offsets) has entered the viewport
- * @param {Function} [options.onExitView] - Callback triggered when any piece of the element (including its offsets) leaves the viewport
- * @param {Function} [options.onExitedView] - Callback triggered when the element in its entirety (including its offsets) leaves the viewport
+ * @param {Function} [options.onEnter] - Callback triggered when any piece of the element (including its offsets) starts entering the viewport
+ * @param {Function} [options.onEntered] - Callback triggered when all of the element (including its offsets) has entered the viewport
+ * @param {Function} [options.onExit] - Callback triggered when any piece of the element (including its offsets) leaves the viewport
+ * @param {Function} [options.onExited] - Callback triggered when the element in its entirety (including its offsets) leaves the viewport
  * @param {HTMLElement} [options.container] - The container of the viewport (document is used by default)
  */
 var ScrollListener = function (options) {
@@ -59,22 +59,60 @@ ScrollListener.prototype = {
      */
     _onScroll: function () {
         this._animationFrame = window.requestAnimationFrame(function () {
-            var el = this.options.el,
-                viewportYPos = window.pageYOffset, // using pageYOffset for cross-browser compatibility
-                minPos = this.getElementMinYPos(),
-                maxPos = this.getElementMaxYPos();
-            console.log('min:' + minPos + ', max:' + maxPos + ', currentPos:' +  viewportYPos);
-            if (viewportYPos >= minPos && viewportYPos <= maxPos ) {
-                // module in view!
-                if (!this._enter && this.options.onEnterView) {
-                    this.options.onEnterView(el);
-                    this._enter = true;
-                }
-            } else if (this._enter && this.options.onExitView) {
-                this.options.onExitView(el);
-                this._enter = false;
+            if (this.isElementInsideView()) {
+                this._onElementInsideView();
+            } else {
+                this._onElementOutsideView();
             }
         }.bind(this));
+    },
+
+    /**
+     * Gets the container's scroll top position.
+     * @returns {Number}
+     */
+    getContainerScrollYPos: function () {
+        var container = this.options.container;
+        // using pageYOffset for cross-browser compatibility
+        return container === document ? window.pageYOffset : container.scrollTop;
+    },
+
+    /**
+     * Checks whether element is inside of the user's view.
+     * @returns {boolean}
+     */
+    isElementInsideView: function () {
+        var currentContainerYScrollPos = this.getContainerScrollYPos(),
+            minPos = this.getElementMinYPos(),
+            maxPos = this.getElementMaxYPos() + this.getViewportHeight();
+        console.log('min:' + minPos + ', max:' + maxPos + ', currentPos:' +  currentContainerYScrollPos);
+        return currentContainerYScrollPos >= minPos && currentContainerYScrollPos <= maxPos;
+    },
+
+    /**
+     * Triggered as user scrolls while element is in user's view.
+     * @private
+     */
+    _onElementInsideView: function () {
+        if (!this._showing) {
+            this._showing = true;
+            if (this.options.onEnter) {
+                this.options.onEnter(this.options.el);
+            }
+        }
+    },
+
+    /**
+     * Triggered as user scrolls while element is not in user's view.
+     * @private
+     */
+    _onElementOutsideView: function () {
+        if (this._showing) {
+            this._showing = false;
+            if (this.options.onExit) {
+                this.options.onExit(this.options.el);
+            }
+        }
     },
 
     /**
@@ -84,7 +122,7 @@ ScrollListener.prototype = {
     getElementMinYPos: function () {
         if (!this._elementMinYPos) {
             var // must add viewport scroll position to getBoundingClientRect get a constant, absolute value
-                elementYPos = this.options.el.getBoundingClientRect().top + window.pageYOffset;
+                elementYPos = this.options.el.getBoundingClientRect().top + this.getContainerScrollYPos();
             this._elementMinYPos = elementYPos - this.getViewportHeight() - this.options.offsetTop;
         }
         return this._elementMinYPos;
