@@ -23,6 +23,20 @@ module.exports = function(grunt) {
                     src: ['tests/*.js']
                 }
             }
+        },
+        browserify: {
+            dist: {
+                files: {
+                    'demo/demo-built.js': ['demo/demo.js']
+                },
+                options: {
+                    watch: true,
+                    keepAlive: true,
+                    browserifyOptions: {
+                        debug: true
+                    }
+                }
+            }
         }
     });
 
