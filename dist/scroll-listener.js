@@ -1,5 +1,5 @@
 /** 
-* scroll - v0.2.1.
+* scroll - v0.2.2.
 * https://github.com/mkay581/scroll.git
 * Copyright 2015 Mark Kennedy. Licensed MIT.
 */
@@ -488,6 +488,7 @@ module.exports = asap;
 },{"_process":1}],8:[function(require,module,exports){
 'use strict';
 var Promise = require('promise');
+var animationFramePolyFill = require('./utils/request-anim-polyfill');
 /**
  * Scroll class.
  * @class Scroll
@@ -519,34 +520,7 @@ Scroll.prototype = {
      * @memberOf Scroll
      */
     setup: function () {
-        var x = 0,
-            lastTime = 0,
-            vendors = ['ms', 'moz', 'webkit', 'o'];
-
-        for (0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-            window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
-            window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame']
-            || window[vendors[x] + 'CancelRequestAnimationFrame'];
-        }
-
-        if (!window.requestAnimationFrame) {
-            window.requestAnimationFrame = function (callback, element) {
-                var currTime = new Date().getTime();
-                var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-                var id = window.setTimeout(function () {
-                        callback(currTime + timeToCall);
-                    },
-                    timeToCall);
-                lastTime = currTime + timeToCall;
-                return id;
-            };
-        }
-
-        if (!window.cancelAnimationFrame) {
-            window.cancelAnimationFrame = function (id) {
-                clearTimeout(id);
-            };
-        }
+        animationFramePolyFill();
     },
 
     /**
@@ -650,7 +624,39 @@ Scroll.prototype = {
 };
 
 module.exports = Scroll;
-},{"promise":2}]},{},[8]);
+},{"./utils/request-anim-polyfill":9,"promise":2}],9:[function(require,module,exports){
+'use strict';
+module.exports = function () {
+    var x = 0,
+        lastTime = 0,
+        vendors = ['ms', 'moz', 'webkit', 'o'];
+
+    for (0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+        window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame']
+        || window[vendors[x] + 'CancelRequestAnimationFrame'];
+    }
+
+    if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = function (callback, element) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function () {
+                    callback(currTime + timeToCall);
+                },
+                timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+        };
+    }
+
+    if (!window.cancelAnimationFrame) {
+        window.cancelAnimationFrame = function (id) {
+            clearTimeout(id);
+        };
+    }
+};
+},{}]},{},[8]);
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 // shim for using process in browser
 
@@ -2673,6 +2679,7 @@ module.exports = asap;
 },{}],9:[function(require,module,exports){
 'use strict';
 var _ = require('underscore');
+var animationFramePolyFill = require('./utils/request-anim-polyfill');
 /**
  * @constructor ScrollListener
  * @description Allows any element's scroll to be listened to
@@ -2702,6 +2709,8 @@ ScrollListener.prototype = {
             offsetBottom: 0,
             container: document
         }, options);
+
+        animationFramePolyFill();
         this._bindScrollListener();
     },
 
@@ -2794,10 +2803,24 @@ ScrollListener.prototype = {
     getElementMinYPos: function () {
         if (!this._elementMinYPos) {
             var // must add viewport scroll position to getBoundingClientRect get a constant, absolute value
-                elementYPos = this.options.el.getBoundingClientRect().top + this.getContainerScrollYPos();
+                elementYPos = this.getElementYPos();
             this._elementMinYPos = elementYPos - this.getViewportHeight() - this.options.offsetTop;
         }
         return this._elementMinYPos;
+    },
+
+    /**
+     * Returns the amount of pixels the element is from the top of the container.
+     * @returns {number}
+     */
+    getElementYPos: function () {
+        var container = this.options.container,
+            elementYPos = container.scrollTop;
+        if (container === document) {
+            // must add viewport scroll position to getBoundingClientRect get a constant, absolute value
+            elementYPos = this.options.el.getBoundingClientRect().top + this.getContainerScrollYPos();
+        }
+        return elementYPos;
     },
 
     /**
@@ -2834,9 +2857,10 @@ ScrollListener.prototype = {
 };
 
 module.exports = ScrollListener;
-},{"underscore":8}],10:[function(require,module,exports){
+},{"./utils/request-anim-polyfill":11,"underscore":8}],10:[function(require,module,exports){
 'use strict';
 var Promise = require('promise');
+var animationFramePolyFill = require('./utils/request-anim-polyfill');
 /**
  * Scroll class.
  * @class Scroll
@@ -2868,34 +2892,7 @@ Scroll.prototype = {
      * @memberOf Scroll
      */
     setup: function () {
-        var x = 0,
-            lastTime = 0,
-            vendors = ['ms', 'moz', 'webkit', 'o'];
-
-        for (0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-            window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
-            window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame']
-            || window[vendors[x] + 'CancelRequestAnimationFrame'];
-        }
-
-        if (!window.requestAnimationFrame) {
-            window.requestAnimationFrame = function (callback, element) {
-                var currTime = new Date().getTime();
-                var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-                var id = window.setTimeout(function () {
-                        callback(currTime + timeToCall);
-                    },
-                    timeToCall);
-                lastTime = currTime + timeToCall;
-                return id;
-            };
-        }
-
-        if (!window.cancelAnimationFrame) {
-            window.cancelAnimationFrame = function (id) {
-                clearTimeout(id);
-            };
-        }
+        animationFramePolyFill();
     },
 
     /**
@@ -2999,4 +2996,36 @@ Scroll.prototype = {
 };
 
 module.exports = Scroll;
-},{"promise":2}]},{},[10,9]);
+},{"./utils/request-anim-polyfill":11,"promise":2}],11:[function(require,module,exports){
+'use strict';
+module.exports = function () {
+    var x = 0,
+        lastTime = 0,
+        vendors = ['ms', 'moz', 'webkit', 'o'];
+
+    for (0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+        window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame']
+        || window[vendors[x] + 'CancelRequestAnimationFrame'];
+    }
+
+    if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = function (callback, element) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function () {
+                    callback(currTime + timeToCall);
+                },
+                timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+        };
+    }
+
+    if (!window.cancelAnimationFrame) {
+        window.cancelAnimationFrame = function (id) {
+            clearTimeout(id);
+        };
+    }
+};
+},{}]},{},[10,9]);

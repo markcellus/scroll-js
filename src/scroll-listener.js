@@ -1,5 +1,6 @@
 'use strict';
 var _ = require('underscore');
+var animationFramePolyFill = require('./utils/request-anim-polyfill');
 /**
  * @constructor ScrollListener
  * @description Allows any element's scroll to be listened to
@@ -29,6 +30,8 @@ ScrollListener.prototype = {
             offsetBottom: 0,
             container: document
         }, options);
+
+        animationFramePolyFill();
         this._bindScrollListener();
     },
 
@@ -121,10 +124,24 @@ ScrollListener.prototype = {
     getElementMinYPos: function () {
         if (!this._elementMinYPos) {
             var // must add viewport scroll position to getBoundingClientRect get a constant, absolute value
-                elementYPos = this.options.el.getBoundingClientRect().top + this.getContainerScrollYPos();
+                elementYPos = this.getElementYPos();
             this._elementMinYPos = elementYPos - this.getViewportHeight() - this.options.offsetTop;
         }
         return this._elementMinYPos;
+    },
+
+    /**
+     * Returns the amount of pixels the element is from the top of the container.
+     * @returns {number}
+     */
+    getElementYPos: function () {
+        var container = this.options.container,
+            elementYPos = container.scrollTop;
+        if (container === document) {
+            // must add viewport scroll position to getBoundingClientRect get a constant, absolute value
+            elementYPos = this.options.el.getBoundingClientRect().top + this.getContainerScrollYPos();
+        }
+        return elementYPos;
     },
 
     /**
