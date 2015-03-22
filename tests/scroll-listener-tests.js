@@ -43,6 +43,7 @@ describe('Scroll Listener', function () {
             onEnter: onEnterSpy
         });
         assert.equal(onEnterSpy.callCount, 0, 'onEnter callback was not fired upon instantiation because element is out of view');
+        scrollListener.destroy();
         document.body.removeChild(outerEl);
     });
 
@@ -76,6 +77,39 @@ describe('Scroll Listener', function () {
         // trigger animation frame
         requestAnimationFrameStub.yield();
         assert.equal(onEnterSpy.callCount, 1, 'onEnter callback was fired when outer element is scrolled to point where top of inner element is showing');
+        scrollListener.destroy();
+        document.body.removeChild(outerEl);
+    });
+
+    it('should not fire onEnter callback after destruction', function() {
+        var outerEl = document.createElement('div');
+        var innerEl = document.createElement('div');
+        outerEl.appendChild(innerEl);
+        document.body.appendChild(outerEl);
+        // setup outer element
+        outerEl.style.overflow = 'hidden'; // make it scrollable
+        outerEl.style.height = '150px';
+        outerEl.style.width = '10px';
+        // inner element
+        innerEl.style.top = '300px'; // move element out of view
+        innerEl.style.left = '0';
+        innerEl.style.width = '10px';
+        innerEl.style.height = '150px';
+        innerEl.style.position = 'relative';
+        // setup current scroll position
+        outerEl.scrollTop = 0;
+        var onEnterSpy = sinon.spy();
+        var scrollListener = new ScrollListener({
+            el: innerEl,
+            container: outerEl,
+            onEnter: onEnterSpy
+        });
+        scrollListener.destroy();
+        outerEl.scrollTop = 301; // inner element is showing at 150 (outer element scrollTop + outer element height)
+        // trigger scroll event
+        outerEl.dispatchEvent(TestUtils.createEvent('scroll'));
+        assert.equal(requestAnimationFrameStub.callCount, 0, 'animation frame was not triggered');
+        assert.equal(onEnterSpy.callCount, 0, 'onEnter callback was not fired after destroy');
         document.body.removeChild(outerEl);
     });
 });
