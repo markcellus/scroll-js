@@ -1,6 +1,6 @@
 {
   "name": "scroll",
-  "version": "0.0.3",
+  "version": "0.2.1",
   "homepage": "https://github.com/mkay581/scroll",
   "authors": [
     "Mark Kennedy <mkay581@gmail.com>"
@@ -22,10 +22,5 @@
     "bower_components",
     "test",
     "tests"
-  ],
-  "devDependencies": {
-    "requirejs": "~2.1.15",
-    "qunit": "~1.16.0",
-    "sinonjs": "~1.10.2"
-  }
+  ]
 }

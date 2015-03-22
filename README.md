@@ -49,15 +49,13 @@ You can manually scroll to any portion of a page and detect when done.
 var scroll = new Scroll({
     el: document.body
 });
-
-
 scroll.to(0, 500, function () {
-    //scrolling down 500 pixels has completed
+    //scrolling down 500 pixels has completed!
 });
 
 ```
 
-## Easing
+### Easing
 
 Easing is also supported simply by passing an options object with easing.
 
@@ -65,8 +63,8 @@ Easing is also supported simply by passing an options object with easing.
 var scroll = new Scroll({
     el: document.body
 });
-scroll.to(0, 200, {easing: 'easeInOutCubic'}, function () {
-    // scrolled down 200 pixels using the easeInOutCubic easing effect
+scroll.to(0, 200, {easing: 'easeInOutCubic', duration: 500}, function () {
+    // scrolled down 200 pixels using the easeInOutCubic easing effect in 500 milliseconds!
 });
 
 ```
@@ -80,12 +78,9 @@ page with a mouse or touch event.
 var scroll = new Scroll({
     el: document.body
 });
-
-// setup event
 window.onscroll = function () {
     // scrolling!
 }
-// scroll to trigger event
-scroll.to(0, 300);
+scroll.to(0, 300); // scroll to trigger event
 
 ```
