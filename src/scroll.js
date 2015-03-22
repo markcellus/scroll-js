@@ -1,5 +1,5 @@
 'use strict';
-var Promise = require('promise');
+var Promise = require('./../external/promise/index');
 var animationFramePolyFill = require('./utils/request-anim-polyfill');
 /**
  * Scroll class.

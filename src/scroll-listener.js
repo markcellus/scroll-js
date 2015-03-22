@@ -1,5 +1,5 @@
 'use strict';
-var _ = require('underscore');
+var _ = require('./../external/underscore/underscore');
 var animationFramePolyFill = require('./utils/request-anim-polyfill');
 /**
  * @constructor ScrollListener

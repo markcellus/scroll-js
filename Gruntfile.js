@@ -39,6 +39,24 @@ module.exports = function(grunt) {
                     }
                 }
             }
+        },
+        copy: {
+            main: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'node_modules/promise',
+                        src: ['**'],
+                        dest: 'external/promise/'
+                    },
+                    {
+                        expand: true,
+                        cwd: 'node_modules/underscore',
+                        src: ['**'],
+                        dest: 'external/underscore/'
+                    }
+                ]
+            }
         }
     });
 
