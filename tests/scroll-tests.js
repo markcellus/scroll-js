@@ -3,7 +3,7 @@ var sinon = require('sinon');
 var assert = require('assert');
 var Scroll = require('../src/scroll');
 
-describe('Scroll Tests', function () {
+describe('Scroll', function () {
 
     it('should update its element\'s scrollTop property to the same coordinate specified in the second parameter supplied to scroll.to()', function() {
         // phantomjs doesnt have requestAnimationFrame implemented... *eye roll*
