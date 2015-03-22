@@ -1,4 +1,5 @@
 'use strict';
+var Promise = require('promise');
 /**
  * Scroll class.
  * @class Scroll
@@ -67,24 +68,19 @@ Scroll.prototype = {
      * @param {Object} [options] - Scroll options
      * @param {Number} [options.duration]- The amount of time for the animation
      * @param {string} [options.easing] - The easing function to use
-     * @param {Function} [callback] - The callback that fires when the scrolling is complete
      * @memberOf Scroll
+     * @return {Promise}
      */
-    to: function (x, y, options, callback) {
+    to: function (x, y, options) {
         var elem = this.options.el,
             fromY = elem.scrollTop,
             fromX = elem.scrollLeft;
-
-        if (typeof options === 'function') {
-            callback = options;
-            options = {};
-        }
-
         // defaults
         options = options || {};
         options.duration = options.duration || 400;
-
-        this._scroll(elem, fromY, y, 'scrollTop', Date.now(), options.duration, this._getEasing(options.easing), callback);
+        return new Promise(function (resolve) {
+            this._scroll(elem, fromY, y, 'scrollTop', Date.now(), options.duration, this._getEasing(options.easing), resolve);
+        }.bind(this));
     },
 
     /**
