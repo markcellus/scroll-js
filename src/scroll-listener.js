@@ -85,7 +85,6 @@ ScrollListener.prototype = {
         var currentContainerYScrollPos = this.getContainerScrollYPos(),
             minPos = this.getElementMinYPos(),
             maxPos = this.getElementMaxYPos() + this.getViewportHeight();
-        console.log('min:' + minPos + ', max:' + maxPos + ', currentPos:' +  currentContainerYScrollPos);
         return currentContainerYScrollPos >= minPos && currentContainerYScrollPos <= maxPos;
     },
 
