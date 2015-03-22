@@ -7,7 +7,8 @@ module.exports = function(grunt) {
             dist: 'dist',
             build: {
                 files: {
-                    'dist/scroll.js': ['src/scroll.js']
+                    'dist/scroll.js': ['src/scroll.js'],
+                    'dist/scroll-listener.js': ['src/scroll-listener.js']
                 },
                 browserifyOptions: {
                     standalone: 'Scroll'
@@ -15,7 +16,8 @@ module.exports = function(grunt) {
             },
             min: {
                 files: {
-                    'dist/scroll-min.js': ['dist/scroll.js']
+                    'dist/scroll-min.js': ['dist/scroll.js'],
+                    'dist/scroll-listener-min.js': ['dist/scroll-listener.js']
                 }
             },
             tests: {
