@@ -1,5 +1,5 @@
 /** 
-* scroll - v0.2.0.
+* scroll - v0.2.1.
 * https://github.com/mkay581/scroll.git
 * Copyright 2015 Mark Kennedy. Licensed MIT.
 */
@@ -2758,7 +2758,6 @@ ScrollListener.prototype = {
         var currentContainerYScrollPos = this.getContainerScrollYPos(),
             minPos = this.getElementMinYPos(),
             maxPos = this.getElementMaxYPos() + this.getViewportHeight();
-        console.log('min:' + minPos + ', max:' + maxPos + ', currentPos:' +  currentContainerYScrollPos);
         return currentContainerYScrollPos >= minPos && currentContainerYScrollPos <= maxPos;
     },
 
