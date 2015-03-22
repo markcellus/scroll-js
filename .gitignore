@@ -7,5 +7,4 @@
 /node_modules
 *.log
 dist/build.txt
-external
 bower_components

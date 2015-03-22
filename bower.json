@@ -1,12 +1,12 @@
 {
   "name": "scroll",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "homepage": "https://github.com/mkay581/scroll",
   "authors": [
     "Mark Kennedy <mkay581@gmail.com>"
   ],
   "description": "Light Scroller class that uses native javascript only",
-  "main": "dist/scroll.js",
+  "main": "src/scroll.js",
   "moduleType": [
     "amd",
     "es6",
