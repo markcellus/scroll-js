@@ -41,19 +41,17 @@ ScrollListener.prototype = {
     _bindScrollListener: function () {
         var self = this;
         // assigning self so we can reference same function when removing event listener.
-        this._scrollEventListener = function () {
-            return function (e) {
-                self._onScroll(e);
-            }
+        this._scrollEventListener = function (e) {
+            self._onScroll(e);
         };
-        this.options.container.addEventListener('scroll', this._scrollEventListener());
+        this.options.container.addEventListener('scroll', this._scrollEventListener, false);
     },
 
     /**
      * Removes listener on the document's scroll event.
      */
     _unbindScrollListener: function () {
-        this.options.container.removeEventListener('scroll', this._scrollEventListener());
+        this.options.container.removeEventListener('scroll', this._scrollEventListener, false);
     },
 
     /**
