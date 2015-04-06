@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mkay581/scroll.svg?branch=master)](https://travis-ci.org/mkay581/scroll)
+
 # Scroll
 
 A light-weight scroll manager with no dependencies, using native javascript. Manipulates native scroll
