@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mkay581/scroll.svg?branch=master)](https://travis-ci.org/mkay581/scroll)
+
 # Scroll
 
 A light-weight scroll manager with no dependencies, using native javascript. Manipulates native scroll
@@ -49,8 +51,21 @@ You can manually scroll to any portion of a page and detect when done.
 var scroll = new Scroll({
     el: document.body
 });
-scroll.to(0, 500, function () {
-    //scrolling down 500 pixels has completed!
+scroll.to(0, 500).then(function () {
+   //scrolling down 500 pixels has completed!
+});
+
+```
+
+### Scroll to an element
+
+```javascript
+var myElement = document.body.getElementsByClassName('my-element')[0];
+var scroll = new Scroll({
+    el: document.body
+});
+scroll.toElement(myElement).then(function () {
+    // done scrolling to the element
 });
 
 ```
