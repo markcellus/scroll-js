@@ -1,5 +1,5 @@
 /** 
-* scroll - v0.2.4.
+* scroll - v0.3.0.
 * https://github.com/mkay581/scroll.git
 * Copyright 2015 Mark Kennedy. Licensed MIT.
 */
@@ -543,6 +543,35 @@ Scroll.prototype = {
         return new Promise(function (resolve) {
             this._scroll(elem, fromY, y, 'scrollTop', Date.now(), options.duration, this._getEasing(options.easing), resolve);
         }.bind(this));
+    },
+
+    /**
+     * Scroll to an element.
+     * @param {HTMLElement} el - The element to scroll to.
+     * @param {Object} [options] - The scroll options
+     */
+    toElement: function (el, options) {
+        var container = this.options.el,
+            currentContainerScrollYPos = 0,
+            elementScrollYPos = el.offsetTop;
+
+        // if the container is the document body, we'll
+        // need a different set of coordinates for accuracy
+        if (container === document.body) {
+            // using pageYOffset for cross-browser compatibility
+            currentContainerScrollYPos = window.pageYOffset;
+            // must add containers scroll y position to ensure an absolute value that does not change
+            elementScrollYPos = el.getBoundingClientRect().top + currentContainerScrollYPos;
+        }
+        if (!el) {
+            console.warn('Scroll.toElement() must be passed an existing el');
+            return Promise.reject();
+        } else if (!container.contains(el)) {
+            console.warn('Scroll.toElement() Error: element you want to scroll to must live inside the scroll container');
+            return Promise.reject();
+        } else {
+            return this.to(0, elementScrollYPos, options);
+        }
     },
 
     /**
