@@ -1,17 +1,77 @@
 /** 
-* scroll - v0.3.1.
+* scroll - v0.3.2.
 * https://github.com/mkay581/scroll.git
 * Copyright 2015 Mark Kennedy. Licensed MIT.
 */
 
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+var queue = [];
+var draining = false;
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    draining = true;
+    var currentQueue;
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        var i = -1;
+        while (++i < len) {
+            currentQueue[i]();
+        }
+        len = queue.length;
+    }
+    draining = false;
+}
+process.nextTick = function (fun) {
+    queue.push(fun);
+    if (!draining) {
+        setTimeout(drainQueue, 0);
+    }
+};
+
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+// TODO(shtylman)
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],2:[function(require,module,exports){
 'use strict';
 
 module.exports = require('./lib/core.js')
 require('./lib/done.js')
 require('./lib/es6-extensions.js')
 require('./lib/node-extensions.js')
-},{"./lib/core.js":2,"./lib/done.js":3,"./lib/es6-extensions.js":4,"./lib/node-extensions.js":5}],2:[function(require,module,exports){
+},{"./lib/core.js":3,"./lib/done.js":4,"./lib/es6-extensions.js":5,"./lib/node-extensions.js":6}],3:[function(require,module,exports){
 'use strict';
 
 var asap = require('asap')
@@ -118,7 +178,7 @@ function doResolve(fn, onFulfilled, onRejected) {
   }
 }
 
-},{"asap":6}],3:[function(require,module,exports){
+},{"asap":7}],4:[function(require,module,exports){
 'use strict';
 
 var Promise = require('./core.js')
@@ -133,7 +193,7 @@ Promise.prototype.done = function (onFulfilled, onRejected) {
     })
   })
 }
-},{"./core.js":2,"asap":6}],4:[function(require,module,exports){
+},{"./core.js":3,"asap":7}],5:[function(require,module,exports){
 'use strict';
 
 //This file contains the ES6 extensions to the core Promises/A+ API
@@ -243,7 +303,7 @@ Promise.prototype['catch'] = function (onRejected) {
   return this.then(null, onRejected);
 }
 
-},{"./core.js":2,"asap":6}],5:[function(require,module,exports){
+},{"./core.js":3,"asap":7}],6:[function(require,module,exports){
 'use strict';
 
 //This file contains then/promise specific extensions that are only useful for node.js interop
@@ -308,7 +368,7 @@ Promise.prototype.nodeify = function (callback, ctx) {
   })
 }
 
-},{"./core.js":2,"asap":6}],6:[function(require,module,exports){
+},{"./core.js":3,"asap":7}],7:[function(require,module,exports){
 (function (process){
 
 // Use the fastest possible means to execute a task in a future turn
@@ -425,69 +485,9 @@ module.exports = asap;
 
 
 }).call(this,require('_process'))
-},{"_process":7}],7:[function(require,module,exports){
-// shim for using process in browser
-
-var process = module.exports = {};
-var queue = [];
-var draining = false;
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    draining = true;
-    var currentQueue;
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        var i = -1;
-        while (++i < len) {
-            currentQueue[i]();
-        }
-        len = queue.length;
-    }
-    draining = false;
-}
-process.nextTick = function (fun) {
-    queue.push(fun);
-    if (!draining) {
-        setTimeout(drainQueue, 0);
-    }
-};
-
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-// TODO(shtylman)
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],8:[function(require,module,exports){
+},{"_process":1}],8:[function(require,module,exports){
 'use strict';
-var Promise = require('./../external/promise/index');
+var Promise = require('promise');
 var animationFramePolyFill = require('./utils/request-anim-polyfill');
 /**
  * Scroll class.
@@ -656,7 +656,7 @@ Scroll.prototype = {
 };
 
 module.exports = Scroll;
-},{"./../external/promise/index":1,"./utils/request-anim-polyfill":9}],9:[function(require,module,exports){
+},{"./utils/request-anim-polyfill":9,"promise":2}],9:[function(require,module,exports){
 'use strict';
 module.exports = function () {
     var x = 0,
