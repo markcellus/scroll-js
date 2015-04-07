@@ -22,5 +22,9 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "promise": "~0.2.2",
+    "underscore": "~1.8.3"
+  }
 }
