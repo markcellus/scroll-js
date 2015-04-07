@@ -128,6 +128,43 @@ describe('Scroll', function () {
         });
     });
 
+    it('passing an element to toElement() that is that is not inside of the container passed to constructor rejects the promise with an error', function() {
+        var scrollToStub =  sinon.stub(Scroll.prototype, 'to').returns(Promise.resolve());
+        var docEl = document.body;
+        var containerEl = document.createElement('div');
+        var consoleWarnStub = sinon.stub(window.console, 'warn');
+        docEl.appendChild(containerEl);
+        var scroll = new Scroll({el: containerEl});
+        return scroll.toElement(document.createElement('div'))
+            .catch(function (e) {
+                assert.ok(e, 'promise was rejected and error was passed');
+                assert.equal(consoleWarnStub.callCount, 1, 'console.warn() was called');
+                assert.equal(scrollToStub.callCount, 0, 'to() was NOT called');
+                scrollToStub.restore();
+                consoleWarnStub.restore();
+                docEl.removeChild(containerEl);
+            });
+    });
+
+    it('passing an undefined to toElement() rejects the promise with an error', function() {
+        var scrollToStub =  sinon.stub(Scroll.prototype, 'to').returns(Promise.resolve());
+        var docEl = document.body;
+        var containerEl = document.createElement('div');
+        var consoleErrorStub = sinon.stub(window.console, 'error');
+        docEl.appendChild(containerEl);
+        var scroll = new Scroll({el: containerEl});
+        // test
+        return scroll.toElement()
+            .catch(function (e) {
+                assert.ok(e, 'promise was rejected and error was passed');
+                assert.equal(consoleErrorStub.callCount, 1, 'console.error() was called');
+                assert.equal(scrollToStub.callCount, 0, 'to() was NOT called');
+                scrollToStub.restore();
+                consoleErrorStub.restore();
+                docEl.removeChild(containerEl);
+            });
+    });
+
 });
 
     

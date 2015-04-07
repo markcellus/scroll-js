@@ -65,7 +65,8 @@ Scroll.prototype = {
     toElement: function (el, options) {
         var container = this.options.el,
             currentContainerScrollYPos = 0,
-            elementScrollYPos = el.offsetTop;
+            elementScrollYPos =  el ? el.offsetTop : 0,
+            errorMsg;
 
         // if the container is the document body, we'll
         // need a different set of coordinates for accuracy
@@ -76,11 +77,13 @@ Scroll.prototype = {
             elementScrollYPos = el.getBoundingClientRect().top + currentContainerScrollYPos;
         }
         if (!el) {
-            console.warn('Scroll.toElement() must be passed an existing el');
-            return Promise.reject();
+            errorMsg = 'The element passed to Scroll.toElement() was undefined';
+            console.error(errorMsg);
+            return Promise.reject(new Error(errorMsg));
         } else if (!container.contains(el)) {
-            console.warn('Scroll.toElement() Error: element you want to scroll to must live inside the scroll container');
-            return Promise.reject();
+            errorMsg = 'Scroll.toElement() was passed an element that does not exist inside the scroll container';
+            console.warn(errorMsg);
+            return Promise.reject(new Error(errorMsg));
         } else {
             return this.to(0, elementScrollYPos, options);
         }
