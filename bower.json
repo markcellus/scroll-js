@@ -1,6 +1,6 @@
 {
   "name": "scroll",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "homepage": "https://github.com/mkay581/scroll",
   "authors": [
     "Mark Kennedy <mkay581@gmail.com>"
@@ -22,5 +22,9 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "promise": "~0.2.2",
+    "underscore": "~1.8.3"
+  }
 }
