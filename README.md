@@ -86,7 +86,28 @@ scroll.to(0, 200, {easing: 'easeInOutCubic', duration: 500}, function () {
 
 ### Event Listening
 
-With this library you can listen in on native scroll events the same way you would if a user was scrolling the
+#### When an element is scrolled out of view
+
+Listen in on when an element is scrolled away from the browser's viewport (user's view).
+It supports scrolling in all directions (up, down, left, right) including offsets.
+The following is a simple example, assuming you already have an element on your page with an id of `my-element`...
+
+```javascript
+var elementListener = new ScrollListener({
+    el: document.getElementById('my-element'),
+    onEnter: function () {
+       // element has been scrolled into view!
+    },
+    onExit: function () {
+       // element has been scrolled out of view!
+    }
+});
+
+```
+
+#### Native scroll events
+
+Listen in on native scroll events the same way you would if a user was scrolling the
 page with a mouse or touch event.
 
 ```javascript
