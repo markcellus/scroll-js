@@ -32,13 +32,16 @@ ScrollListener.prototype = {
         }, options);
 
         animationFramePolyFill();
-        this._bindScrollListener();
+        this.bindEvents();
+
+        // trigger on scroll to set appropriate classes initially
+        this._onScroll();
     },
 
     /**
      * Adds a listener to the document's scroll event.
      */
-    _bindScrollListener: function () {
+    bindEvents: function () {
         var self = this;
         // assigning self so we can reference same function when removing event listener.
         this._scrollEventListener = function (e) {
@@ -50,7 +53,7 @@ ScrollListener.prototype = {
     /**
      * Removes listener on the document's scroll event.
      */
-    _unbindScrollListener: function () {
+    unbindEvents: function () {
         this.options.container.removeEventListener('scroll', this._scrollEventListener, false);
     },
 
@@ -170,7 +173,7 @@ ScrollListener.prototype = {
      * Unbinds event listeners and removes animation frames.
      */
     destroy: function () {
-        this._unbindScrollListener();
+        this.unbindEvents();
         window.cancelAnimationFrame(this._animationFrame);
     }
 };
