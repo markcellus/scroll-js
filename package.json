@@ -4,7 +4,7 @@
   "description": "Light Scroller class that uses native javascript only",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mkay581/scroll.git"
+    "url": "https://github.com/mkay581/scroll-js.git"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
