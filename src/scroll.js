@@ -1,5 +1,6 @@
 'use strict';
 var Promise = require('promise');
+var DeviceManager = require('device-manager');
 var animationFramePolyFill = require('./utils/request-anim-polyfill');
 /**
  * Scroll class.
@@ -22,6 +23,11 @@ Scroll.prototype = {
 
         if (!options.el) {
             console.error('Scroll error: element passed to Scroll constructor is ' + options.el + '! Bailing...');
+        }
+
+        // if we are passed the body, and browser is firefox or IE scroll document rather than body
+        if ( (this.options.el === document.body) && (DeviceManager.isBrowser('firefox') || DeviceManager.isBrowser('windows')) ) {
+            this.options.el = document.documentElement;
         }
 
         this.setup();
@@ -52,6 +58,7 @@ Scroll.prototype = {
         // defaults
         options = options || {};
         options.duration = options.duration || 400;
+
         return new Promise(function (resolve) {
             this._scroll(elem, fromY, y, 'scrollTop', Date.now(), options.duration, this._getEasing(options.easing), resolve);
         }.bind(this));
@@ -68,9 +75,9 @@ Scroll.prototype = {
             elementScrollYPos =  el ? el.offsetTop : 0,
             errorMsg;
 
-        // if the container is the document body, we'll
+        // if the container is the document body or document itself, we'll
         // need a different set of coordinates for accuracy
-        if (container === document.body) {
+        if (container === document.body || container === document.documentElement) {
             // using pageYOffset for cross-browser compatibility
             currentContainerScrollYPos = window.pageYOffset;
             // must add containers scroll y position to ensure an absolute value that does not change
