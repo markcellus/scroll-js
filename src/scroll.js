@@ -1,6 +1,5 @@
 'use strict';
 var Promise = require('promise');
-var DeviceManager = require('device-manager');
 var animationFramePolyFill = require('./utils/request-anim-polyfill');
 /**
  * Scroll class.
@@ -23,11 +22,6 @@ Scroll.prototype = {
 
         if (!options.el) {
             console.error('Scroll error: element passed to Scroll constructor is ' + options.el + '! Bailing...');
-        }
-
-        // if we are passed the body, and browser is firefox or IE scroll document rather than body
-        if ( (this.options.el === document.body) && (DeviceManager.isBrowser('firefox') || DeviceManager.isBrowser('windows')) ) {
-            this.options.el = document.documentElement;
         }
 
         this.setup();
@@ -77,7 +71,7 @@ Scroll.prototype = {
 
         // if the container is the document body or document itself, we'll
         // need a different set of coordinates for accuracy
-        if (container === document.body || container === document.documentElement) {
+        if (container === document.body) {
             // using pageYOffset for cross-browser compatibility
             currentContainerScrollYPos = window.pageYOffset;
             // must add containers scroll y position to ensure an absolute value that does not change
@@ -118,8 +112,7 @@ Scroll.prototype = {
                 return callback ? callback() : null;
             }
 
-            // increase scrollTop or scrollLeft
-            el[prop] = (easeFunc(time) * (to - from)) + from;
+            this._moveElement(prop, (easeFunc(time) * (to - from)) + from);
 
             /* prevent scrolling, if already there, or at end */
             if (time < 1) {
@@ -128,6 +121,24 @@ Scroll.prototype = {
                 callback();
             }
         }.bind(this));
+    },
+
+    /**
+     * Sets element's property to a value.
+     * @param prop
+     * @param value
+     * @private
+     */
+    _moveElement: function (prop, value) {
+        var el = this.options.el;
+
+        el[prop] = value;
+
+        // scroll the html element also for cross-browser compatibility
+        // (ie. silly browsers like IE who need the html element to scroll too)
+        if (el === document.body) {
+            document.documentElement[prop] = value;
+        }
     },
 
     /**
