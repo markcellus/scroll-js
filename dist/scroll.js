@@ -1,5 +1,5 @@
 /** 
-* scroll-js - v0.3.7.
+* scroll-js - v0.3.8.
 * https://github.com/mkay581/scroll-js.git
 * Copyright 2015 Mark Kennedy. Licensed MIT.
 */
@@ -540,9 +540,18 @@ Scroll.prototype = {
         // defaults
         options = options || {};
         options.duration = options.duration || 400;
+
         return new Promise(function (resolve) {
             this._scroll(elem, fromY, y, 'scrollTop', Date.now(), options.duration, this._getEasing(options.easing), resolve);
         }.bind(this));
+    },
+
+    /**
+     * Returns document element
+     * @returns {HTMLDocument}
+     */
+    getDocumentElement: function () {
+        return document;
     },
 
     /**
@@ -556,7 +565,7 @@ Scroll.prototype = {
             elementScrollYPos =  el ? el.offsetTop : 0,
             errorMsg;
 
-        // if the container is the document body, we'll
+        // if the container is the document body or document itself, we'll
         // need a different set of coordinates for accuracy
         if (container === document.body) {
             // using pageYOffset for cross-browser compatibility
@@ -599,8 +608,7 @@ Scroll.prototype = {
                 return callback ? callback() : null;
             }
 
-            // increase scrollTop or scrollLeft
-            el[prop] = (easeFunc(time) * (to - from)) + from;
+            this._moveElement(prop, (easeFunc(time) * (to - from)) + from);
 
             /* prevent scrolling, if already there, or at end */
             if (time < 1) {
@@ -609,6 +617,24 @@ Scroll.prototype = {
                 callback();
             }
         }.bind(this));
+    },
+
+    /**
+     * Sets element's property to a value.
+     * @param {string} prop - The property to set
+     * @param {Number} value - The number value
+     * @private
+     */
+    _moveElement: function (prop, value) {
+        var el = this.options.el;
+
+        el[prop] = value;
+
+        // scroll the html element also for cross-browser compatibility
+        // (ie. silly browsers like IE who need the html element to scroll too)
+        if (el === this.getDocumentElement().body) {
+            this.getDocumentElement().documentElement[prop] = value;
+        }
     },
 
     /**
