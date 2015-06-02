@@ -165,6 +165,59 @@ describe('Scroll', function () {
             });
     });
 
+    it('scroll.to() should update document.documentElement (html element) scrollTop property if element passed into scroll is document.body', function() {
+        // phantomjs doesnt have requestAnimationFrame implemented... *eye roll*
+        // so use polyfill setTimeout
+        var requestAnimationFrameStub;
+        if (!window.requestAnimationFrame) {
+            requestAnimationFrameStub = sinon.stub(window, 'setTimeout');
+        } else {
+            requestAnimationFrameStub = sinon.stub(window, 'requestAnimationFrame');
+        }
+        var getDocumentElementStub = sinon.stub(Scroll.prototype, 'getDocumentElement');
+        var dateNowStub = sinon.stub(Date, 'now');
+        dateNowStub.onFirstCall().returns(1422630923001); // set the current time for first animation frame
+        var testCurrentTime = 1422630923005;
+        dateNowStub.onSecondCall().returns(testCurrentTime); // set the current on second animation frame
+        dateNowStub.onThirdCall().returns(testCurrentTime + 1000); // set the current animation time enough time forward to simulate a time that will trigger the last frame
+        requestAnimationFrameStub.yields(); // trigger requested animation frame immediately
+
+        // setup element to be "scrollable"
+        var scrollableEl = document.createElement('div');
+        scrollableEl.style.overflow = 'hidden';
+        scrollableEl.style.height = '150px';
+        document.body.appendChild(scrollableEl);
+        var innerEl = document.createElement('div');
+        innerEl.style.height = '600px';
+        scrollableEl.appendChild(innerEl);
+
+        // setup documentElement to be "scrollable"
+        var docEl = document.createElement('div');
+        docEl.style.overflow = 'hidden';
+        docEl.style.height = '150px';
+        document.body.appendChild(docEl);
+        var docInnerEl = document.createElement('div');
+        docInnerEl.style.height = '600px';
+        docEl.appendChild(docInnerEl);
+
+        //test
+        var testDocumentElement = {
+            documentElement: docEl,
+            body: scrollableEl
+        };
+        getDocumentElementStub.returns(testDocumentElement);
+        var scroll = new Scroll({el: scrollableEl});
+        var testTo = 120;
+        return scroll.to(0, testTo).then(function () {
+            assert.equal(docEl.scrollTop, testTo, 'after duration of scroll ends, the scrollTop property of the document element was changed to ' + testTo);
+            requestAnimationFrameStub.restore();
+            dateNowStub.restore();
+            getDocumentElementStub.restore();
+            document.body.removeChild(scrollableEl);
+            document.body.removeChild(docEl);
+        });
+    });
+
 });
 
     

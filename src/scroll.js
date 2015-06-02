@@ -133,8 +133,8 @@ Scroll.prototype = {
 
     /**
      * Sets element's property to a value.
-     * @param prop
-     * @param value
+     * @param {string} prop - The property to set
+     * @param {Number} value - The number value
      * @private
      */
     _moveElement: function (prop, value) {
@@ -144,7 +144,7 @@ Scroll.prototype = {
 
         // scroll the html element also for cross-browser compatibility
         // (ie. silly browsers like IE who need the html element to scroll too)
-        if (el === document.body) {
+        if (el === this.getDocumentElement().body) {
             this.getDocumentElement().documentElement[prop] = value;
         }
     },
