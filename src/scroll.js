@@ -59,6 +59,14 @@ Scroll.prototype = {
     },
 
     /**
+     * Returns document element
+     * @returns {HTMLDocument}
+     */
+    getDocumentElement: function () {
+        return document;
+    },
+
+    /**
      * Scroll to an element.
      * @param {HTMLElement} el - The element to scroll to.
      * @param {Object} [options] - The scroll options
@@ -137,7 +145,7 @@ Scroll.prototype = {
         // scroll the html element also for cross-browser compatibility
         // (ie. silly browsers like IE who need the html element to scroll too)
         if (el === document.body) {
-            document.documentElement[prop] = value;
+            this.getDocumentElement().documentElement[prop] = value;
         }
     },
 
