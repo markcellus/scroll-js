@@ -17,6 +17,7 @@
     "scroller",
     "scroll"
   ],
+  "license": "MIT",
   "main": "src/scroll.js",
   "devDependencies": {
     "build-tools": "^1.5.0",
