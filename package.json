@@ -20,7 +20,7 @@
   "license": "MIT",
   "main": "src/scroll.js",
   "devDependencies": {
-    "build-tools": "^1.5.2",
+    "build-tools": "^1.6.0",
     "grunt": "^0.4.5",
     "grunt-cli": "^0.1.13",
     "load-grunt-tasks": "^3.1.0",
