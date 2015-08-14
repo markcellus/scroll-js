@@ -3,8 +3,7 @@
 # Scroll
 
 A light-weight scroll manager that uses only native javascript. Manipulates native scroll
-properties so that native events fire appropriately ([see Native Scroll Events example](#native-scroll-events)) and
-uses browser's animation frames for fast and smooth rendering.
+properties so that native events fire appropriately and uses browser's animation frames for fast and smooth rendering.
 
 ## Why use this over other scroll libraries and plugins?
 
@@ -84,18 +83,9 @@ scroll.to(0, 200, {easing: 'easeInOutCubic', duration: 500}, function () {
 
 ```
 
-### Native scroll events
+## What about Scroll Events?
 
-Listen in on native scroll events the same way you would if a user was scrolling the
-page with a mouse or touch event.
-
-```javascript
-var scroll = new Scroll({
-    el: document.body
-});
-window.onscroll = function () {
-    // scrolling!
-}
-scroll.to(0, 300); // scroll to trigger event
-
-```
+The Scroll instance will naturally fire native Javascript Scroll events, so you can listen in on them the same way
+you would if a user was scrolling the page with a mouse or when a touch event is fired. But the REAL power is when
+you can do more advanced things like detect when an element has been scrolled in and out of the
+user's browser viewport with the new [ScrollListener](https://github.com/mkay581/scroll-listener-js) class!
