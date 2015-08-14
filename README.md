@@ -84,7 +84,7 @@ scroll.to(0, 200, {easing: 'easeInOutCubic', duration: 500}, function () {
 
 ```
 
-#### Native scroll events
+### Native scroll events
 
 Listen in on native scroll events the same way you would if a user was scrolling the
 page with a mouse or touch event.
