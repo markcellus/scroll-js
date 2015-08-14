@@ -31,11 +31,9 @@
     "start": "grunt bt:server"
   },
   "browser": {
-    "scroll": "./src/scroll.js",
-    "scroll-listener": "./src/scroll-listener.js"
+    "scroll": "./src/scroll.js"
   },
   "dependencies": {
-    "promise": "^6.1.0",
-    "underscore": "^1.8.2"
+    "promise": "^6.1.0"
   }
 }

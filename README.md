@@ -2,8 +2,8 @@
 
 # Scroll
 
-A light-weight scroll manager with no dependencies, using native javascript. Manipulates native scroll
-properties so that native javascript events fire appropriately ([see Event Listening](#event-listening)) and
+A light-weight scroll manager that uses only native javascript. Manipulates native scroll
+properties so that native events fire appropriately ([see Native Scroll Events example](#native-scroll-events)) and
 uses browser's animation frames for fast and smooth rendering.
 
 ## Why use this over other scroll libraries and plugins?
@@ -80,27 +80,6 @@ var scroll = new Scroll({
 });
 scroll.to(0, 200, {easing: 'easeInOutCubic', duration: 500}, function () {
     // scrolled down 200 pixels using the easeInOutCubic easing effect in 500 milliseconds!
-});
-
-```
-
-### Event Listening
-
-#### When an element is scrolled out of view
-
-Listen in on when an element is scrolled away from the browser's viewport (user's view).
-It supports scrolling in all directions (up, down, left, right) including offsets.
-The following is a simple example, assuming you already have an element on your page with an id of `my-element`...
-
-```javascript
-var elementListener = new ScrollListener({
-    el: document.getElementById('my-element'),
-    onEnter: function () {
-       // element has been scrolled into view!
-    },
-    onExit: function () {
-       // element has been scrolled out of view!
-    }
 });
 
 ```

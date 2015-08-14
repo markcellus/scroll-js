@@ -24,7 +24,6 @@
     "tests"
   ],
   "dependencies": {
-    "promise": "~0.2.2",
-    "underscore": "~1.8.3"
+    "promise": "~0.2.2"
   }
 }
