@@ -11,8 +11,8 @@ uses browser's animation frames for fast and smooth rendering.
 Many other scroller libraries use absolutely positioning, css animations, transitions and other types of workarounds directly on
 the `window.document`, `<html>`, `<body>` and other elements to "fake" a scrolling effect in order to get the scroller to behave.
 
-While this is clever, desktop and mobile devices (mobile mainly), heavily depend on the natural scroll events of these elements to do helpful
-things for the user.
+While this is clever, desktop and mobile devices (mobile mainly), heavily depend on the natural scroll events of these
+elements to do helpful things for the user.
 Like hiding the location url bar as you scroll down the window of the document (on mobile browsers), for instance. Or
 [pausing heavy processes](http://developer.telerik.com/featured/scroll-event-change-ios-8-big-deal/), until
 the user is done performing a task as to not interrupt them, or adding inertia or natural momentum when scrolling. So
@@ -27,7 +27,6 @@ lends nicely to these use cases, which is what this Scroll class does.
 * safe to use on the `document.body` element
 * supports easing functions when scrolling
 * battery-friendly -- uses minimal amount of CPU power (no processing on inactive tabs, and hidden elements!)
-* no dependencies
 * fast and smooth rendering (no choppiness)
 * does not hijack native browser functionality (i.e. inertia scrolling, momentum defaults)
 * native "onscroll" events can still be used ([window.onscroll](https://developer.mozilla.org/en-US/docs/Web/API/window.onscroll) and
