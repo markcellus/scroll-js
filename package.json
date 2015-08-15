@@ -1,6 +1,6 @@
 {
   "name": "scroll-js",
-  "version": "0.3.10",
+  "version": "0.4.0",
   "description": "Light Scroller class that uses native javascript only",
   "repository": {
     "type": "git",
@@ -31,11 +31,9 @@
     "start": "grunt bt:server"
   },
   "browser": {
-    "scroll": "./src/scroll.js",
-    "scroll-listener": "./src/scroll-listener.js"
+    "scroll": "./src/scroll.js"
   },
   "dependencies": {
-    "promise": "^6.1.0",
-    "underscore": "^1.8.2"
+    "promise": "^6.1.0"
   }
 }

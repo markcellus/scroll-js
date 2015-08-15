@@ -2,9 +2,8 @@
 
 # Scroll
 
-A light-weight scroll manager with no dependencies, using native javascript. Manipulates native scroll
-properties so that native javascript events fire appropriately ([see Event Listening](#event-listening)) and
-uses browser's animation frames for fast and smooth rendering.
+A light-weight scroll manager that uses only native javascript. Manipulates native scroll properties so that
+native events fire appropriately and uses browser's animation frames for fast and smooth rendering.
 
 ## Why use this over other scroll libraries and plugins?
 
@@ -42,9 +41,10 @@ You can manually scroll any element on a page. Just make sure the element you wa
 1. css `overflow` property that is set to `hidden`.
 1. Content that extends beyond the specified height.
 
-### Scrolling the window
+### Scrolling an element
 
-You can manually scroll to any portion of a page and detect when done.
+You can manually scroll to any portion of an element and detect when done.
+This examples scrolls the window (document body).
 
 ```javascript
 var scroll = new Scroll({
@@ -69,7 +69,7 @@ scroll.toElement(myElement).then(function () {
 
 ```
 
-### Easing
+### Scroll easing
 
 Easing is also supported simply by passing an options object with easing.
 
@@ -83,31 +83,9 @@ scroll.to(0, 200, {easing: 'easeInOutCubic', duration: 500}, function () {
 
 ```
 
-### Event Listening
+### Detect scroll events
 
-#### When an element is scrolled out of view
-
-Listen in on when an element is scrolled away from the browser's viewport (user's view).
-It supports scrolling in all directions (up, down, left, right) including offsets.
-The following is a simple example, assuming you already have an element on your page with an id of `my-element`...
-
-```javascript
-var elementListener = new ScrollListener({
-    el: document.getElementById('my-element'),
-    onEnter: function () {
-       // element has been scrolled into view!
-    },
-    onExit: function () {
-       // element has been scrolled out of view!
-    }
-});
-
-```
-
-#### Native scroll events
-
-Listen in on native scroll events the same way you would if a user was scrolling the
-page with a mouse or touch event.
+Listen in on native scroll events the same way you would if a user was scrolling with a mouse or touch event.
 
 ```javascript
 var scroll = new Scroll({

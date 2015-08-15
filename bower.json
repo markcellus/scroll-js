@@ -1,6 +1,6 @@
 {
   "name": "scroll-js",
-  "version": "0.3.10",
+  "version": "0.4.0",
   "homepage": "https://github.com/mkay581/scroll-js",
   "authors": [
     "Mark Kennedy <mkay581@gmail.com>"
@@ -24,7 +24,6 @@
     "tests"
   ],
   "dependencies": {
-    "promise": "~0.2.2",
-    "underscore": "~1.8.3"
+    "promise": "~0.2.2"
   }
 }
