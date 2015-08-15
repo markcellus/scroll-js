@@ -2,8 +2,8 @@
 
 # Scroll
 
-A light-weight scroll manager that uses only native javascript. Manipulates native scroll
-properties so that native events fire appropriately and uses browser's animation frames for fast and smooth rendering.
+A light-weight scroll manager that uses only native javascript. Manipulates native scroll properties so that
+native events fire appropriately and uses browser's animation frames for fast and smooth rendering.
 
 ## Why use this over other scroll libraries and plugins?
 
@@ -42,9 +42,10 @@ You can manually scroll any element on a page. Just make sure the element you wa
 1. css `overflow` property that is set to `hidden`.
 1. Content that extends beyond the specified height.
 
-### Scrolling the window
+### Scrolling an element
 
-You can manually scroll to any portion of a page and detect when done.
+You can manually scroll to any portion of an element and detect when done.
+This examples scrolls the window (document body).
 
 ```javascript
 var scroll = new Scroll({
@@ -69,7 +70,7 @@ scroll.toElement(myElement).then(function () {
 
 ```
 
-### Easing
+### Scroll easing
 
 Easing is also supported simply by passing an options object with easing.
 
@@ -83,9 +84,17 @@ scroll.to(0, 200, {easing: 'easeInOutCubic', duration: 500}, function () {
 
 ```
 
-## What about Scroll Events?
+### Detect scroll events
 
-The Scroll instance will naturally fire native Javascript Scroll events, so you can listen in on them the same way
-you would if a user was scrolling the page with a mouse or when a touch event is fired. But the REAL power is when
-you can do more advanced things like detect when an element has been scrolled in and out of the
-user's browser viewport with the new [ScrollListener](https://github.com/mkay581/scroll-listener-js) class!
+Listen in on native scroll events the same way you would if a user was scrolling with a mouse or touch event.
+
+```javascript
+var scroll = new Scroll({
+    el: document.body
+});
+window.onscroll = function () {
+    // scrolling!
+}
+scroll.to(0, 300); // scroll to trigger event
+
+```
