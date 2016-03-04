@@ -24,6 +24,6 @@
     "tests"
   ],
   "dependencies": {
-    "promise": "~0.2.2"
+    "promise": "^7.1.1"
   }
 }
