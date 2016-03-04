@@ -11,15 +11,11 @@ module.exports = function(grunt) {
                 },
                 browserifyOptions: {
                     standalone: 'Scroll'
-                }
-            },
-            min: {
-                files: {
+                },
+                minifyFiles:{
                     'dist/scroll-min.js': ['dist/scroll.js']
-                }
-            },
-            banner: {
-                files: ['dist/*']
+                },
+                bannerFiles: ['dist/*']
             },
             tests: {
                 mocha: {
