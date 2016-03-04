@@ -35,16 +35,18 @@ lends nicely to these use cases, which is what this Scroll class does.
 
 ## Usage
 
-You can manually scroll any element on a page. Just make sure the element you want to scroll has:
+In order to use the Scroll class, you can use one of the [pre-built files](/dist) if you want to quickly get started. Or, alternatively
+ you can use the [source files](/src) directly if you are running your own build processes.
+
+### Scrolling an element
+
+You can manually scroll any element on a page and optionally detect when done. Just make sure the element you want to scroll has:
 
 1. A specified `height` css property.
 1. css `overflow` property that is set to `hidden`.
 1. Content that extends beyond the specified height.
 
-### Scrolling an element
-
-You can manually scroll to any portion of an element and detect when done.
-This examples scrolls the window (document body).
+The following example scrolls the window (document body).
 
 ```javascript
 var scroll = new Scroll({
