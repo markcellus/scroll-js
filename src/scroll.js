@@ -2,21 +2,6 @@
 import Promise from 'promise';
 
 /**
- * Gets an easing function based on supplied easing string.
- * @param {String} easing - The easing id
- * @returns {Function} - Returns the easing function
- */
-let getEasing = (easing) => {
-    var defaultEasing = 'linear',
-        easeFunc = animMap[easing || defaultEasing];
-    if (!easeFunc) {
-        console.warn('Scroll error: scroller does not support an easing option of ' + easing + '. Using "' + defaultEasing + '" instead');
-        easeFunc = animMap[easing];
-    }
-    return easeFunc;
-};
-
-/**
  * Map to hold easing functions.
  * @type {WeakMap}
  */
@@ -37,6 +22,21 @@ let animMap = {
 };
 
 /**
+ * Gets an easing function based on supplied easing string.
+ * @param {String} easing - The easing id
+ * @returns {Function} - Returns the easing function
+ */
+let getEasing = (easing) => {
+    var defaultEasing = 'linear',
+        easeFunc = animMap[easing || defaultEasing];
+    if (!easeFunc) {
+        console.warn('Scroll error: scroller does not support an easing option of ' + easing + '. Using "' + defaultEasing + '" instead');
+        easeFunc = animMap[easing];
+    }
+    return easeFunc;
+};
+
+/**
  * Scroll class.
  * @class Scroll
  * @param {object} options - Options to pass
@@ -46,14 +46,13 @@ class Scroll {
 
     /**
      * When the scroll is instantiated.
-     * @param {Object} options - The initial options
-     * @param {HTMLElement} options.el - The element to scroll (the viewport)
+     * @param {HTMLElement} el - The element to scroll (the viewport)
      */
-    constructor (options) {
-        this.options = options;
-        if (!options.el) {
-            console.error('Scroll error: element passed to Scroll constructor is ' + options.el + '! Bailing...');
+    constructor (el) {
+        if (!el) {
+            console.error('Scroll error: element passed to Scroll constructor is ' + el + '! Bailing...');
         }
+        this.el = el;
     }
 
     /**
@@ -66,7 +65,7 @@ class Scroll {
      * @return {Promise}
      */
     to (x, y, options) {
-        var elem = this.options.el,
+        var elem = this.el,
             fromY = elem.scrollTop,
             fromX = elem.scrollLeft;
         // defaults
@@ -79,7 +78,7 @@ class Scroll {
          * @param {Number} value - The number value
          */
         let moveElement = (prop, value) => {
-            var el = this.options.el;
+            var el = this.el;
             el[prop] = value;
             // scroll the html element also for cross-browser compatibility
             // (ie. silly browsers like IE who need the html element to scroll too)
@@ -138,7 +137,7 @@ class Scroll {
      * @param {Object} [options] - The scroll options
      */
     toElement (el, options) {
-        var container = this.options.el,
+        var container = this.el,
             currentContainerScrollYPos = 0,
             elementScrollYPos =  el ? el.offsetTop : 0,
             errorMsg;

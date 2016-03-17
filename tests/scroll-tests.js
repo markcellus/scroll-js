@@ -74,7 +74,7 @@ describe('Scroll', function () {
         innerEl.style.height = '600px';
         // setup current scroll position
         outerEl.scrollTop = 100;
-        var scroll = new Scroll({el: outerEl});
+        var scroll = new Scroll(outerEl);
         var testTo = 120;
         // test
         return scroll.to(0, testTo).then(function () {
@@ -104,7 +104,7 @@ describe('Scroll', function () {
         innerEl.style.top = innerElFromTop + 'px';
         // setup current scroll position
         outerEl.scrollTop = 100;
-        var scroll = new Scroll({el: outerEl});
+        var scroll = new Scroll(outerEl);
         // test
         return scroll.toElement(innerEl).then(function () {
             assert.equal(scrollToStub.args[0][0], 0, 'to() was called with 0 as first parameter');
@@ -128,7 +128,7 @@ describe('Scroll', function () {
         innerEl.style.top = innerElFromTop + 'px';
         // setup current scroll position
         docEl.scrollTop = 100;
-        var scroll = new Scroll({el: docEl});
+        var scroll = new Scroll(docEl);
         // test
         return scroll.toElement(innerEl).then(function () {
             assert.equal(scrollToStub.args[0][0], 0, 'to() was called with 0 as first parameter');
@@ -159,7 +159,7 @@ describe('Scroll', function () {
         innerEl.style.height = '200px';
         containerEl.appendChild(innerEl);
         // setup current scroll position
-        var scroll = new Scroll({el: docEl});
+        var scroll = new Scroll(docEl);
         // test
         return scroll.toElement(innerEl).then(function () {
             assert.equal(scrollToStub.args[0][0], 0, 'to() was called with 0 as first parameter');
@@ -175,7 +175,7 @@ describe('Scroll', function () {
         var containerEl = document.createElement('div');
         var consoleWarnStub = sinon.stub(window.console, 'warn');
         docEl.appendChild(containerEl);
-        var scroll = new Scroll({el: containerEl});
+        var scroll = new Scroll(containerEl);
         return scroll.toElement(document.createElement('div'))
             .catch(function (e) {
                 assert.ok(e, 'promise was rejected and error was passed');
@@ -193,7 +193,7 @@ describe('Scroll', function () {
         var containerEl = document.createElement('div');
         var consoleErrorStub = sinon.stub(window.console, 'error');
         docEl.appendChild(containerEl);
-        var scroll = new Scroll({el: containerEl});
+        var scroll = new Scroll(containerEl);
         // test
         return scroll.toElement()
             .catch(function (e) {
@@ -237,7 +237,7 @@ describe('Scroll', function () {
             documentElement: docEl,
             body: scrollableEl
         };
-        var scroll = new Scroll({el: scrollableEl});
+        var scroll = new Scroll(scrollableEl);
         var testTo = 120;
         // redefine document getter
         Object.defineProperty(scroll, 'document', {

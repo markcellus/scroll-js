@@ -51,9 +51,7 @@ You can manually scroll any element on a page and optionally detect when done. J
 The following example scrolls the window (document body).
 
 ```javascript
-var scroll = new Scroll({
-    el: document.body
-});
+var scroll = new Scroll(document.body);
 scroll.to(0, 500).then(function () {
    //scrolling down 500 pixels has completed!
 });
@@ -64,9 +62,7 @@ scroll.to(0, 500).then(function () {
 
 ```javascript
 var myElement = document.body.getElementsByClassName('my-element')[0];
-var scroll = new Scroll({
-    el: document.body
-});
+var scroll = new Scroll(document.body);
 scroll.toElement(myElement).then(function () {
     // done scrolling to the element
 });
@@ -78,9 +74,7 @@ scroll.toElement(myElement).then(function () {
 Easing is also supported simply by passing an options object with easing.
 
 ```javascript
-var scroll = new Scroll({
-    el: document.body
-});
+var scroll = new Scroll(document.body);
 scroll.to(0, 200, {easing: 'easeInOutCubic', duration: 500}, function () {
     // scrolled down 200 pixels using the easeInOutCubic easing effect in 500 milliseconds!
 });
@@ -92,9 +86,7 @@ scroll.to(0, 200, {easing: 'easeInOutCubic', duration: 500}, function () {
 Listen in on native scroll events the same way you would if a user was scrolling with a mouse or touch event.
 
 ```javascript
-var scroll = new Scroll({
-    el: document.body
-});
+var scroll = new Scroll(document.body);
 window.onscroll = function () {
     // scrolling!
 }
