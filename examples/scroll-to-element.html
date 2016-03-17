@@ -1,0 +1,69 @@
+<html lang="">
+<head>
+    <title>Scroll To Element Example</title>
+</head>
+<style>
+
+    .module {
+        margin: 20px auto;
+        width: 215%;
+        height: 300px;
+    }
+
+    .module-dummy {
+        background-color: lightgrey;
+    }
+
+    .red {
+        background-color: burlywood;
+    }
+
+    .blue {
+        background-color: cornflowerblue;
+    }
+
+    .pink {
+        background-color: lightpink;
+    }
+
+    .green {
+        background-color: darkseagreen;
+    }
+
+    .orange {
+        background-color: orange;
+    }
+
+</style>
+<body>
+<p>Click <button id="scroll-btn">here</button> to scroll down to the green box.</p>
+<div class="module module-dummy"></div>
+<div class="module module-dummy red"></div>
+<div class="module module-dummy"></div>
+<div class="module module-dummy blue"></div>
+<div class="module module-dummy"></div>
+<div id="green-box" class="module module-dummy green"></div>
+<div class="module module-dummy"></div>
+<div class="module module-dummy pink"></div>
+<div class="module module-dummy"></div>
+<div class="module module-dummy orange"></div>
+
+<!-- update the path to scroll script below -->
+<script src="../dist/scroll-min.js"></script>
+<script>
+    var scroll = new Scroll({
+        el: document.body
+    });
+    var scrollButton = document.getElementById("scroll-btn");
+    var greenBox = document.getElementById("green-box");
+
+    // when the scroll button is clicked, scroll down 2000 pixels
+    scrollButton.onclick = function () {
+        scroll.toElement(greenBox, {duration: 1000}).then(function () {
+            console.log('finished scrolling to green box!');
+        });
+    };
+
+</script>
+</body>
+</html>
