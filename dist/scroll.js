@@ -1,5 +1,5 @@
 /** 
-* scroll-js - v1.0.0.
+* scroll-js - v1.0.1.
 * https://github.com/mkay581/scroll-js.git
 * Copyright 2016 Mark Kennedy. Licensed MIT.
 */
@@ -878,21 +878,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
- * Gets an easing function based on supplied easing string.
- * @param {String} easing - The easing id
- * @returns {Function} - Returns the easing function
- */
-var getEasing = function getEasing(easing) {
-    var defaultEasing = 'linear',
-        easeFunc = animMap[easing || defaultEasing];
-    if (!easeFunc) {
-        console.warn('Scroll error: scroller does not support an easing option of ' + easing + '. Using "' + defaultEasing + '" instead');
-        easeFunc = animMap[easing];
-    }
-    return easeFunc;
-};
-
-/**
  * Map to hold easing functions.
  * @type {WeakMap}
  */
@@ -939,6 +924,21 @@ var animMap = {
 };
 
 /**
+ * Gets an easing function based on supplied easing string.
+ * @param {String} easing - The easing id
+ * @returns {Function} - Returns the easing function
+ */
+var getEasing = function getEasing(easing) {
+    var defaultEasing = 'linear',
+        easeFunc = animMap[easing || defaultEasing];
+    if (!easeFunc) {
+        console.warn('Scroll error: scroller does not support an easing option of ' + easing + '. Using "' + defaultEasing + '" instead');
+        easeFunc = animMap[easing];
+    }
+    return easeFunc;
+};
+
+/**
  * Scroll class.
  * @class Scroll
  * @param {object} options - Options to pass
@@ -949,17 +949,16 @@ var Scroll = function () {
 
     /**
      * When the scroll is instantiated.
-     * @param {Object} options - The initial options
-     * @param {HTMLElement} options.el - The element to scroll (the viewport)
+     * @param {HTMLElement} el - The element to scroll (the viewport)
      */
 
-    function Scroll(options) {
+    function Scroll(el) {
         _classCallCheck(this, Scroll);
 
-        this.options = options;
-        if (!options.el) {
-            console.error('Scroll error: element passed to Scroll constructor is ' + options.el + '! Bailing...');
+        if (!el) {
+            console.error('Scroll error: element passed to Scroll constructor is ' + el + '! Bailing...');
         }
+        this.el = el;
     }
 
     /**
@@ -978,7 +977,7 @@ var Scroll = function () {
         value: function to(x, y, options) {
             var _this = this;
 
-            var elem = this.options.el,
+            var elem = this.el,
                 fromY = elem.scrollTop,
                 fromX = elem.scrollLeft;
             // defaults
@@ -991,7 +990,7 @@ var Scroll = function () {
              * @param {Number} value - The number value
              */
             var moveElement = function moveElement(prop, value) {
-                var el = _this.options.el;
+                var el = _this.el;
                 el[prop] = value;
                 // scroll the html element also for cross-browser compatibility
                 // (ie. silly browsers like IE who need the html element to scroll too)
@@ -1051,7 +1050,7 @@ var Scroll = function () {
          * @param {Object} [options] - The scroll options
          */
         value: function toElement(el, options) {
-            var container = this.options.el,
+            var container = this.el,
                 currentContainerScrollYPos = 0,
                 elementScrollYPos = el ? el.offsetTop : 0,
                 errorMsg;
