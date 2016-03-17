@@ -4,17 +4,59 @@ var assert = require('assert');
 var Scroll = require('../src/scroll');
 var Promise = require('promise');
 
-describe('Scroll', function () {
+var requestAnimationPolyfill = function () {
+    var x = 0,
+        lastTime = 0,
+        vendors = ['ms', 'moz', 'webkit', 'o'];
 
-    it('should update its element\'s scrollTop property to the same coordinate specified in the second parameter supplied to scroll.to()', function() {
-        // phantomjs doesnt have requestAnimationFrame implemented... *eye roll*
-        // so use polyfill setTimeout
-        var requestAnimationFrameStub;
+    for (0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x] + 'RequestAnimationFrame'];
+        window.cancelAnimationFrame = window[vendors[x] + 'CancelAnimationFrame']
+            || window[vendors[x] + 'CancelRequestAnimationFrame'];
+    }
+
+    if (!window.requestAnimationFrame) {
+        window.requestAnimationFrame = function (callback, element) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function () {
+                    callback(currTime + timeToCall);
+                },
+                timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+        };
+    }
+
+    if (!window.cancelAnimationFrame) {
+        window.cancelAnimationFrame = function (id) {
+            clearTimeout(id);
+        };
+    }
+};
+
+describe('Scroll', function () {
+    let requestAnimationFrameStub;
+
+    before(function () {
+        // phantomjs doesnt have requestAnimationFrame implemented... *eye roll* so use polyfill
+        requestAnimationPolyfill();
+    });
+
+    beforeEach(function () {
         if (!window.requestAnimationFrame) {
             requestAnimationFrameStub = sinon.stub(window, 'setTimeout');
         } else {
             requestAnimationFrameStub = sinon.stub(window, 'requestAnimationFrame');
         }
+    });
+
+    afterEach(function () {
+        requestAnimationFrameStub.restore();
+    }) ;
+
+    it('should update its element\'s scrollTop property to the same coordinate specified in the second parameter supplied to scroll.to()', function() {
+
         var dateNowStub = sinon.stub(Date, 'now');
         dateNowStub.onFirstCall().returns(1422630923001); // set the current time for first animation frame
         var testCurrentTime = 1422630923005;
@@ -37,7 +79,6 @@ describe('Scroll', function () {
         // test
         return scroll.to(0, testTo).then(function () {
             assert.equal(outerEl.scrollTop, testTo, 'after duration of scroll ends, the scrollTop property of the element was changed to ' + testTo);
-            requestAnimationFrameStub.restore();
             dateNowStub.restore();
             document.body.removeChild(outerEl);
         });
@@ -166,15 +207,6 @@ describe('Scroll', function () {
     });
 
     it('scroll.to() should update document.documentElement (html element) scrollTop property if element passed into scroll is document.body', function() {
-        // phantomjs doesnt have requestAnimationFrame implemented... *eye roll*
-        // so use polyfill setTimeout
-        var requestAnimationFrameStub;
-        if (!window.requestAnimationFrame) {
-            requestAnimationFrameStub = sinon.stub(window, 'setTimeout');
-        } else {
-            requestAnimationFrameStub = sinon.stub(window, 'requestAnimationFrame');
-        }
-        var getDocumentElementStub = sinon.stub(Scroll.prototype, 'getDocumentElement');
         var dateNowStub = sinon.stub(Date, 'now');
         dateNowStub.onFirstCall().returns(1422630923001); // set the current time for first animation frame
         var testCurrentTime = 1422630923005;
@@ -205,14 +237,17 @@ describe('Scroll', function () {
             documentElement: docEl,
             body: scrollableEl
         };
-        getDocumentElementStub.returns(testDocumentElement);
         var scroll = new Scroll({el: scrollableEl});
         var testTo = 120;
+        // redefine document getter
+        Object.defineProperty(scroll, 'document', {
+            get: function () {
+                return testDocumentElement;
+            }
+        });
         return scroll.to(0, testTo).then(function () {
             assert.equal(docEl.scrollTop, testTo, 'after duration of scroll ends, the scrollTop property of the document element was changed to ' + testTo);
-            requestAnimationFrameStub.restore();
             dateNowStub.restore();
-            getDocumentElementStub.restore();
             document.body.removeChild(scrollableEl);
             document.body.removeChild(docEl);
         });
@@ -220,4 +255,3 @@ describe('Scroll', function () {
 
 });
 
-    
