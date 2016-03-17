@@ -1,6 +1,6 @@
 <html lang="">
 <head>
-    <title>Scroll Demo</title>
+    <title>Vertical Scroll Example</title>
 </head>
 <style>
 
@@ -36,6 +36,7 @@
 
 </style>
 <body>
+<p>Click <button id="scroll-btn">here</button> and watch the page scroll down 2000 pixels using an easing effect.</p>
 <div class="module module-dummy"></div>
 <div class="module module-dummy red"></div>
 <div class="module module-dummy"></div>
@@ -47,6 +48,21 @@
 <div class="module module-dummy"></div>
 <div class="module module-dummy orange"></div>
 
-<script src="demo-built.js"></script>
+<!-- update the path to scroll script below -->
+<script src="../dist/scroll-min.js"></script>
+<script>
+    var scroll = new Scroll({
+        el: document.body
+    });
+    var scrollButton = document.getElementById("scroll-btn");
+
+    // when the scroll button is clicked, scroll down 2000 pixels
+    scrollButton.onclick = function () {
+        scroll.to(0, 2000, {duration: 1000, easing: 'easeInOutCubic'}).then(function () {
+            console.log('finished scrolling!');
+        });
+    };
+
+</script>
 </body>
 </html>
