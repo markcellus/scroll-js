@@ -21,15 +21,13 @@
   "main": "src/scroll.js",
   "devDependencies": {
     "build-tools": "^2.4.0",
-    "grunt": "^0.4.5",
-    "grunt-cli": "^0.1.13",
     "load-grunt-tasks": "^3.4.1",
     "promise": "^7.1.1",
     "sinon": "^1.17.3"
   },
   "scripts": {
-    "test": "grunt bt:test",
-    "start": "grunt bt:server"
+    "test": "bt test",
+    "start": "bt server"
   },
   "browser": {
     "scroll": "./src/scroll.js"
