@@ -206,6 +206,22 @@ describe('Scroll', function () {
             });
     });
 
+    it('passing an undefined to toElement() when the container is the document\'s body rejects the promise with an error', function() {
+        var scrollToStub =  sinon.stub(Scroll.prototype, 'to').returns(Promise.resolve());
+        var docEl = document.body;
+        var consoleErrorStub = sinon.stub(window.console, 'error');
+        var scroll = new Scroll(docEl);
+        // test
+        return scroll.toElement()
+            .catch(function (e) {
+                assert.ok(e, 'promise was rejected and error was passed');
+                assert.equal(consoleErrorStub.callCount, 1, 'console.error() was called');
+                assert.equal(scrollToStub.callCount, 0, 'to() was NOT called');
+                scrollToStub.restore();
+                consoleErrorStub.restore();
+            });
+    });
+
     it('scroll.to() should update document.documentElement (html element) scrollTop property if element passed into scroll is document.body', function() {
         var dateNowStub = sinon.stub(Date, 'now');
         dateNowStub.onFirstCall().returns(1422630923001); // set the current time for first animation frame

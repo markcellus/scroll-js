@@ -142,6 +142,17 @@ class Scroll {
             elementScrollYPos =  el ? el.offsetTop : 0,
             errorMsg;
 
+        if (!el) {
+            errorMsg = 'The element passed to Scroll.toElement() was undefined';
+            console.error(errorMsg);
+            return Promise.reject(new Error(errorMsg));
+        }
+        if (!container.contains(el)) {
+            errorMsg = 'Scroll.toElement() was passed an element that does not exist inside the scroll container';
+            console.warn(errorMsg);
+            return Promise.reject(new Error(errorMsg));
+        }
+
         // if the container is the document body or document itself, we'll
         // need a different set of coordinates for accuracy
         if (container === document.body) {
@@ -150,17 +161,8 @@ class Scroll {
             // must add containers scroll y position to ensure an absolute value that does not change
             elementScrollYPos = el.getBoundingClientRect().top + currentContainerScrollYPos;
         }
-        if (!el) {
-            errorMsg = 'The element passed to Scroll.toElement() was undefined';
-            console.error(errorMsg);
-            return Promise.reject(new Error(errorMsg));
-        } else if (!container.contains(el)) {
-            errorMsg = 'Scroll.toElement() was passed an element that does not exist inside the scroll container';
-            console.warn(errorMsg);
-            return Promise.reject(new Error(errorMsg));
-        } else {
-            return this.to(0, elementScrollYPos, options);
-        }
+
+        return this.to(0, elementScrollYPos, options);
     }
 
     /**
