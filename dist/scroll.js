@@ -1,5 +1,5 @@
 /** 
-* scroll-js - v1.0.1.
+* scroll-js - v1.0.2.
 * https://github.com/mkay581/scroll-js.git
 * Copyright 2016 Mark Kennedy. Licensed MIT.
 */
@@ -1055,6 +1055,17 @@ var Scroll = function () {
                 elementScrollYPos = el ? el.offsetTop : 0,
                 errorMsg;
 
+            if (!el) {
+                errorMsg = 'The element passed to Scroll.toElement() was undefined';
+                console.error(errorMsg);
+                return _promise2.default.reject(new Error(errorMsg));
+            }
+            if (!container.contains(el)) {
+                errorMsg = 'Scroll.toElement() was passed an element that does not exist inside the scroll container';
+                console.warn(errorMsg);
+                return _promise2.default.reject(new Error(errorMsg));
+            }
+
             // if the container is the document body or document itself, we'll
             // need a different set of coordinates for accuracy
             if (container === document.body) {
@@ -1063,17 +1074,8 @@ var Scroll = function () {
                 // must add containers scroll y position to ensure an absolute value that does not change
                 elementScrollYPos = el.getBoundingClientRect().top + currentContainerScrollYPos;
             }
-            if (!el) {
-                errorMsg = 'The element passed to Scroll.toElement() was undefined';
-                console.error(errorMsg);
-                return _promise2.default.reject(new Error(errorMsg));
-            } else if (!container.contains(el)) {
-                errorMsg = 'Scroll.toElement() was passed an element that does not exist inside the scroll container';
-                console.warn(errorMsg);
-                return _promise2.default.reject(new Error(errorMsg));
-            } else {
-                return this.to(0, elementScrollYPos, options);
-            }
+
+            return this.to(0, elementScrollYPos, options);
         }
 
         /**
