@@ -3,7 +3,7 @@ import Promise from 'promise';
 
 /**
  * Map to hold easing functions.
- * @type {WeakMap}
+ * @type {Object}
  */
 let animMap = {
     linear: function (t) { return t },
