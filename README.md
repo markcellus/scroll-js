@@ -93,3 +93,13 @@ window.onscroll = function () {
 scroll.to(0, 300); // scroll to trigger event
 
 ```
+
+
+## Development
+
+Run tests:
+
+```
+npm install
+npm test
+```
