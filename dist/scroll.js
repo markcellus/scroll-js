@@ -1,5 +1,5 @@
 /** 
-* scroll-js - v1.0.2.
+* scroll-js - v1.0.3.
 * https://github.com/mkay581/scroll-js.git
 * Copyright 2016 Mark Kennedy. Licensed MIT.
 */
@@ -879,7 +879,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 /**
  * Map to hold easing functions.
- * @type {WeakMap}
+ * @type {Object}
  */
 var animMap = {
     linear: function linear(t) {
