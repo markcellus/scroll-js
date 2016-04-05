@@ -24,6 +24,6 @@
     "tests"
   ],
   "dependencies": {
-    "promise": "^7.1.1"
+    "promise": "then/promise#^7.1.1"
   }
 }
