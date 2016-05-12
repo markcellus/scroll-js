@@ -15,7 +15,12 @@
   },
   "keywords": [
     "scroller",
-    "scroll"
+    "scroll",
+    "scroll class",
+    "scrolljs",
+    "scroll js",
+    "scrollTo",
+    "scroll events"
   ],
   "license": "MIT",
   "main": "src/scroll.js",
