@@ -23,7 +23,7 @@
     "scroll events"
   ],
   "license": "MIT",
-  "main": "dist/scroll.js",
+  "main": "./dist/scroll.js",
   "browserify": {
     "transform": [
       [
