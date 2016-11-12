@@ -1,5 +1,5 @@
 /** 
-* scroll-js - v1.2.6.
+* scroll-js - v1.2.7.
 * https://github.com/mkay581/scroll-js.git
 * Copyright 2016 Mark Kennedy. Licensed MIT.
 */
