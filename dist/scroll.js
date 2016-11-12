@@ -1247,7 +1247,6 @@ var Scroll = function () {
      * When the scroll is instantiated.
      * @param {HTMLElement} el - The element to scroll (the viewport)
      */
-
     function Scroll(el) {
         _classCallCheck(this, Scroll);
 
