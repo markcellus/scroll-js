@@ -2,7 +2,7 @@
 var sinon = require('sinon');
 var assert = require('assert');
 var Scroll = require('../src/scroll');
-var Promise = require('promise');
+var Promise = require('es6-promise').Promise;
 
 var requestAnimationPolyfill = function () {
     var x = 0,

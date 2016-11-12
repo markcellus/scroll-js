@@ -42,7 +42,6 @@
     "browserify": "^13.0.1",
     "build-tools": "^4.3.0",
     "load-grunt-tasks": "^3.4.1",
-    "promise": "^7.1.1",
     "sinon": "^1.17.3"
   },
   "scripts": {
@@ -53,6 +52,6 @@
     "scroll": "./src/scroll.js"
   },
   "dependencies": {
-    "promise": "^7.1.1"
+    "es6-promise": "^4.0.5"
   }
 }

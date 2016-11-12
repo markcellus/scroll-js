@@ -1,5 +1,5 @@
 'use strict';
-import Promise from 'promise';
+var Promise = require('es6-promise').Promise;
 
 /**
  * Map to hold easing functions.
