@@ -42,7 +42,7 @@ let getEasing = (easing) => {
  * @param {object} options - Options to pass
  * @param {HTMLElement} options.el - The element to apply scroll to
  */
-class Scroll {
+export default class Scroll {
 
     /**
      * When the scroll is instantiated.
@@ -171,5 +171,3 @@ class Scroll {
     destroy () {}
 
 }
-
-module.exports = Scroll;

@@ -37,8 +37,8 @@ lends nicely to these use cases, which is what this Scroll class does.
 
 ## Usage
 
-In order to use the Scroll class, you can use one of the [pre-built files](/dist) if you want to quickly get started. Or, alternatively
- you can use the [source files](/src) directly if you are running your own build processes.
+In order to use the Scroll class, you can use one of the [pre-built files](/dist) if you want to quickly get started. 
+Or, alternatively you can use the [source files](/src) directly if you are using [Browserify](http://browserify.org/).
 
 In addition to the samples below, you can find more in the [examples](/examples) folder.
 
