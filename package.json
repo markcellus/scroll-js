@@ -40,7 +40,7 @@
     ]
   },
   "devDependencies": {
-    "build-tools": "^6.0.4",
+    "build-tools": "^6.0.5",
     "sinon": "^1.17.3"
   },
   "scripts": {
