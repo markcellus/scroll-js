@@ -1,6 +1,6 @@
 {
   "name": "scroll-js",
-  "version": "1.2.10",
+  "version": "1.2.11",
   "description": "Light Scroller class that uses native javascript only",
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
     "scroll events"
   ],
   "license": "MIT",
-  "main": "src/scroll.js",
+  "main": "./dist/scroll.js",
   "browserify": {
     "transform": [
       [
@@ -40,6 +40,11 @@
     ]
   },
   "devDependencies": {
+    "babelify": "^7.3.0",
+    "babel-polyfill": "^6.16.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-es2015": "^6.16.0",
+    "browserify": "^13.0.1",
     "build-tools": "^6.0.5",
     "sinon": "^1.17.3"
   },
@@ -48,11 +53,6 @@
     "start": "bt server"
   },
   "dependencies": {
-    "babelify": "^7.3.0",
-    "babel-polyfill": "^6.16.0",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-preset-es2015": "^6.16.0",
-    "browserify": "^13.0.1",
     "es6-promise": "^4.0.5"
   }
 }
