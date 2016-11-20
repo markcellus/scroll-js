@@ -24,21 +24,6 @@
   ],
   "license": "MIT",
   "main": "./dist/scroll.js",
-  "browserify": {
-    "transform": [
-      [
-        "babelify",
-        {
-          "presets": [
-            "es2015"
-          ],
-          "plugins": [
-            "add-module-exports"
-          ]
-        }
-      ]
-    ]
-  },
   "devDependencies": {
     "babelify": "^7.3.0",
     "babel-polyfill": "^6.16.0",
