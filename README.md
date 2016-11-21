@@ -1,6 +1,5 @@
 [![Build Status](https://travis-ci.org/mkay581/scroll-js.svg?branch=master)](https://travis-ci.org/mkay581/scroll-js)
 [![npm version](https://badge.fury.io/js/scroll-js.svg)](https://www.npmjs.com/package/scroll-js)
-[![Bower version](https://badge.fury.io/bo/scroll-js.svg)](https://badge.fury.io/bo/scroll-js)
 
 # Scroll
 
@@ -35,10 +34,15 @@ lends nicely to these use cases, which is what this Scroll class does.
 * Both non-AMD and AMD compatible
 
 
-## Usage
+## Installation
 
-In order to use the Scroll class, you can use one of the [pre-built files](/dist) if you want to quickly get started. 
-Or, alternatively you can use the [source files](/src) directly if you are using [Browserify](http://browserify.org/).
+You can install as an npm package if using a build system like [Browserify](http://browserify.org/). 
+
+```
+npm install scroll-js --save-dev
+```
+
+## Usage
 
 In addition to the samples below, you can find more in the [examples](/examples) folder.
 

@@ -1,7 +1,7 @@
 'use strict';
-var sinon = require('sinon');
-var assert = require('assert');
-var Scroll = require('../src/scroll');
+import sinon from 'sinon';
+import assert from 'assert';
+import Scroll from '../src/scroll';
 var Promise = require('es6-promise').Promise;
 
 var requestAnimationPolyfill = function () {
