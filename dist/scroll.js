@@ -1,5 +1,5 @@
 /** 
-* scroll-js - v1.3.0.
+* scroll-js - v1.4.0.
 * https://github.com/mkay581/scroll-js.git
 * Copyright 2016 Mark Kennedy. Licensed MIT.
 */
@@ -1251,6 +1251,7 @@ var Scroll = function () {
      * When the scroll is instantiated.
      * @param {HTMLElement} el - The element to scroll (the viewport)
      */
+
     function Scroll(el) {
         _classCallCheck(this, Scroll);
 
@@ -1395,6 +1396,7 @@ var Scroll = function () {
 }();
 
 exports.default = Scroll;
+
 module.exports = exports['default'];
 
 },{"es6-promise":1}],3:[function(require,module,exports){
