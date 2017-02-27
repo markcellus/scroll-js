@@ -6,7 +6,7 @@ let transform = [
                 "es2015"
             ],
             "plugins": [
-                "add-module-exports"
+                "add-module-exports" // to ensure dist files are exported without the "default" property
             ]
         }
     ]
