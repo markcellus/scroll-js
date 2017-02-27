@@ -36,7 +36,27 @@ lends nicely to these use cases, which is what this Scroll class does.
 
 ## Installation
 
-You can install as an npm package if using a build system like [Browserify](http://browserify.org/). 
+You can install as an npm package or use the [distribution files](/dist) in your html files directly.
+
+### Distribution Files
+
+If using the distribution file, you can simply add one of files (un-minified or minified) in the [/dist](/dist) folder directly to your html file.
+
+```html
+<script src="scroll.js"></script>
+
+```
+
+### NPM module
+
+Alternatively, you can install the library as a npm module by running the following command to incorporate into your own build process. 
+Please note that the following is required when using this package as an NPM module:
+
+1. [Browserify](http://browserify.org/), or similar build system that supports CommonJS
+1. [Babel](https://babeljs.io), a library that can compile the latest ES6 syntax along with:
+   * Babel's [es2015 preset](https://github.com/babel/babel/tree/master/packages/babel-preset-es2015) to compile ES2015 to ES5
+   * Babel's [add-module-exports plugin](https://github.com/59naga/babel-plugin-add-module-exports) to support the new ES6 syntax for imports and exports
+   
 
 ```
 npm install scroll-js --save-dev

@@ -31,21 +31,6 @@
     "test": "bt test",
     "start": "bt server"
   },
-  "browserify": {
-    "transform": [
-      [
-        "babelify",
-        {
-          "presets": [
-            "es2015"
-          ],
-          "plugins": [
-            "add-module-exports"
-          ]
-        }
-      ]
-    ]
-  },
   "dependencies": {
     "es6-promise": "^4.0.5"
   },

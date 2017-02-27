@@ -1,10 +1,25 @@
+let transform = [
+    [
+        "babelify",
+        {
+            "presets": [
+                "es2015"
+            ],
+            "plugins": [
+                "add-module-exports"
+            ]
+        }
+    ]
+];
+
 module.exports = {
     build: {
         files: {
             'dist/scroll.js': ['src/scroll.js']
         },
         browserifyOptions: {
-            standalone: 'Scroll'
+            standalone: 'Scroll',
+            transform
         },
         minifyFiles:{
             'dist/scroll-min.js': ['dist/scroll.js']
@@ -13,7 +28,8 @@ module.exports = {
     },
     tests: {
         mocha: {
-            files: ['tests/*.js']
+            files: ['tests/*.js'],
+            transform
         }
     }
 };
