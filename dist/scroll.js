@@ -1,7 +1,7 @@
 /** 
-* scroll-js - v1.4.1.
+* scroll-js - v1.4.2.
 * https://github.com/mkay581/scroll-js.git
-* Copyright 2016 Mark Kennedy. Licensed MIT.
+* Copyright 2017 Mark Kennedy. Licensed MIT.
 */
 
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.Scroll = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
@@ -1353,7 +1353,7 @@ var Scroll = function () {
             var container = this.el,
                 currentContainerScrollYPos = 0,
                 elementScrollYPos = el ? el.offsetTop : 0,
-                errorMsg;
+                errorMsg = void 0;
 
             if (!el) {
                 errorMsg = 'The element passed to Scroll.toElement() was undefined';
@@ -1396,7 +1396,6 @@ var Scroll = function () {
 }();
 
 exports.default = Scroll;
-
 module.exports = exports['default'];
 
 },{"es6-promise":1}],3:[function(require,module,exports){
