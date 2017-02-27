@@ -1,5 +1,4 @@
-'use strict';
-var Promise = require('es6-promise').Promise;
+let Promise = require('es6-promise').Promise;
 
 /**
  * Map to hold easing functions.
@@ -27,7 +26,7 @@ let animMap = {
  * @returns {Function} - Returns the easing function
  */
 let getEasing = (easing) => {
-    var defaultEasing = 'linear',
+    let defaultEasing = 'linear',
         easeFunc = animMap[easing || defaultEasing];
     if (!easeFunc) {
         console.warn('Scroll error: scroller does not support an easing option of ' + easing + '. Using "' + defaultEasing + '" instead');
@@ -65,7 +64,7 @@ export default class Scroll {
      * @return {Promise}
      */
     to (x, y, options) {
-        var elem = this.el,
+        let elem = this.el,
             fromY = elem.scrollTop,
             fromX = elem.scrollLeft;
         // defaults
@@ -78,7 +77,7 @@ export default class Scroll {
          * @param {Number} value - The number value
          */
         let moveElement = (prop, value) => {
-            var el = this.el;
+            let el = this.el;
             el[prop] = value;
             // scroll the html element also for cross-browser compatibility
             // (ie. silly browsers like IE who need the html element to scroll too)
@@ -100,7 +99,7 @@ export default class Scroll {
          */
         let scroll = (el, from, to, prop, startTime, duration, easeFunc, callback) => {
             window.requestAnimationFrame(() => {
-                var currentTime = Date.now(),
+                let currentTime = Date.now(),
                     time = Math.min(1, ((currentTime - startTime) / duration));
 
                 if (from === to) {
@@ -137,7 +136,7 @@ export default class Scroll {
      * @param {Object} [options] - The scroll options
      */
     toElement (el, options) {
-        var container = this.el,
+        let container = this.el,
             currentContainerScrollYPos = 0,
             elementScrollYPos =  el ? el.offsetTop : 0,
             errorMsg;
