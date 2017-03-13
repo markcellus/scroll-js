@@ -24,7 +24,7 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=7.4.0"
+    "node": ">=4.0.0"
   },
   "main": "./index.js",
   "scripts": {
