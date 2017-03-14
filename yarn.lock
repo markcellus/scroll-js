@@ -871,9 +871,9 @@ buffer@^5.0.2:
     base64-js "^1.0.2"
     ieee754 "^1.1.4"
 
-build-tools@^6.0.9:
-  version "6.0.9"
-  resolved "http://npm-repo.socialcodedev.com/build-tools/-/build-tools-6.0.9.tgz#675a2d6d7845cb0aa569d40f561cd627d5302443"
+build-tools@^6.0.11:
+  version "6.0.11"
+  resolved "https://registry.yarnpkg.com/build-tools/-/build-tools-6.0.11.tgz#90bed820f9670dd50abc2699092958d0a8f5c252"
   dependencies:
     async-promises "^0.1.2"
     autoprefixer "^6.3.6"
