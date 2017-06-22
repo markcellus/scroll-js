@@ -36,24 +36,11 @@ let requestAnimationPolyfill = function () {
 };
 
 describe('Scroll', function () {
-    let requestAnimationFrameStub;
 
     before(function () {
         // phantomjs doesnt have requestAnimationFrame implemented... *eye roll* so use polyfill
         requestAnimationPolyfill();
     });
-
-    beforeEach(function () {
-        if (!window.requestAnimationFrame) {
-            requestAnimationFrameStub = sinon.stub(window, 'setTimeout');
-        } else {
-            requestAnimationFrameStub = sinon.stub(window, 'requestAnimationFrame');
-        }
-    });
-
-    afterEach(function () {
-        requestAnimationFrameStub.restore();
-    }) ;
 
     it('should update its element\'s scrollTop property to the same coordinate specified in the second parameter supplied to scroll.to()', function() {
 
@@ -62,6 +49,7 @@ describe('Scroll', function () {
         let testCurrentTime = 1422630923005;
         dateNowStub.onSecondCall().returns(testCurrentTime); // set the current on second animation frame
         dateNowStub.onThirdCall().returns(testCurrentTime + 1000); // set the current animation time enough time forward to simulate a time that will trigger the last frame
+        let requestAnimationFrameStub = sinon.stub(window, 'requestAnimationFrame');
         requestAnimationFrameStub.yields(); // trigger requested animation frame immediately
         let outerEl = document.createElement('div');
         let innerEl = document.createElement('div');
@@ -80,6 +68,7 @@ describe('Scroll', function () {
         return scroll.to(0, testTo).then(function () {
             assert.equal(outerEl.scrollTop, testTo, 'after duration of scroll ends, the scrollTop property of the element was changed to ' + testTo);
             dateNowStub.restore();
+            requestAnimationFrameStub.restore();
             document.body.removeChild(outerEl);
         });
     });
@@ -228,6 +217,7 @@ describe('Scroll', function () {
         let testCurrentTime = 1422630923005;
         dateNowStub.onSecondCall().returns(testCurrentTime); // set the current on second animation frame
         dateNowStub.onThirdCall().returns(testCurrentTime + 1000); // set the current animation time enough time forward to simulate a time that will trigger the last frame
+        let requestAnimationFrameStub = sinon.stub(window, 'requestAnimationFrame');
         requestAnimationFrameStub.yields(); // trigger requested animation frame immediately
 
         // setup element to be "scrollable"
@@ -264,6 +254,7 @@ describe('Scroll', function () {
         return scroll.to(0, testTo).then(function () {
             assert.equal(docEl.scrollTop, testTo, 'after duration of scroll ends, the scrollTop property of the document element was changed to ' + testTo);
             dateNowStub.restore();
+            requestAnimationFrameStub.restore();
             document.body.removeChild(scrollableEl);
             document.body.removeChild(docEl);
         });
