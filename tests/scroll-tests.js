@@ -266,5 +266,77 @@ describe('Scroll', function () {
         });
     });
 
+    it('should update its element\'s scrollTop to value supplied to scroll.to() immediately when duration 0 is used', function(done) {
+        let dateNowStub = sinon.stub(Date, 'now');
+        let currentTime = 1422630923001;
+        dateNowStub.onFirstCall().returns(currentTime); // set the current time for first animation frame
+        currentTime += 5;
+        dateNowStub.onSecondCall().returns(currentTime); // set the current animation time enough time forward to simulate a time that will trigger the last frame
+        currentTime += 1000;
+        dateNowStub.onThirdCall().returns(currentTime); // set the current animation time enough time forward to simulate a time that will trigger the last frame
+        let outerEl = document.createElement('div');
+        let innerEl = document.createElement('div');
+        outerEl.appendChild(innerEl);
+        document.body.appendChild(outerEl);
+        // setup to be "scrollable"
+        outerEl.style.overflow = 'hidden';
+        outerEl.style.height = '150px';
+        // inner element
+        innerEl.style.height = '600px';
+        // setup current scroll position
+        outerEl.scrollTop = 100;
+        let scroll = new Scroll(outerEl);
+        let testTo = 120;
+        scroll.to(0, testTo, {duration: 0});
+        mockRaf.step({count: 3});
+        setTimeout(function () {
+            assert.equal(outerEl.scrollTop, testTo);
+            dateNowStub.restore();
+            document.body.removeChild(outerEl);
+            done();
+        }, 0)
+    });
+
+    it('passing an element to toElement() with a duration of 0 should scroll to that element immediately', function(done) {
+        let dateNowStub = sinon.stub(Date, 'now');
+        let currentTime = 1422630923001;
+        dateNowStub.onFirstCall().returns(currentTime); // set the current time for first animation frame
+        currentTime += 5;
+        dateNowStub.onSecondCall().returns(currentTime); // set the current animation time enough time forward to simulate a time that will trigger the last frame
+        currentTime += 1000;
+        dateNowStub.onThirdCall().returns(currentTime); // set the current animation time enough time forward to simulate a time that will trigger the last frame
+        let outerEl = document.createElement('div');
+        // must set up outer element to not have any offsetTop
+        // value by placing it at the top/left-most area in viewport
+        outerEl.style.position = 'absolute';
+        outerEl.style.left = '0';
+        outerEl.style.top = '0';
+        let innerEl = document.createElement('div');
+        let secondInnerEl = document.createElement('div');
+        outerEl.appendChild(innerEl);
+        outerEl.appendChild(secondInnerEl);
+        document.body.appendChild(outerEl);
+        // setup to be "scrollable"
+        outerEl.style.overflow = 'hidden';
+        outerEl.style.height = '150px';
+        // inner element
+        let innerElHeight = 120;
+        innerEl.style.height = `${innerElHeight}px`;
+        // second element should be underneath
+        secondInnerEl.style.height = '600px';
+        // setup current scroll position
+        outerEl.scrollTop = 0;
+        debugger;
+        let scroll = new Scroll(outerEl);
+        scroll.toElement(secondInnerEl, {duration: 0});
+        mockRaf.step({count: 3});
+        setTimeout(function () {
+            assert.equal(outerEl.scrollTop, innerElHeight);
+            dateNowStub.restore();
+            document.body.removeChild(outerEl);
+            done();
+        }, 0);
+    });
+
 });
 
