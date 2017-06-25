@@ -52,6 +52,27 @@ describe('Scroll', function () {
         window.requestAnimationFrame.restore();
     });
 
+    it('should throw an error when initializing with a value that is not a DOM node', function() {
+        let testValue = true;
+        assert.throws(() => {
+            new Scroll(testValue);
+        }, (e) => {
+            assert.equal(e.message, `Scroll error: element passed to Scroll constructor must be a DOM node, you passed ${testValue}!`);
+            return true;
+        });
+    });
+
+    it('should NOT throw an error when initializing with a value that is a DOM node', function() {
+        assert.doesNotThrow(() => {
+            new Scroll(document.createElement('div'));
+        });
+    });
+
+    it('should set the container el as document.body if nothing is passed to constructor', function() {
+        let scroll = new Scroll();
+        assert.deepEqual(scroll.el, document.body)
+    });
+
     it('should update its element\'s scrollTop property to the same coordinate specified in the second parameter supplied to scroll.to()', function() {
 
         let dateNowStub = sinon.stub(Date, 'now');

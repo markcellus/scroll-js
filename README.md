@@ -107,6 +107,32 @@ scroll.to(0, 300); // scroll to trigger event
 
 ```
 
+## API
+
+### Methods
+
+[Scroll.constructor(\[containerElement:HTMLElement\])](#scroll-constructor)
+
+Constructor initializes an element to be scrollable. Defaults to `document.body`.
+
+[Scroll.to(x:Number, y:Number, \[options:Object\])](#scroll-to)
+
+Scrolls the `containerElement` by the supplied `x` and `y` coordinates.
+
+
+[Scroll.toElement(element:HTMLElement, \[options:Object\])](#scroll-to-element)
+
+Scrolls the `containerElement` until it reaches the specified `element`. 
+
+
+### Options
+
+| Option | Type | Description |
+|--------|--------|--------|
+| `duration`| Number| The number of milliseconds the scroll will take to complete
+| `easing`| String | The easing to use when scrolling
+
+
 
 ## Development
 
