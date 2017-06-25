@@ -187,27 +187,6 @@ describe('Scroll', function () {
         });
     });
 
-    it('passing an element to toElement() that is not inside of the container passed to constructor rejects promise, logs a warning, and does not call to()', function() {
-        let scrollToStub =  sinon.stub(Scroll.prototype, 'to').returns(Promise.resolve());
-        let docEl = document.body;
-        let containerEl = document.createElement('div');
-        let consoleWarnStub = sinon.stub(window.console, 'warn');
-        docEl.appendChild(containerEl);
-        let scroll = new Scroll(containerEl);
-        return scroll.toElement(document.createElement('div'))
-            .catch((e) => {
-                return e;
-            })
-            .then((result) => {
-                scrollToStub.restore();
-                consoleWarnStub.restore();
-                docEl.removeChild(containerEl);
-                assert.ok(result instanceof Error, 'error was thrown');
-                assert.equal(consoleWarnStub.callCount, 1, 'console.warn() was called');
-                assert.equal(scrollToStub.callCount, 0, 'to() was NOT called');
-            });
-    });
-
     it('passing an undefined to toElement() rejects the promise, prints an error, and does not call to()', function() {
         let scrollToStub =  sinon.stub(Scroll.prototype, 'to').returns(Promise.resolve());
         let consoleErrorStub = sinon.stub(window.console, 'error');
