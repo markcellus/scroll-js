@@ -48,10 +48,10 @@ export default class Scroll {
      * @param {HTMLElement} el - The element to scroll (the viewport)
      */
     constructor (el) {
-        if (!el) {
-            console.error('Scroll error: element passed to Scroll constructor is ' + el + '! Bailing...');
+        if (el && !(el instanceof Node)) {
+            throw new Error(`Scroll error: element passed to Scroll constructor must be a DOM node, you passed ${el}!`);
         }
-        this.el = el;
+        this.el = el || document.body;
     }
 
     /**
