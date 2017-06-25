@@ -1,5 +1,5 @@
 /** 
-* scroll-js - v1.6.0.
+* scroll-js - v1.7.1.
 * https://github.com/mkay581/scroll-js.git
 * Copyright 2017 Mark Kennedy. Licensed MIT.
 */
@@ -1454,10 +1454,10 @@ var Scroll = function () {
     function Scroll(el) {
         _classCallCheck(this, Scroll);
 
-        if (!el) {
-            console.error('Scroll error: element passed to Scroll constructor is ' + el + '! Bailing...');
+        if (el && !(el instanceof Node)) {
+            throw new Error('Scroll error: element passed to Scroll constructor must be a DOM node, you passed ' + el + '!');
         }
-        this.el = el;
+        this.el = el || document.body;
     }
 
     /**
@@ -1547,19 +1547,14 @@ var Scroll = function () {
          * @param {Object} [options] - The scroll options
          */
         value: function toElement(el, options) {
-            var container = this.el,
-                currentContainerScrollYPos = 0,
-                elementScrollYPos = el ? el.offsetTop : 0,
-                errorMsg = void 0;
+            var container = this.el;
+            var currentContainerScrollYPos = 0;
+            var elementScrollYPos = el ? el.offsetTop : 0;
+            var errorMsg = void 0;
 
             if (!el) {
                 errorMsg = 'The element passed to Scroll.toElement() was undefined';
                 console.error(errorMsg);
-                return Promise.reject(new Error(errorMsg));
-            }
-            if (!container.contains(el)) {
-                errorMsg = 'Scroll.toElement() was passed an element that does not exist inside the scroll container';
-                console.warn(errorMsg);
                 return Promise.reject(new Error(errorMsg));
             }
 
