@@ -136,19 +136,14 @@ export default class Scroll {
      * @param {Object} [options] - The scroll options
      */
     toElement (el, options) {
-        let container = this.el,
-            currentContainerScrollYPos = 0,
-            elementScrollYPos =  el ? el.offsetTop : 0,
-            errorMsg;
+        let container = this.el;
+        let currentContainerScrollYPos = 0;
+        let elementScrollYPos =  el ? el.offsetTop : 0;
+        let errorMsg;
 
         if (!el) {
             errorMsg = 'The element passed to Scroll.toElement() was undefined';
             console.error(errorMsg);
-            return Promise.reject(new Error(errorMsg));
-        }
-        if (!container.contains(el)) {
-            errorMsg = 'Scroll.toElement() was passed an element that does not exist inside the scroll container';
-            console.warn(errorMsg);
             return Promise.reject(new Error(errorMsg));
         }
 
