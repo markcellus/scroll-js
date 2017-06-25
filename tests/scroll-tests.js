@@ -166,7 +166,7 @@ describe('Scroll', function () {
         });
     });
 
-    it('passing an element to toElement() that is that is not inside of the container passed to constructor rejects the promise with an error', function() {
+    it('passing an element to toElement() that is not inside of the container passed to constructor rejects promise, logs a warning, and does not call to()', function() {
         let scrollToStub =  sinon.stub(Scroll.prototype, 'to').returns(Promise.resolve());
         let docEl = document.body;
         let containerEl = document.createElement('div');
@@ -174,49 +174,51 @@ describe('Scroll', function () {
         docEl.appendChild(containerEl);
         let scroll = new Scroll(containerEl);
         return scroll.toElement(document.createElement('div'))
-            .catch(function (e) {
-                assert.ok(e, 'promise was rejected and error was passed');
-                assert.equal(consoleWarnStub.callCount, 1, 'console.warn() was called');
-                assert.equal(scrollToStub.callCount, 0, 'to() was NOT called');
+            .catch((e) => {
+                return e;
+            })
+            .then((result) => {
                 scrollToStub.restore();
                 consoleWarnStub.restore();
                 docEl.removeChild(containerEl);
+                assert.ok(result instanceof Error, 'error was thrown');
+                assert.equal(consoleWarnStub.callCount, 1, 'console.warn() was called');
+                assert.equal(scrollToStub.callCount, 0, 'to() was NOT called');
             });
     });
 
-    it('passing an undefined to toElement() rejects the promise with an error', function() {
+    it('passing an undefined to toElement() rejects the promise, prints an error, and does not call to()', function() {
         let scrollToStub =  sinon.stub(Scroll.prototype, 'to').returns(Promise.resolve());
-        let docEl = document.body;
-        let containerEl = document.createElement('div');
         let consoleErrorStub = sinon.stub(window.console, 'error');
-        docEl.appendChild(containerEl);
-        let scroll = new Scroll(containerEl);
-        // test
+        let scroll = new Scroll(document.body);
         return scroll.toElement()
-            .catch(function (e) {
-                assert.ok(e, 'promise was rejected and error was passed');
-                assert.equal(consoleErrorStub.callCount, 1, 'console.error() was called');
-                assert.equal(scrollToStub.callCount, 0, 'to() was NOT called');
+            .catch((e) => {
+                return e;
+            })
+            .then((result) => {
                 scrollToStub.restore();
                 consoleErrorStub.restore();
-                docEl.removeChild(containerEl);
+                assert.ok(result instanceof Error, 'error was thrown');
+                assert.equal(consoleErrorStub.callCount, 1, 'console.error() was called');
+                assert.equal(scrollToStub.callCount, 0, 'to() was NOT called');
             });
     });
 
-    it('passing an undefined to toElement() when the container is the document\'s body rejects the promise with an error', function() {
+    it('passing an undefined to toElement() when the container is the document\'s body rejects the promise and does not call to()', function() {
         let scrollToStub =  sinon.stub(Scroll.prototype, 'to').returns(Promise.resolve());
-        let docEl = document.body;
         let consoleErrorStub = sinon.stub(window.console, 'error');
-        let scroll = new Scroll(docEl);
-        // test
+        let scroll = new Scroll(document.body);
         return scroll.toElement()
-            .catch(function (e) {
-                assert.ok(e, 'promise was rejected and error was passed');
-                assert.equal(consoleErrorStub.callCount, 1, 'console.error() was called');
-                assert.equal(scrollToStub.callCount, 0, 'to() was NOT called');
+            .catch((e) => {
+                return e;
+            })
+            .then((result) => {
                 scrollToStub.restore();
                 consoleErrorStub.restore();
-            });
+                assert.ok(result instanceof Error, 'error was thrown');
+                assert.equal(consoleErrorStub.callCount, 1, 'console.error() was called');
+                assert.equal(scrollToStub.callCount, 0, 'to() was NOT called');
+        });
     });
 
     it('scroll.to() should update document.documentElement (html element) scrollTop property if element passed into scroll is document.body', function() {
