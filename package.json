@@ -10,7 +10,10 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "author": "Mark Kennedy <mark@heyimmark.com> (heyimmark.com)",
+  "author": {
+    "name": "Mark Kennedy",
+    "url": "heyimmark.com"
+  },
   "keywords": [
     "scroller",
     "scroll",
