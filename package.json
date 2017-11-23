@@ -29,7 +29,7 @@
     "test": "bt test",
     "start": "bt server",
     "preversion": "npm test",
-    "version": "bt build && banner-cli dist/**/* && git add -A dist",
+    "version": "bt build && git add -A dist",
     "postversion": "git push && git push --tags"
   },
   "browserify": {
