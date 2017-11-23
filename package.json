@@ -6,13 +6,11 @@
     "type": "git",
     "url": "https://github.com/mkay581/scroll-js.git"
   },
+  "homepage": "https://github.com/mkay581/scroll-js",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "author": {
-    "name": "Mark Kennedy",
-    "url": "http://heyimmark.com"
-  },
+  "author": "Mark Kennedy <mark@heyimmark.com> (heyimmark.com)",
   "keywords": [
     "scroller",
     "scroll",
@@ -30,7 +28,9 @@
   "scripts": {
     "test": "bt test",
     "start": "bt server",
-    "prepublish": "bt build"
+    "preversion": "npm test",
+    "version": "bt build && banner-cli dist/**/* && git add -A dist",
+    "postversion": "git push && git push --tags"
   },
   "browserify": {
     "transform": [
