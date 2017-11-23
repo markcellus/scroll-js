@@ -5,19 +5,19 @@ let Promise = require('es6-promise').Promise;
  * @type {Object}
  */
 let animMap = {
-    linear: function (t) { return t },
-    easeInQuad: function (t) { return t*t },
-    easeOutQuad: function (t) { return t*(2-t) },
-    easeInOutQuad: function (t) { return t<.5 ? 2*t*t : -1+(4-2*t)*t },
-    easeInCubic: function (t) { return t*t*t },
-    easeOutCubic: function (t) { return (--t)*t*t+1 },
-    easeInOutCubic: function (t) { return t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1 },
-    easeInQuart: function (t) { return t*t*t*t },
-    easeOutQuart: function (t) { return 1-(--t)*t*t*t },
-    easeInOutQuart: function (t) { return t<.5 ? 8*t*t*t*t : 1-8*(--t)*t*t*t },
-    easeInQuint: function (t) { return t*t*t*t*t },
-    easeOutQuint: function (t) { return 1+(--t)*t*t*t*t },
-    easeInOutQuint: function (t) { return t<.5 ? 16*t*t*t*t*t : 1+16*(--t)*t*t*t*t }
+    linear: function (t) { return t; },
+    easeInQuad: function (t) { return t*t; },
+    easeOutQuad: function (t) { return t*(2-t); },
+    easeInOutQuad: function (t) { return t<.5 ? 2*t*t : -1+(4-2*t)*t; },
+    easeInCubic: function (t) { return t*t*t; },
+    easeOutCubic: function (t) { return (--t)*t*t+1; },
+    easeInOutCubic: function (t) { return t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1; },
+    easeInQuart: function (t) { return t*t*t*t; },
+    easeOutQuart: function (t) { return 1-(--t)*t*t*t; },
+    easeInOutQuart: function (t) { return t<.5 ? 8*t*t*t*t : 1-8*(--t)*t*t*t; },
+    easeInQuint: function (t) { return t*t*t*t*t; },
+    easeOutQuint: function (t) { return 1+(--t)*t*t*t*t; },
+    easeInOutQuint: function (t) { return t<.5 ? 16*t*t*t*t*t : 1+16*(--t)*t*t*t*t; }
 };
 
 /**
@@ -29,7 +29,7 @@ let getEasing = (easing) => {
     let defaultEasing = 'linear',
         easeFunc = animMap[easing || defaultEasing];
     if (!easeFunc) {
-        console.warn('Scroll error: scroller does not support an easing option of ' + easing + '. Using "' + defaultEasing + '" instead');
+        console.debug('Scroll error: scroller does not support an easing option of ' + easing + '. Using "' + defaultEasing + '" instead');
         easeFunc = animMap[easing];
     }
     return easeFunc;
@@ -64,9 +64,8 @@ export default class Scroll {
      * @return {Promise}
      */
     to (x, y, options) {
-        let elem = this.el,
-            fromY = elem.scrollTop,
-            fromX = elem.scrollLeft;
+        const elem = this.el;
+        const fromY = elem.scrollTop;
         // defaults
         options = options || {};
         options.duration = options.duration || 400;

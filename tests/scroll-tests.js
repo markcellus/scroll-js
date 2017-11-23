@@ -17,13 +17,13 @@ let requestAnimationPolyfill = function () {
     }
 
     if (!window.requestAnimationFrame) {
-        window.requestAnimationFrame = function (callback, element) {
+        window.requestAnimationFrame = function (callback) {
             let currTime = new Date().getTime();
             let timeToCall = Math.max(0, 16 - (currTime - lastTime));
             let id = window.setTimeout(function () {
-                    callback(currTime + timeToCall);
-                },
-                timeToCall);
+                callback(currTime + timeToCall);
+            },
+            timeToCall);
             lastTime = currTime + timeToCall;
             return id;
         };
@@ -70,7 +70,7 @@ describe('Scroll', function () {
 
     it('should set the container el as document.body if nothing is passed to constructor', function() {
         let scroll = new Scroll();
-        assert.deepEqual(scroll.el, document.body)
+        assert.deepEqual(scroll.el, document.body);
     });
 
     it('should update its element\'s scrollTop property to the same coordinate specified in the second parameter supplied to scroll.to()', function() {
@@ -218,7 +218,7 @@ describe('Scroll', function () {
                 assert.ok(result instanceof Error, 'error was thrown');
                 assert.equal(consoleErrorStub.callCount, 1, 'console.error() was called');
                 assert.equal(scrollToStub.callCount, 0, 'to() was NOT called');
-        });
+            });
     });
 
     it('scroll.to() should update document.documentElement (html element) scrollTop property if element passed into scroll is document.body', function() {
@@ -296,7 +296,7 @@ describe('Scroll', function () {
             dateNowStub.restore();
             document.body.removeChild(outerEl);
             done();
-        }, 0)
+        }, 0);
     });
 
     it('passing an element to toElement() with a duration of 0 should scroll to that element immediately', function(done) {
@@ -328,7 +328,7 @@ describe('Scroll', function () {
         secondInnerEl.style.height = '600px';
         // setup current scroll position
         outerEl.scrollTop = 0;
-        debugger;
+        
         let scroll = new Scroll(outerEl);
         scroll.toElement(secondInnerEl, {duration: 0});
         mockRaf.step({count: 3});
