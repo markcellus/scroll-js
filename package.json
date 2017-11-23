@@ -10,10 +10,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "author": {
-    "name": "Mark Kennedy",
-    "url": "heyimmark.com"
-  },
+  "author": "Mark Kennedy <mark@heyimmark.com> (heyimmark.com)",
   "keywords": [
     "scroller",
     "scroll",
@@ -32,29 +29,22 @@
     "test": "bt test",
     "start": "bt server",
     "preversion": "npm test",
-    "version": "bt build && git add -A dist",
+    "minify": "uglifyjs dist/scroll.js -o dist/scroll-min.js",
+    "build": "browserify src/scroll.js -o dist/scroll.js -t [ babelify ]  --standalone Scroll && npm minify",
+    "version": "npm build && banner-cli dist/*.js && git add -A dist",
     "postversion": "git push && git push --tags"
   },
-  "browserify": {
-    "transform": [
-      [
-        "babelify",
-        {
-          "presets": [
-            "es2015"
-          ]
-        }
-      ]
-    ]
-  },
   "devDependencies": {
+    "babel-core": "^6.26.0",
     "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-env": "^1.6.1",
     "babelify": "^8.0.0",
-    "browserify": "^14.1.0",
+    "banner-cli": "^0.11.1",
+    "browserify": "^14.5.0",
     "build-tools": "^7.2.3",
     "es6-promise": "^4.0.5",
     "mock-raf": "^1.0.0",
-    "sinon": "^4.1.2"
+    "sinon": "^4.1.2",
+    "uglify-js": "^3.1.10"
   }
 }

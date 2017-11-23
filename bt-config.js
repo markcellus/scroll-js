@@ -3,7 +3,7 @@ let transform = [
         "babelify",
         {
             "presets": [
-                "es2015"
+                "env"
             ],
             "plugins": [
                 "add-module-exports" // to ensure dist files are exported without the "default" property
@@ -19,7 +19,6 @@ module.exports = {
         },
         browserifyOptions: {
             standalone: 'Scroll',
-            transform
         },
         minifyFiles:{
             'dist/scroll-min.js': ['dist/scroll.js']
