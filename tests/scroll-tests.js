@@ -45,7 +45,7 @@ describe('Scroll', function () {
 
     beforeEach(function () {
         mockRaf = createMockRaf();
-        sinon.stub(window, 'requestAnimationFrame', mockRaf.raf);
+        sinon.stub(window, 'requestAnimationFrame').callsFake(mockRaf.raf);
     });
 
     afterEach(function () {
