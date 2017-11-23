@@ -31,7 +31,7 @@
     "preversion": "npm test",
     "minify": "uglifyjs dist/scroll.js -o dist/scroll-min.js",
     "build": "browserify src/scroll.js -o dist/scroll.js -t [ babelify ]  --standalone Scroll && npm minify",
-    "version": "npm build && banner-cli dist/*.js && git add -A dist",
+    "version": "npm build && banner-cli dist/**/* && git add -A dist",
     "postversion": "git push && git push --tags"
   },
   "devDependencies": {

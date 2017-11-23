@@ -1,4 +1,12 @@
 /*!
+ * Scroll-js v1.8.4
+ * https://github.com/mkay581/scroll-js
+ *
+ * Copyright (c) 2017 Mark Kennedy
+ * Licensed under the MIT license
+ */
+
+/*!
  * Scroll-js v1.8.3
  * https://github.com/mkay581/scroll-js
  *
