@@ -26,10 +26,11 @@
   "engines": {
     "node": ">=4.0.0"
   },
-  "main": "./index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "test": "bt test",
-    "start": "bt server"
+    "start": "bt server",
+    "prepublish": "bt build"
   },
   "browserify": {
     "transform": [
@@ -43,15 +44,13 @@
       ]
     ]
   },
-  "dependencies": {
-    "babel-preset-es2015": "^6.16.0",
-    "babelify": "^7.3.0",
-    "browserify": "^14.1.0",
-    "es6-promise": "^4.0.5"
-  },
   "devDependencies": {
+    "babelify": "^7.3.0",
+    "babel-preset-es2015": "^6.16.0",
     "babel-plugin-add-module-exports": "^0.2.1",
+    "browserify": "^14.1.0",
     "build-tools": "^7.2.3",
+    "es6-promise": "^4.0.5",
     "mock-raf": "^1.0.0",
     "sinon": "^2.3.4"
   }
