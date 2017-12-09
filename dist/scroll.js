@@ -1413,7 +1413,7 @@ var getEasing = function getEasing(easing) {
     var defaultEasing = 'linear',
         easeFunc = animMap[easing || defaultEasing];
     if (!easeFunc) {
-        console.warn('Scroll error: scroller does not support an easing option of ' + easing + '. Using "' + defaultEasing + '" instead');
+        console.debug('Scroll error: scroller does not support an easing option of ' + easing + '. Using "' + defaultEasing + '" instead');
         easeFunc = animMap[easing];
     }
     return easeFunc;
@@ -1457,9 +1457,8 @@ var Scroll = function () {
         value: function to(x, y, options) {
             var _this = this;
 
-            var elem = this.el,
-                fromY = elem.scrollTop,
-                fromX = elem.scrollLeft;
+            var elem = this.el;
+            var fromY = elem.scrollTop;
             // defaults
             options = options || {};
             options.duration = options.duration || 400;
