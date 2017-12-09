@@ -24,7 +24,7 @@
   "engines": {
     "node": ">=4.0.0"
   },
-  "main": "./dist/index.js",
+  "main": "./dist/scroll.js",
   "scripts": {
     "test": "eslint src tests && bt test",
     "start": "bt server",
