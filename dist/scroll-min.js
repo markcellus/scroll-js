@@ -1,5 +1,5 @@
 /*!
- * Scroll-js v1.8.7
+ * Scroll-js v1.8.8
  * https://github.com/mkay581/scroll-js
  *
  * Copyright (c) 2017 Mark Kennedy
