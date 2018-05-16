@@ -22,7 +22,7 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=6.4.0"
   },
   "main": "./dist/scroll.js",
   "scripts": {
