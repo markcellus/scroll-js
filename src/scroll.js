@@ -51,7 +51,20 @@ export default class Scroll {
         if (el && !(el instanceof Node)) {
             throw new Error(`Scroll error: element passed to Scroll constructor must be a DOM node, you passed ${el}!`);
         }
-        this.el = el || document.body;
+        this.el = el || this.document.body;
+    }
+
+    /**
+     * Gets the current scroll position of the scroll container.
+     * @returns {number}
+     */
+    get scrollPosition() {
+        const { el, document } = this;
+        if (el === document.body) {
+            return document.body.scrollTop || document.documentElement.scrollTop;
+        } else {
+            return el.scrollTop;
+        }
     }
 
     /**
@@ -64,9 +77,6 @@ export default class Scroll {
      * @return {Promise}
      */
     to (x, y, options) {
-        const elem = this.el;
-        const fromY = elem.scrollTop;
-        // defaults
         options = options || {};
         options.duration = options.duration || 400;
 
@@ -117,7 +127,7 @@ export default class Scroll {
         };
 
         return new Promise((resolve) => {
-            scroll(elem, fromY, y, 'scrollTop', Date.now(), options.duration, getEasing(options.easing), resolve);
+            scroll(this.el, this.scrollPosition, y, 'scrollTop', Date.now(), options.duration, getEasing(options.easing), resolve);
         });
     }
 
@@ -148,7 +158,7 @@ export default class Scroll {
 
         // if the container is the document body or document itself, we'll
         // need a different set of coordinates for accuracy
-        if (container === document.body) {
+        if (container === this.document.body) {
             // using pageYOffset for cross-browser compatibility
             currentContainerScrollYPos = window.pageYOffset;
             // must add containers scroll y position to ensure an absolute value that does not change
