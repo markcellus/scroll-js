@@ -340,5 +340,26 @@ describe('Scroll', function () {
         }, 0);
     });
 
+    it('should return scrollTop property of the document.documentElement when document.body returns 0', function() {
+        const scrollTop = 55;
+        let testDocumentElement = {
+            documentElement: {
+                scrollTop: 55
+            },
+            body: {
+                scrollTop: 0
+            }
+        };
+        let scroll = new Scroll();
+        scroll.el = testDocumentElement.body;
+        Object.defineProperty(scroll, 'document', {
+            get: function () {
+                return testDocumentElement;
+            }
+        });
+
+        assert.equal(scroll.scrollPosition, scrollTop);
+    });
+
 });
 
