@@ -35,17 +35,17 @@
     "postversion": "git push && git push --tags"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
+    "babel-core": "^6.26.3",
     "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-preset-env": "^1.6.1",
+    "babel-preset-env": "^1.7.0",
     "babelify": "^8.0.0",
-    "banner-cli": "^0.11.1",
-    "browserify": "^14.5.0",
+    "banner-cli": "^0.12.0",
+    "browserify": "^16.2.2",
     "build-tools": "^7.2.3",
-    "es6-promise": "^4.0.5",
-    "eslint": "^4.11.0",
+    "es6-promise": "^4.2.4",
+    "eslint": "^4.19.1",
     "mock-raf": "^1.0.0",
-    "sinon": "^4.1.2",
-    "uglify-js": "^3.1.10"
+    "sinon": "^5.0.7",
+    "uglify-js": "^3.3.25"
   }
 }
