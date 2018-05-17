@@ -37,12 +37,13 @@
 </style>
 <body>
 <p>Click <button id="scroll-btn">here</button> to scroll down to the green box.</p>
+<p>Then click on the green box to scroll back up</p>
 <div class="module module-dummy"></div>
 <div class="module module-dummy red"></div>
 <div class="module module-dummy"></div>
 <div class="module module-dummy blue"></div>
 <div class="module module-dummy"></div>
-<div id="green-box" class="module module-dummy green"></div>
+<div class="module module-dummy green"></div>
 <div class="module module-dummy"></div>
 <div class="module module-dummy pink"></div>
 <div class="module module-dummy"></div>
@@ -51,16 +52,23 @@
 <!-- update the path to scroll script below -->
 <script src="../dist/scroll-min.js"></script>
 <script>
-    var scroll = new Scroll(document.body);
-    var scrollButton = document.getElementById("scroll-btn");
-    var greenBox = document.getElementById("green-box");
+  var scroll = new Scroll(document.body);
+  var scrollButton = document.getElementById("scroll-btn");
+  var greenBox = document.querySelector(".green");
+  var pink = document.querySelector(".pink");
 
-    // when the scroll button is clicked, scroll down 2000 pixels
-    scrollButton.onclick = function () {
-        scroll.toElement(greenBox, {duration: 1000}).then(function () {
-            console.log('finished scrolling to green box!');
-        });
-    };
+  // when the scroll button is clicked, scroll down 2000 pixels
+  scrollButton.onclick = function () {
+    scroll.toElement(greenBox, {duration: 1000}).then(function () {
+      console.log('finished scrolling to green box!');
+    });
+  };
+
+  greenBox.onclick = function () {
+    scroll.toElement(pink, {duration: 1000, easing: 'easeInOutCubic'}).then(function () {
+      console.log('finished scrolling up from green box!');
+    });
+  };
 
 </script>
 </body>
