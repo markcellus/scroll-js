@@ -37,7 +37,8 @@
 </style>
 <body>
 <p>Click <button id="scroll-btn">here</button> to scroll down to the green box.</p>
-<p>Then click on the green box to scroll back up</p>
+<p>Then click on the green box to scroll to the pink box</p>
+<p>Then click on the pink box to scroll back up</p>
 <div class="module module-dummy"></div>
 <div class="module module-dummy red"></div>
 <div class="module module-dummy"></div>
@@ -69,6 +70,12 @@
       console.log('finished scrolling up from green box!');
     });
   };
+
+  pink.onclick = function() {
+    scroll.to(0, 0).then(function () {
+      console.log('scrolled back up to top');
+    });
+  }
 
 </script>
 </body>
