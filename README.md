@@ -84,7 +84,7 @@ scroll.toElement(myElement).then(function () {
 
 ### Scroll easing
 
-Easing is also supported simply by passing an options object with easing.
+Easing is also supported simply by passing an options object with easing. Easing strings can be found in the [src/scroll.js file](/src/scroll.js#L8-L20).
 
 ```javascript
 var scroll = new Scroll(document.body);
