@@ -1,6 +1,6 @@
 {
   "name": "scroll-js",
-  "version": "1.9.1",
+  "version": "2.0.0-dev",
   "description": "Light Scroller class that uses native javascript only",
   "repository": {
     "type": "git",
