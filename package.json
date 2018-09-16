@@ -39,7 +39,7 @@
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-preset-env": "^1.6.1",
     "babelify": "^8.0.0",
-    "banner-cli": "^0.11.1",
+    "banner-cli": "0.11.1",
     "browserify": "^14.5.0",
     "build-tools": "^7.2.3",
     "es6-promise": "^4.0.5",
