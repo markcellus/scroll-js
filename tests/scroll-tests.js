@@ -1,8 +1,10 @@
-import sinon from 'sinon';
-import assert from 'assert';
+import sinon from '../node_modules/sinon/pkg/sinon-esm.js';
+import chai from 'chai';
 import Scroll from '../src/scroll';
-let Promise = require('es6-promise').Promise;
-let createMockRaf = require('mock-raf');
+import createMockRaf from 'mock-raf';
+
+const { assert } = chai;
+
 let mockRaf;
 
 let requestAnimationPolyfill = function () {
@@ -56,10 +58,7 @@ describe('Scroll', function () {
         let testValue = true;
         assert.throws(() => {
             new Scroll(testValue);
-        }, (e) => {
-            assert.equal(e.message, `Scroll error: element passed to Scroll constructor must be a DOM node, you passed ${testValue}!`);
-            return true;
-        });
+        }, `Scroll error: element passed to Scroll constructor must be a DOM node, you passed ${testValue}!`);
     });
 
     it('should NOT throw an error when initializing with a value that is a DOM node', function() {

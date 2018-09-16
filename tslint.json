@@ -1,7 +1,8 @@
 {
   "defaultSeverity": "error",
   "extends": [
-    "tslint:recommended"
+    "tslint:latest",
+    "tslint-config-prettier"
   ],
   "jsRules": {},
   "rules": {
@@ -27,7 +28,11 @@
     ],
     "max-line-length": false,
     "interface-name": [true, "never-prefix"],
-    "ordered-imports": false
+    "ordered-imports": false,
+    "object-literal-sort-keys": false,
+    "object-literal-shorthand": false,
+    "only-arrow-functions": false,
+    "no-this-assignment": false
   },
   "rulesDirectory": []
 }

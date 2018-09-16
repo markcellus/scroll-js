@@ -2,7 +2,7 @@
  * Map to hold easing functions.
  * @type {Object}
  */
-let animMap = {
+const animMap = {
     linear: function (t) { return t; },
     easeInQuad: function (t) { return t*t; },
     easeOutQuad: function (t) { return t*(2-t); },
@@ -23,9 +23,9 @@ let animMap = {
  * @param {String} easing - The easing id
  * @returns {Function} - Returns the easing function
  */
-let getEasing = (easing) => {
-    let defaultEasing = 'linear',
-        easeFunc = animMap[easing || defaultEasing];
+const getEasing = (easing) => {
+    const defaultEasing = 'linear';
+    let easeFunc = animMap[easing || defaultEasing];
     if (!easeFunc) {
         console.debug('Scroll error: scroller does not support an easing option of ' + easing + '. Using "' + defaultEasing + '" instead');
         easeFunc = animMap[easing];
@@ -51,6 +51,7 @@ export default class Scroll {
         }
         this.el = el || this.document.body;
     }
+
 
     /**
      * Gets the current scroll position of the scroll container.
@@ -104,10 +105,10 @@ export default class Scroll {
          * @param {Function} easeFunc - The easing function to use
          * @param [callback]
          */
-        let scroll = (el, from, to, prop, startTime, duration, easeFunc, callback) => {
+        const scroll = (el, from, to, prop, startTime, duration, easeFunc, callback) => {
             window.requestAnimationFrame(() => {
-                let currentTime = Date.now(),
-                    time = Math.min(1, ((currentTime - startTime) / duration));
+                const currentTime = Date.now();
+                const time = Math.min(1, ((currentTime - startTime) / duration));
 
                 if (from === to) {
                     return callback ? callback() : null;

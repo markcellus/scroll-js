@@ -13,7 +13,8 @@ module.exports = function(config) {
             },
             plugins: [
                 require('rollup-plugin-node-resolve')(),
-                require('rollup-plugin-typescript')()
+                require('rollup-plugin-typescript')(),
+                require('rollup-plugin-commonjs')()
             ]
         },
         reporters: ['progress'],
