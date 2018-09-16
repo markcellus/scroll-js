@@ -18,34 +18,46 @@
     "scrolljs",
     "scroll js",
     "scrollTo",
-    "scroll events"
+    "scroll events",
+    "scrollintoview",
+    "scroll into view",
+    "window scroll",
+    "window scroll polyfill",
+    "scroll into view polyfill"
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=6.4.0"
+    "node": ">=8.9.0"
   },
   "main": "./dist/scroll.js",
   "scripts": {
-    "test": "eslint src tests && bt test",
-    "start": "bt server",
+    "test": "karma start karma.conf.js && tslint src/**/*",
+    "test-server": "karma start karma.conf.js --single-run=false",
     "preversion": "npm test",
-    "minify": "uglifyjs dist/scroll.js -o dist/scroll-min.js",
-    "build-dist": "rm -rf dist/* && browserify src/scroll.js -o dist/scroll.js -t [ babelify ]  --standalone Scroll && npm run minify",
+    "minify": "uglifyjs dist/scroll.js -o dist/scroll.min.js",
+    "build-dist": "rm -rf dist/* && rollup -c && npm run minify",
     "version": "npm run build-dist && banner-cli dist/*.js && git add -A dist",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "start-dev": "rollup -c --watch"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-preset-env": "^1.6.1",
-    "babelify": "^8.0.0",
     "banner-cli": "0.11.1",
-    "browserify": "^14.5.0",
-    "build-tools": "^7.2.3",
     "es6-promise": "^4.0.5",
-    "eslint": "^4.11.0",
     "mock-raf": "^1.0.0",
-    "sinon": "^4.1.2",
+    "chai": "^4.1.2",
+    "eslint": "^5.5.0",
+    "karma": "^3.0.0",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-mocha": "^1.3.0",
+    "karma-rollup-preprocessor": "^6.0.1",
+    "mocha": "^5.2.0",
+    "rollup": "^0.65.2",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-typescript": "^0.8.1",
+    "sinon": "^6.2.0",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.3",
     "uglify-es": "^3.3.9"
   }
 }

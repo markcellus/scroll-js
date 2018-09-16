@@ -2,10 +2,10 @@ import typescript from 'rollup-plugin-typescript';
 import resolve from 'rollup-plugin-node-resolve';
 
 export default {
-    input: 'src/router.ts',
+    input: 'src/scroll.ts',
     output: {
         format: 'esm',
-        file: 'dist/router.js'
+        file: 'dist/scroll.js'
     },
     plugins: [
         resolve(),

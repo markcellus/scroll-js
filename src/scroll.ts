@@ -1,5 +1,3 @@
-let Promise = require('es6-promise').Promise;
-
 /**
  * Map to hold easing functions.
  * @type {Object}
