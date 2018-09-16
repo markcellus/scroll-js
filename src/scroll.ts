@@ -1,22 +1,136 @@
-/**
- * Map to hold easing functions.
- * @type {Object}
- */
-const animMap = {
-    linear: function (t) { return t; },
-    easeInQuad: function (t) { return t*t; },
-    easeOutQuad: function (t) { return t*(2-t); },
-    easeInOutQuad: function (t) { return t<.5 ? 2*t*t : -1+(4-2*t)*t; },
-    easeInCubic: function (t) { return t*t*t; },
-    easeOutCubic: function (t) { return (--t)*t*t+1; },
-    easeInOutCubic: function (t) { return t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1; },
-    easeInQuart: function (t) { return t*t*t*t; },
-    easeOutQuart: function (t) { return 1-(--t)*t*t*t; },
-    easeInOutQuart: function (t) { return t<.5 ? 8*t*t*t*t : 1-8*(--t)*t*t*t; },
-    easeInQuint: function (t) { return t*t*t*t*t; },
-    easeOutQuint: function (t) { return 1+(--t)*t*t*t*t; },
-    easeInOutQuint: function (t) { return t<.5 ? 16*t*t*t*t*t : 1+16*(--t)*t*t*t*t; }
-};
+export interface ScrollToOptions extends ScrollOptions {
+    top?: number;
+    duration?: number;
+    easing?: string
+}
+
+export function scrollTo(el: Element | Window, x: number, y: number, options?: ScrollToOptions) {
+
+    if (!(el instanceof Element) && !(el instanceof Window)) {
+        throw new Error(`element passed to scrollTo() must be either the window or a DOM element, you passed ${el}!`);
+    }
+    const document = getDocument();
+    if (el === document.body) {
+        el = document.documentElement;
+    }
+
+    options = sanitizeScrollOptions(options);
+
+    const moveElement = (prop, value) => {
+        el[prop] = value;
+        // scroll the html element also for cross-browser compatibility
+        // (ie. silly browsers like IE who need the html element to scroll too)
+        document.documentElement[prop] = value;
+    };
+
+    const scroll = (from: number, to: number, prop: string, startTime: number, duration: number | undefined = 300, easeFunc: (time: number) => number, callback: () => void) => {
+        window.requestAnimationFrame(() => {
+            const currentTime = Date.now();
+            const time = Math.min(1, ((currentTime - startTime) / duration));
+
+            if (from === to) {
+                return callback ? callback() : null;
+            }
+
+            moveElement(prop, (easeFunc(time) * (to - from)) + from);
+
+            /* prevent scrolling, if already there, or at end */
+            if (time < 1) {
+                scroll(el[prop], to, prop, startTime, duration, easeFunc, callback);
+            } else if (callback) {
+                callback();
+            }
+        });
+    };
+
+    const currentScrollPosition = getScrollPosition(el, 'y');
+    const scrollProperty = getScrollPropertyByElement(el, 'y');
+    return new Promise((resolve) => {
+        scroll(currentScrollPosition, y, scrollProperty, Date.now(), options.duration, getEasing(options.easing), resolve);
+    });
+}
+
+export function scrollIntoView (element: HTMLElement, scroller?: Element, options?: ScrollIntoViewOptions) {
+    if (scroller && !(scroller instanceof Element)) {
+        options = scroller;
+        scroller = undefined
+    }
+    options = sanitizeScrollOptions(options);
+    scroller = scroller || getDocument().body;
+    let currentContainerScrollYPos = 0;
+    let elementScrollYPos =  element ? element.offsetTop : 0;
+    let errorMsg;
+
+    if (!element) {
+        errorMsg = 'The element passed to scrollIntoView() was undefined';
+        throw new Error(errorMsg);
+    }
+
+    // if the container is the document body or document itself, we'll
+    // need a different set of coordinates for accuracy
+    if (scroller === getDocument().body) {
+        // using pageYOffset for cross-browser compatibility
+        currentContainerScrollYPos = window.pageYOffset;
+        // must add containers scroll y position to ensure an absolute value that does not change
+        elementScrollYPos = element.getBoundingClientRect().top + currentContainerScrollYPos;
+    }
+
+    return scrollTo(scroller, 0, elementScrollYPos, options);
+}
+
+
+function getScrollPropertyByElement(el: Element | Window, axis: 'y' | 'x') {
+    const props = {
+        window: {
+            y: 'scrollY',
+            x: 'scrollX'
+        },
+        element: {
+            y: 'scrollTop',
+            x: 'scrollLeft'
+        }
+    };
+    const document = getDocument();
+    if (el === document.body) {
+        return props.element[axis];
+    } else if (el instanceof Window) {
+        return props.window[axis];
+    } else {
+        return props.element[axis];
+    }
+}
+
+function sanitizeScrollOptions(options?: ScrollToOptions): ScrollToOptions {
+    if (!options) {
+        return {};
+    }
+    if (options.behavior === 'smooth') {
+        options.easing = 'ease-in-out';
+        options.duration = 300;
+    }
+    if (options.behavior === 'instant' || options.behavior === 'auto') {
+        options.duration = 0;
+    }
+    return options;
+}
+
+function getScrollPosition(el: Element | Window, axis: 'y' | 'x'): number {
+
+    const document = getDocument();
+    const prop = getScrollPropertyByElement(el, axis);
+    if (el === document.body) {
+        return document.body[prop] || document.documentElement[prop];
+    } else if (el instanceof Window) {
+        return window[prop];
+    } else {
+        return el[prop];
+    }
+}
+
+
+function getDocument (): HTMLDocument {
+    return document;
+}
 
 /**
  * Gets an easing function based on supplied easing string.
@@ -25,6 +139,16 @@ const animMap = {
  */
 const getEasing = (easing) => {
     const defaultEasing = 'linear';
+    /**
+     * Map to hold easing functions.
+     * @type {Object}
+     */
+    const animMap = {
+        linear: function (t) { return t; },
+        'ease-in': function (t) { return t*t; },
+        'ease-out': function (t) { return t*(2-t); },
+        'ease-in-out': function (t) { return t<.5 ? 2*t*t : -1+(4-2*t)*t; },
+    };
     let easeFunc = animMap[easing || defaultEasing];
     if (!easeFunc) {
         console.debug('Scroll error: scroller does not support an easing option of ' + easing + '. Using "' + defaultEasing + '" instead');
@@ -32,144 +156,3 @@ const getEasing = (easing) => {
     }
     return easeFunc;
 };
-
-/**
- * Scroll class.
- * @class Scroll
- * @param {object} options - Options to pass
- * @param {HTMLElement} options.el - The element to apply scroll to
- */
-export default class Scroll {
-
-    /**
-     * When the scroll is instantiated.
-     * @param {HTMLElement} el - The element to scroll (the viewport)
-     */
-    constructor (el) {
-        if (el && !(el instanceof Node)) {
-            throw new Error(`Scroll error: element passed to Scroll constructor must be a DOM node, you passed ${el}!`);
-        }
-        this.el = el || this.document.body;
-    }
-
-
-    /**
-     * Gets the current scroll position of the scroll container.
-     * @returns {number}
-     */
-    get scrollPosition() {
-        const { el, document } = this;
-        if (el === document.body) {
-            return document.body.scrollTop || document.documentElement.scrollTop;
-        } else {
-            return el.scrollTop;
-        }
-    }
-
-    /**
-     * Scrolls the element until it's scroll properties match the coordinates provided.
-     * @param {Number} x - The pixel along the horizontal axis of the element that you want displayed in the upper left.
-     * @param {Number} y - The pixel along the vertical axis of the element that you want displayed in the upper left.
-     * @param {Object} [options] - Scroll options
-     * @param {Number} [options.duration]- The amount of time for the animation
-     * @param {string} [options.easing] - The easing function to use
-     * @return {Promise}
-     */
-    to (x, y, options) {
-        options = options || {};
-        options.duration = options.duration || 400;
-
-        /**
-         * Sets element's property to a value.
-         * @param {string} prop - The property to set
-         * @param {Number} value - The number value
-         */
-        let moveElement = (prop, value) => {
-            let el = this.el;
-            el[prop] = value;
-            // scroll the html element also for cross-browser compatibility
-            // (ie. silly browsers like IE who need the html element to scroll too)
-            if (el === this.document.body) {
-                this.document.documentElement[prop] = value;
-            }
-        };
-
-        /**
-         * Does a bit of calculating and scrolls an element.
-         * @param {HTMLElement} el - The element to be scrolled
-         * @param {Number} from - The number of where to scroll from
-         * @param {Number} to - The number of where to scroll to
-         * @param {string} prop - The property to animate
-         * @param {Number} startTime - The timestamp of when the animation should start
-         * @param {Number} duration - The amount of time for the animation
-         * @param {Function} easeFunc - The easing function to use
-         * @param [callback]
-         */
-        const scroll = (el, from, to, prop, startTime, duration, easeFunc, callback) => {
-            window.requestAnimationFrame(() => {
-                const currentTime = Date.now();
-                const time = Math.min(1, ((currentTime - startTime) / duration));
-
-                if (from === to) {
-                    return callback ? callback() : null;
-                }
-
-                moveElement(prop, (easeFunc(time) * (to - from)) + from);
-
-                /* prevent scrolling, if already there, or at end */
-                if (time < 1) {
-                    scroll(el, el[prop], to, prop, startTime, duration, easeFunc, callback);
-                } else if (callback) {
-                    callback();
-                }
-            });
-        };
-
-        return new Promise((resolve) => {
-            scroll(this.el, this.scrollPosition, y, 'scrollTop', Date.now(), options.duration, getEasing(options.easing), resolve);
-        });
-    }
-
-    /**
-     * Returns document element
-     * @returns {HTMLDocument}
-     */
-    get document () {
-        return document;
-    }
-
-    /**
-     * Scroll to an element.
-     * @param {HTMLElement} el - The element to scroll to.
-     * @param {Object} [options] - The scroll options
-     */
-    toElement (el, options) {
-        let container = this.el;
-        let currentContainerScrollYPos = 0;
-        let elementScrollYPos =  el ? el.offsetTop : 0;
-        let errorMsg;
-
-        if (!el) {
-            errorMsg = 'The element passed to Scroll.toElement() was undefined';
-            console.error(errorMsg);
-            return Promise.reject(new Error(errorMsg));
-        }
-
-        // if the container is the document body or document itself, we'll
-        // need a different set of coordinates for accuracy
-        if (container === this.document.body) {
-            // using pageYOffset for cross-browser compatibility
-            currentContainerScrollYPos = window.pageYOffset;
-            // must add containers scroll y position to ensure an absolute value that does not change
-            elementScrollYPos = el.getBoundingClientRect().top + currentContainerScrollYPos;
-        }
-
-        return this.to(0, elementScrollYPos, options);
-    }
-
-    /**
-     * Use this to clean up the DOM when done.
-     */
-    destroy () {}
-
-}

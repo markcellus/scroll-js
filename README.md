@@ -57,8 +57,13 @@ Alternatively, you can simply download one of the distribution files (un-minifie
 ## Usage
 
 ```js
+// es6 import
 import { scrollTo } from 'scroll-js';
-const element = document.getElementById('hero')
+
+// commonjs
+const scroll = require('scroll-js');
+const { scrollTo } = scroll;
+
 scrollTo(window, 0, 500).then(function () {
    // window has scrolled 500 pixels down the page
 });
@@ -97,11 +102,12 @@ scrollToElement(myElement, document.body).then(function () {
 
 ### Scroll easing
 
-Easing is also supported simply by passing an options object with easing. Easing strings can be found in the [src/scroll.ts file](/src/scroll.ts#L8-L20).
+Easing is also supported simply by passing an options object with easing. Easing strings can be found in the 
+[src/scroll.ts file](/src/scroll.ts#L8-L20).
 
 ```javascript
 import { scrollTo } from 'scroll-js';
-scrollTo(document.body, 0, 200, {behavior: 'smooth'}).then(function () {
+scrollTo(document.body, 0, 200, {behavior: 'smooth', easing: 'ease-in-out'}).then(function () {
     // scrolled down 200 pixels smoothly
 });
 
@@ -109,6 +115,8 @@ scrollTo(document.body, 0, 200, {behavior: 'smooth'}).then(function () {
 
 Please see [window.scrollTo](https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollto) to understand the 
 scrolling options that can be provided.
+
+The easing 
 
 ### Detect scroll events
 
@@ -123,6 +131,22 @@ window.addEventListener('scroll', function() {
 scrollTo(window, 0, 300); // scroll to trigger event
 
 ```
+
+## ScrollOptions
+
+A set of options can be passed to each of the scroll methods. Most of these are synonymous with the [Scroll 
+options](https://drafts.csswg.org/cssom-view/#dictdef-scrolloptions) of the CSS specification, but some additional ones
+are provided by this library until supported natively.
+
+| Option | Type | Description |
+|--------|--------|--------|
+| `behavior`| String| The type of [scroll behavior](https://drafts.csswg.org/cssom-view/#enumdef-scrollbehavior) which can be set to `auto`, `instant`, or `smooth`. This is the recommended option since this is already natively supported.  __If this is set, all other options are ignored__.
+| `duration`| Number| The number of milliseconds the scroll will take to complete
+| `easing`| String | The easing to use when scrolling. Only keyword values of the 
+[animation-timing-function](https://drafts.csswg.org/css-animations/#animation-timing-function) are supported. But 
+passing function values will eventually be supported also (ie. `cubic-bezier(0.1, 0.7, 1.0, 0.1)`, `steps(4, end)`, etc)
+
+
 
 ## Development
 
