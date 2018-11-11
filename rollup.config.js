@@ -8,11 +8,7 @@ export default {
         format: 'esm',
         file: 'dist/scroll.js'
     },
-    plugins: [
-        resolve(),
-        typescript(),
-        commonjs()
-    ],
+    plugins: [resolve(), typescript(), commonjs()],
     watch: {
         include: 'src/**'
     }

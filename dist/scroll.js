@@ -1,19 +1,10 @@
-/*!
- * Scroll-js v2.0.0
- * https://github.com/mkay581/scroll-js
- *
- * Copyright (c) 2018 Mark Kennedy
- * Licensed under the MIT license
- */
-
 function scrollTo(el, options) {
     if (!(el instanceof Element) && !(el instanceof Window)) {
-        throw new Error(`element passed to scrollTo() must be either the window or a DOM element, you passed ${el}!`);
+        throw new Error(
+            `element passed to scrollTo() must be either the window or a DOM element, you passed ${el}!`
+        );
     }
     const document = utils.getDocument();
-    if (el === document.body) {
-        el = document.documentElement;
-    }
     options = sanitizeScrollOptions(options);
     const moveElement = (prop, value) => {
         el[prop] = value;
@@ -21,7 +12,15 @@ function scrollTo(el, options) {
         // (ie. silly browsers like IE who need the html element to scroll too)
         document.documentElement[prop] = value;
     };
-    const scroll = (from, to, prop, startTime, duration = 300, easeFunc, callback) => {
+    const scroll = (
+        from,
+        to,
+        prop,
+        startTime,
+        duration = 300,
+        easeFunc,
+        callback
+    ) => {
         window.requestAnimationFrame(() => {
             const currentTime = Date.now();
             const time = Math.min(1, (currentTime - startTime) / duration);
@@ -31,9 +30,16 @@ function scrollTo(el, options) {
             moveElement(prop, easeFunc(time) * (to - from) + from);
             /* prevent scrolling, if already there, or at end */
             if (time < 1) {
-                scroll(el[prop], to, prop, startTime, duration, easeFunc, callback);
-            }
-            else if (callback) {
+                scroll(
+                    el[prop],
+                    to,
+                    prop,
+                    startTime,
+                    duration,
+                    easeFunc,
+                    callback
+                );
+            } else if (callback) {
                 callback();
             }
         });
@@ -41,7 +47,15 @@ function scrollTo(el, options) {
     const currentScrollPosition = getScrollPosition(el, 'y');
     const scrollProperty = getScrollPropertyByElement(el, 'y');
     return new Promise(resolve => {
-        scroll(currentScrollPosition, options.top, scrollProperty, Date.now(), options.duration, getEasing(options.easing), resolve);
+        scroll(
+            currentScrollPosition,
+            options.top,
+            scrollProperty,
+            Date.now(),
+            options.duration,
+            getEasing(options.easing),
+            resolve
+        );
     });
 }
 function scrollIntoView(element, scroller, options) {
@@ -72,11 +86,14 @@ function scrollIntoView(element, scroller, options) {
 }
 function validateElement(element) {
     if (element === undefined) {
-        const errorMsg = 'The element passed to scrollIntoView() was undefined.';
+        const errorMsg =
+            'The element passed to scrollIntoView() was undefined.';
         throw new Error(errorMsg);
     }
     if (!(element instanceof HTMLElement)) {
-        throw new Error(`The element passed to scrollIntoView() must be a valid element. You passed ${element}.`);
+        throw new Error(
+            `The element passed to scrollIntoView() must be a valid element. You passed ${element}.`
+        );
     }
 }
 function getScrollPropertyByElement(el, axis) {
@@ -93,11 +110,9 @@ function getScrollPropertyByElement(el, axis) {
     const document = utils.getDocument();
     if (el === document.body) {
         return props.element[axis];
-    }
-    else if (el instanceof Window) {
+    } else if (el instanceof Window) {
         return props.window[axis];
-    }
-    else {
+    } else {
         return props.element[axis];
     }
 }
@@ -119,11 +134,9 @@ function getScrollPosition(el, axis) {
     const prop = getScrollPropertyByElement(el, axis);
     if (el === document.body) {
         return document.body[prop] || document.documentElement[prop];
-    }
-    else if (el instanceof Window) {
+    } else if (el instanceof Window) {
         return window[prop];
-    }
-    else {
+    } else {
         return el[prop];
     }
 }
@@ -133,41 +146,30 @@ const utils = {
         return document;
     }
 };
-/**
- * Gets an easing function based on supplied easing string.
- * @param {String} easing - The easing id
- * @returns {Function} - Returns the easing function
- */
+const easingMap = {
+    linear(t) {
+        return t;
+    },
+    'ease-in'(t) {
+        return t * t;
+    },
+    'ease-out'(t) {
+        return t * (2 - t);
+    },
+    'ease-in-out'(t) {
+        return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    }
+};
 const getEasing = easing => {
     const defaultEasing = 'linear';
-    /**
-     * Map to hold easing functions.
-     * @type {Object}
-     */
-    const animMap = {
-        linear(t) {
-            return t;
-        },
-        'ease-in'(t) {
-            return t * t;
-        },
-        'ease-out'(t) {
-            return t * (2 - t);
-        },
-        'ease-in-out'(t) {
-            return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-        }
-    };
-    let easeFunc = animMap[easing || defaultEasing];
+    const easeFunc = easingMap[easing || defaultEasing];
     if (!easeFunc) {
-        console.warn('Scroll error: scroller does not support an easing option of ' +
-            easing +
-            '. Using "' +
-            defaultEasing +
-            '" instead');
-        easeFunc = animMap[easing];
+        const options = Object.keys(easingMap).join(',');
+        throw new Error(
+            `Scroll error: scroller does not support an easing option of "${easing}". Supported options are ${options}`
+        );
     }
     return easeFunc;
 };
 
-export { scrollTo, scrollIntoView, utils };
+export { scrollTo, scrollIntoView, utils, easingMap };

@@ -98,7 +98,7 @@ scrollIntoView(myElement, document.body, {behavior: 'instant'}).then(function ()
 ### Scroll easing
 
 Easing is also supported simply by passing an options object with easing. Easing strings can be found in the 
-[src/scroll.ts file](/src/scroll.ts#L189-L201).
+[src/scroll.ts file](/src/scroll.ts#L1).
 
 ```javascript
 import { scrollTo } from 'scroll-js';
@@ -161,6 +161,17 @@ A set of [ScrollIntoViewOptions](https://drafts.csswg.org/cssom-view/#dictdef-sc
 |--------|--------|--------|
 | `behavior`| String| The type of [scroll behavior](https://drafts.csswg.org/cssom-view/#enumdef-scrollbehavior) which can be set to `auto`, `instant`, or `smooth`. Defaults to `auto`.
 
+
+### Examples
+
+Code samples showing how to use this package can be found in the [examples](examples) folder. To run them, pull down this project
+and
+
+```bash
+npm run start-server
+```
+
+Which will make the examples available at http://localhost:9383/examples/.
 
 ## Development
 

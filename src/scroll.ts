@@ -1,6 +1,8 @@
+type EasingOptions = 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out';
+
 export interface ScrollToCustomOptions extends ScrollToOptions {
     duration?: number;
-    easing?: string;
+    easing?: EasingOptions;
 }
 
 export function scrollTo(
@@ -179,41 +181,37 @@ export const utils = {
     }
 };
 
-/**
- * Gets an easing function based on supplied easing string.
- * @param {String} easing - The easing id
- * @returns {Function} - Returns the easing function
- */
-const getEasing = easing => {
+type EasingFunction = (t: number) => number;
+
+interface EasingFunctions {
+    linear: EasingFunction;
+    'ease-in': EasingFunction;
+    'ease-out': EasingFunction;
+    'ease-in-out': EasingFunction;
+}
+export const easingMap: EasingFunctions = {
+    linear(t: number) {
+        return t;
+    },
+    'ease-in'(t: number) {
+        return t * t;
+    },
+    'ease-out'(t: number) {
+        return t * (2 - t);
+    },
+    'ease-in-out'(t: number) {
+        return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    }
+};
+
+const getEasing = (easing: EasingOptions): EasingFunction => {
     const defaultEasing = 'linear';
-    /**
-     * Map to hold easing functions.
-     * @type {Object}
-     */
-    const animMap = {
-        linear(t: number) {
-            return t;
-        },
-        'ease-in'(t: number) {
-            return t * t;
-        },
-        'ease-out'(t: number) {
-            return t * (2 - t);
-        },
-        'ease-in-out'(t: number) {
-            return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-        }
-    };
-    let easeFunc = animMap[easing || defaultEasing];
+    const easeFunc = easingMap[easing || defaultEasing];
     if (!easeFunc) {
-        console.warn(
-            'Scroll error: scroller does not support an easing option of ' +
-                easing +
-                '. Using "' +
-                defaultEasing +
-                '" instead'
+        const options = Object.keys(easingMap).join(',');
+        throw new Error(
+            `Scroll error: scroller does not support an easing option of "${easing}". Supported options are ${options}`
         );
-        easeFunc = animMap[easing];
     }
     return easeFunc;
 };

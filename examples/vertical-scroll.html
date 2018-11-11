@@ -36,31 +36,30 @@
 
 </style>
 <body>
-<p>Click <button id="scroll-btn">here</button> and watch the page scroll down 2000 pixels using an easing effect.</p>
-<div class="module module-dummy"></div>
-<div class="module module-dummy red"></div>
-<div class="module module-dummy"></div>
-<div class="module module-dummy blue"></div>
-<div class="module module-dummy"></div>
-<div class="module module-dummy green"></div>
-<div class="module module-dummy"></div>
-<div class="module module-dummy pink"></div>
-<div class="module module-dummy"></div>
-<div class="module module-dummy orange"></div>
+    <p>Click <button id="scroll-btn">here</button> and watch the page scroll down 2000 pixels using an easing effect.</p>
+    <div class="module module-dummy"></div>
+    <div class="module module-dummy red"></div>
+    <div class="module module-dummy"></div>
+    <div class="module module-dummy blue"></div>
+    <div class="module module-dummy"></div>
+    <div class="module module-dummy green"></div>
+    <div class="module module-dummy"></div>
+    <div class="module module-dummy pink"></div>
+    <div class="module module-dummy"></div>
+    <div class="module module-dummy orange"></div>
 
-<!-- update the path to scroll script below -->
-<script src="../dist/scroll-min.js"></script>
-<script>
-    var scroll = new Scroll(document.body);
-    var scrollButton = document.getElementById("scroll-btn");
+    <!-- update the path to scroll script below -->
+    <script type="module">
+        import { scrollTo } from '../dist/scroll.min.js';
+        const scrollButton = document.getElementById("scroll-btn");
 
-    // when the scroll button is clicked, scroll down 2000 pixels
-    scrollButton.onclick = function () {
-        scroll.to(0, 2000, {duration: 1000, easing: 'easeInOutCubic'}).then(function () {
-            console.log('finished scrolling!');
-        });
-    };
+        // when the scroll button is clicked, scroll down 2000 pixels
+        scrollButton.onclick = function () {
+            scrollTo(document.body, {top: 2000, duration: 1000, easing: 'ease-out'}).then(function () {
+                console.log('finished scrolling!');
+            });
+        };
 
-</script>
+    </script>
 </body>
 </html>

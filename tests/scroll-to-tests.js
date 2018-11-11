@@ -1,6 +1,6 @@
 import sinon from '../node_modules/sinon/pkg/sinon-esm.js';
 import chai from 'chai';
-import { scrollTo, utils } from '../src/scroll';
+import { scrollTo, utils, easingMap } from '../src/scroll';
 import createMockRaf from 'mock-raf';
 
 const { assert } = chai;
@@ -40,6 +40,14 @@ describe('scroll', function() {
         assert.doesNotThrow(() => {
             scrollTo(document.createElement('div'));
         });
+    });
+
+    it('should throw an error when attempting to scroll with an unsupported easing function', function() {
+        const options = Object.keys(easingMap).join(',');
+        const easing = 'invalidEasing';
+        assert.throws(() => {
+            scrollTo(document.createElement('div'), { easing });
+        }, `Scroll error: scroller does not support an easing option of "${easing}". Supported options are ${options}!`);
     });
 
     it("should update the window's scrollTop property when nothing is passed as the container", async function() {
