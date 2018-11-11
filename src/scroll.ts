@@ -15,9 +15,6 @@ export async function scrollTo(
         );
     }
     const document = utils.getDocument();
-    if (el === document.body) {
-        el = document.documentElement;
-    }
 
     options = sanitizeScrollOptions(options);
 
