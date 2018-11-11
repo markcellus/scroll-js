@@ -1,8 +1,16 @@
-function scrollTo(el, x, y, options) {
+/*!
+ * Scroll-js v2.0.0
+ * https://github.com/mkay581/scroll-js
+ *
+ * Copyright (c) 2018 Mark Kennedy
+ * Licensed under the MIT license
+ */
+
+function scrollTo(el, options) {
     if (!(el instanceof Element) && !(el instanceof Window)) {
         throw new Error(`element passed to scrollTo() must be either the window or a DOM element, you passed ${el}!`);
     }
-    const document = getDocument();
+    const document = utils.getDocument();
     if (el === document.body) {
         el = document.documentElement;
     }
@@ -16,11 +24,11 @@ function scrollTo(el, x, y, options) {
     const scroll = (from, to, prop, startTime, duration = 300, easeFunc, callback) => {
         window.requestAnimationFrame(() => {
             const currentTime = Date.now();
-            const time = Math.min(1, ((currentTime - startTime) / duration));
+            const time = Math.min(1, (currentTime - startTime) / duration);
             if (from === to) {
                 return callback ? callback() : null;
             }
-            moveElement(prop, (easeFunc(time) * (to - from)) + from);
+            moveElement(prop, easeFunc(time) * (to - from) + from);
             /* prevent scrolling, if already there, or at end */
             if (time < 1) {
                 scroll(el[prop], to, prop, startTime, duration, easeFunc, callback);
@@ -32,33 +40,44 @@ function scrollTo(el, x, y, options) {
     };
     const currentScrollPosition = getScrollPosition(el, 'y');
     const scrollProperty = getScrollPropertyByElement(el, 'y');
-    return new Promise((resolve) => {
-        scroll(currentScrollPosition, y, scrollProperty, Date.now(), options.duration, getEasing(options.easing), resolve);
+    return new Promise(resolve => {
+        scroll(currentScrollPosition, options.top, scrollProperty, Date.now(), options.duration, getEasing(options.easing), resolve);
     });
 }
 function scrollIntoView(element, scroller, options) {
+    validateElement(element);
     if (scroller && !(scroller instanceof Element)) {
         options = scroller;
         scroller = undefined;
     }
-    options = sanitizeScrollOptions(options);
-    scroller = scroller || getDocument().body;
+    const { top, duration, easing } = sanitizeScrollOptions(options);
+    scroller = scroller || utils.getDocument().body;
     let currentContainerScrollYPos = 0;
     let elementScrollYPos = element ? element.offsetTop : 0;
-    let errorMsg;
-    if (!element) {
-        errorMsg = 'The element passed to scrollIntoView() was undefined';
-        throw new Error(errorMsg);
-    }
     // if the container is the document body or document itself, we'll
     // need a different set of coordinates for accuracy
-    if (scroller === getDocument().body) {
+    if (scroller === utils.getDocument().body) {
         // using pageYOffset for cross-browser compatibility
         currentContainerScrollYPos = window.pageYOffset;
         // must add containers scroll y position to ensure an absolute value that does not change
-        elementScrollYPos = element.getBoundingClientRect().top + currentContainerScrollYPos;
+        elementScrollYPos =
+            element.getBoundingClientRect().top + currentContainerScrollYPos;
     }
-    return scrollTo(scroller, 0, elementScrollYPos, options);
+    return scrollTo(scroller, {
+        top: elementScrollYPos,
+        left: 0,
+        duration,
+        easing
+    });
+}
+function validateElement(element) {
+    if (element === undefined) {
+        const errorMsg = 'The element passed to scrollIntoView() was undefined.';
+        throw new Error(errorMsg);
+    }
+    if (!(element instanceof HTMLElement)) {
+        throw new Error(`The element passed to scrollIntoView() must be a valid element. You passed ${element}.`);
+    }
 }
 function getScrollPropertyByElement(el, axis) {
     const props = {
@@ -71,7 +90,7 @@ function getScrollPropertyByElement(el, axis) {
             x: 'scrollLeft'
         }
     };
-    const document = getDocument();
+    const document = utils.getDocument();
     if (el === document.body) {
         return props.element[axis];
     }
@@ -96,7 +115,7 @@ function sanitizeScrollOptions(options) {
     return options;
 }
 function getScrollPosition(el, axis) {
-    const document = getDocument();
+    const document = utils.getDocument();
     const prop = getScrollPropertyByElement(el, axis);
     if (el === document.body) {
         return document.body[prop] || document.documentElement[prop];
@@ -108,32 +127,47 @@ function getScrollPosition(el, axis) {
         return el[prop];
     }
 }
-function getDocument() {
-    return document;
-}
+const utils = {
+    // we're really just exporting this so that tests can mock the document.documentElement
+    getDocument() {
+        return document;
+    }
+};
 /**
  * Gets an easing function based on supplied easing string.
  * @param {String} easing - The easing id
  * @returns {Function} - Returns the easing function
  */
-const getEasing = (easing) => {
+const getEasing = easing => {
     const defaultEasing = 'linear';
     /**
      * Map to hold easing functions.
      * @type {Object}
      */
     const animMap = {
-        linear: function (t) { return t; },
-        'ease-in': function (t) { return t * t; },
-        'ease-out': function (t) { return t * (2 - t); },
-        'ease-in-out': function (t) { return t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t; },
+        linear(t) {
+            return t;
+        },
+        'ease-in'(t) {
+            return t * t;
+        },
+        'ease-out'(t) {
+            return t * (2 - t);
+        },
+        'ease-in-out'(t) {
+            return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+        }
     };
     let easeFunc = animMap[easing || defaultEasing];
     if (!easeFunc) {
-        console.debug('Scroll error: scroller does not support an easing option of ' + easing + '. Using "' + defaultEasing + '" instead');
+        console.warn('Scroll error: scroller does not support an easing option of ' +
+            easing +
+            '. Using "' +
+            defaultEasing +
+            '" instead');
         easeFunc = animMap[easing];
     }
     return easeFunc;
 };
 
-export { scrollTo, scrollIntoView };
+export { scrollTo, scrollIntoView, utils };
