@@ -34,8 +34,7 @@
     "test": "karma start karma.conf.js && npm run lint",
     "test-server": "karma start karma.conf.js --single-run=false",
     "preversion": "npm test",
-    "minify": "uglifyjs dist/scroll.js -o dist/scroll.min.js",
-    "build-dist": "rm -rf dist/* && rollup -c && npm run minify",
+    "build-dist": "rm -rf dist/* && rollup -c",
     "version": "npm run build-dist && banner-cli dist/*.js && git add -A dist",
     "postversion": "git push && git push --tags",
     "start": "rollup -c --watch",
@@ -57,11 +56,11 @@
     "rollup": "^0.66.0",
     "rollup-plugin-commonjs": "^9.1.6",
     "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-terser": "^3.0.0",
     "rollup-plugin-typescript": "^1.0.0",
     "sinon": "^6.2.0",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
-    "typescript": "^3.0.3",
-    "uglify-js": "^3.4.9"
+    "typescript": "^3.0.3"
   }
 }
