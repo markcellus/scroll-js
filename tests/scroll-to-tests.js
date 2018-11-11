@@ -28,26 +28,23 @@ describe('scroll', function() {
         dateNowStub.restore();
     });
 
-    it('should throw an error when attempting to scroll anything that is not a DOM element', function() {
-        [true, false, {}].forEach(testValue => {
-            assert.throws(() => {
-                scrollTo(testValue);
-            }, `element passed to scrollTo() must be either the window or a DOM element, you passed ${testValue}!`);
-        });
+    it('should throw an error when attempting to scroll anything that is not a DOM element', async function() {
+        return Promise.all(
+            [true, false, {}].map(async testValue => {
+                return await scrollTo(testValue).catch(e => {
+                    assert.equal(
+                        e.message,
+                        `element passed to scrollTo() must be either the window or a DOM element, you passed ${testValue}!`
+                    );
+                });
+            })
+        );
     });
 
     it('should NOT throw an error when initializing with a value that is a DOM element', function() {
         assert.doesNotThrow(() => {
             scrollTo(document.createElement('div'));
         });
-    });
-
-    it('should throw an error when attempting to scroll with an unsupported easing function', function() {
-        const options = Object.keys(easingMap).join(',');
-        const easing = 'invalidEasing';
-        assert.throws(() => {
-            scrollTo(document.createElement('div'), { easing });
-        }, `Scroll error: scroller does not support an easing option of "${easing}". Supported options are ${options}!`);
     });
 
     it("should update the window's scrollTop property when nothing is passed as the container", async function() {
@@ -158,5 +155,17 @@ describe('scroll', function() {
             document.body.removeChild(outerEl);
             done();
         }, 0);
+    });
+
+    it('should throw an error when attempting to scroll with an unsupported easing function', function() {
+        const options = Object.keys(easingMap).join(',');
+        const easing = 'invalidEasing';
+        let outerEl = document.createElement('div');
+        return scrollTo(outerEl, { easing }).catch(e => {
+            assert.equal(
+                e.message,
+                `Scroll error: scroller does not support an easing option of "${easing}". Supported options are ${options}`
+            );
+        });
     });
 });

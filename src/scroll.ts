@@ -5,7 +5,7 @@ export interface ScrollToCustomOptions extends ScrollToOptions {
     easing?: EasingOptions;
 }
 
-export function scrollTo(
+export async function scrollTo(
     el: Element | Window,
     options?: ScrollToCustomOptions
 ) {
