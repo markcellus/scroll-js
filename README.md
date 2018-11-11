@@ -26,7 +26,7 @@ lends nicely to these use cases, which is what this Scroll class does.
 ## Benefits
 
 * pure, native javascript
-* returns [Promises](https://www.ecma-international.org/ecma-262/6.0/#sec-promise-objects) so you can do things when scrolling completes 
+* returns [Promises](https://www.ecma-international.org/ecma-262/6.0/#sec-promise-objects) so you can do things when scrolling completes (`async`/`await` is supported)
 * no css transitions, animations or absolute positioning hacks
 * manually scroll to any portion of a page and detect when done
 * safe to use on the `document.body` element
@@ -50,21 +50,16 @@ npm install scroll-js --save-dev
 Alternatively, you can simply download one of the distribution files (un-minified or minified version) in the [/dist](/dist) folder and reference them directly in your html file.
 
 ```html
-<script src="scroll.ts"></script>
+<script src="node_modules/scroll-js/dist/scroll.js"></script>
 
 ```
 
 ## Usage
 
 ```js
-// es6 import
 import { scrollTo } from 'scroll-js';
 
-// commonjs
-const scroll = require('scroll-js');
-const { scrollTo } = scroll;
-
-scrollTo(window, 0, 500).then(function () {
+scrollTo(window, {top: 500}).then(function () {
    // window has scrolled 500 pixels down the page
 });
 ```
@@ -83,7 +78,7 @@ The following example scrolls the window (document body).
 
 ```javascript
 import { scrollTo } from 'scroll-js';
-scrollTo(document.body, 0, 500).then(function () {
+scrollTo(document.body, {top: 500}).then(function () {
    //scrolling down 500 pixels has completed!
 });
 
@@ -92,9 +87,9 @@ scrollTo(document.body, 0, 500).then(function () {
 ### Scroll to an element
 
 ```javascript
-import { scrollToElement } from 'scroll-js';
+import { scrollIntoView } from 'scroll-js';
 var myElement = document.body.getElementsByClassName('my-element')[0];
-scrollToElement(myElement, document.body).then(function () {
+scrollIntoView(myElement, document.body, {behavior: 'instant'}).then(function () {
     // done scrolling document's body to show myElement
 });
 
@@ -103,11 +98,11 @@ scrollToElement(myElement, document.body).then(function () {
 ### Scroll easing
 
 Easing is also supported simply by passing an options object with easing. Easing strings can be found in the 
-[src/scroll.ts file](/src/scroll.ts#L8-L20).
+[src/scroll.ts file](/src/scroll.ts#L189-L201).
 
 ```javascript
 import { scrollTo } from 'scroll-js';
-scrollTo(document.body, 0, 200, {behavior: 'smooth', easing: 'ease-in-out'}).then(function () {
+scrollTo(document.body, {easing: 'ease-in-out'}).then(function () {
     // scrolled down 200 pixels smoothly
 });
 
@@ -116,36 +111,55 @@ scrollTo(document.body, 0, 200, {behavior: 'smooth', easing: 'ease-in-out'}).the
 Please see [window.scrollTo](https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollto) to understand the 
 scrolling options that can be provided.
 
-The easing 
-
 ### Detect scroll events
 
 Listen in on native scroll events the same way you would if a user was scrolling with a mouse or touch event.
 
 ```javascript
 import { scrollTo } from 'scroll-js';
-var scroll = new Scroll(document.body);
 window.addEventListener('scroll', function() {
   // scrolling!
 })
-scrollTo(window, 0, 300); // scroll to trigger event
+scrollTo(window, {top: 300}); // scroll to trigger event
 
 ```
 
-## ScrollOptions
+## API Documentation
 
-A set of options can be passed to each of the scroll methods. Most of these are synonymous with the [Scroll 
-options](https://drafts.csswg.org/cssom-view/#dictdef-scrolloptions) of the CSS specification, but some additional ones
-are provided by this library until supported natively.
+### scrollTo(element, options)
+
+| Option | Type | Description |
+|--------|--------|--------|
+| `element`| `HTMLElement`| The element to scroll
+| `options`| `ScrollToOptions`| A set of scroll options (see writeup below) (i.e. `{behavior: 'smooth', top: '20', left: '0''}`)
+
+### scrollTo Options
+
+The `scrollTo` method allows a set of options which are synonymous with the 
+[ScrollToOptions](https://drafts.csswg.org/cssom-view/#dictdef-scrolltooptions) of the CSS specification, 
+but some additional ones are provided by this library until supported natively.
 
 | Option | Type | Description |
 |--------|--------|--------|
 | `behavior`| String| The type of [scroll behavior](https://drafts.csswg.org/cssom-view/#enumdef-scrollbehavior) which can be set to `auto`, `instant`, or `smooth`. This is the recommended option since this is already natively supported.  __If this is set, all other options are ignored__.
 | `duration`| Number| The number of milliseconds the scroll will take to complete
-| `easing`| String | The easing to use when scrolling. Only keyword values of the 
-[animation-timing-function](https://drafts.csswg.org/css-animations/#animation-timing-function) are supported. But 
-passing function values will eventually be supported also (ie. `cubic-bezier(0.1, 0.7, 1.0, 0.1)`, `steps(4, end)`, etc)
+| `easing`| String | The easing to use when scrolling. Only keyword values of the [animation-timing-function](https://drafts.csswg.org/css-animations/#animation-timing-function) are supported. But passing function values will eventually be supported also (ie. `cubic-bezier(0.1, 0.7, 1.0, 0.1)`, `steps(4, end)`, etc)
 
+## scrollIntoView(element, [scroller], [options])
+
+| Option | Type | Description |
+|--------|--------|--------|
+| `element`| `HTMLElement`| The element to scroll into the viewport
+| `scroller`| `HTMLElement`| The element to be scrolled (defaults to `document.body`)
+| `options`| `ScrollIntoViewOptions`| A set of scroll options to scroll the element into view (see writeup below) (i.e. `{behavior: 'smooth', top: '20', left: '0''}`)
+
+### scrollIntoView Options
+
+A set of [ScrollIntoViewOptions](https://drafts.csswg.org/cssom-view/#dictdef-scrollintoviewoptions) can be passed to the `scrollIntoView` method.
+
+| Option | Type | Description |
+|--------|--------|--------|
+| `behavior`| String| The type of [scroll behavior](https://drafts.csswg.org/cssom-view/#enumdef-scrollbehavior) which can be set to `auto`, `instant`, or `smooth`. Defaults to `auto`.
 
 
 ## Development

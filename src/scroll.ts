@@ -1,5 +1,4 @@
 export interface ScrollToOptions extends ScrollOptions {
-    top?: number;
     duration?: number;
     easing?: string;
 }
