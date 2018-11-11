@@ -80,16 +80,10 @@ describe('scroll', function() {
         document.body.removeChild(outerEl);
     });
 
-    it('scrollTo() should update document.documentElement (html element) scrollTop property if element passed into scroll is document.body', function() {
+    it('scrollTo() should update document.documentElement (html element) scrollTop property if passed into scroll', function() {
         // setup element to be "scrollable"
-        let bodyElement = document.body;
-        bodyElement.style.overflow = 'hidden';
-        bodyElement.style.height = '150px';
-        // document.body.appendChild(bodyElement);
-        let innerEl = document.createElement('div');
-        innerEl.style.height = '600px';
-        bodyElement.appendChild(innerEl);
-
+        let bodyElement = document.createElement('div');
+        bodyElement.scrollTop = 0;
         // setup documentElement to be "scrollable"
         let docEl = document.createElement('div');
         docEl.style.overflow = 'hidden';
@@ -98,13 +92,14 @@ describe('scroll', function() {
         let docInnerEl = document.createElement('div');
         docInnerEl.style.height = '600px';
         docEl.appendChild(docInnerEl);
+        document.body.appendChild(docEl);
         let testTo = 120;
         let testDocumentElement = {
             documentElement: docEl,
             body: bodyElement
         };
         sinon.stub(utils, 'getDocument').returns(testDocumentElement);
-        let scrollPromise = scrollTo(bodyElement, { top: testTo });
+        let scrollPromise = scrollTo(docEl, { top: testTo });
         mockRaf.step({ count: 3 });
         return scrollPromise.then(function() {
             assert.equal(docEl.scrollTop, testTo);

@@ -14,16 +14,8 @@ export async function scrollTo(
             `element passed to scrollTo() must be either the window or a DOM element, you passed ${el}!`
         );
     }
-    const document = utils.getDocument();
 
     options = sanitizeScrollOptions(options);
-
-    const moveElement = (prop, value) => {
-        el[prop] = value;
-        // scroll the html element also for cross-browser compatibility
-        // (ie. silly browsers like IE who need the html element to scroll too)
-        document.documentElement[prop] = value;
-    };
 
     const scroll = (
         from: number,
@@ -42,12 +34,12 @@ export async function scrollTo(
                 return callback ? callback() : null;
             }
 
-            moveElement(prop, easeFunc(time) * (to - from) + from);
+            setScrollPosition(el, easeFunc(time) * (to - from) + from);
 
             /* prevent scrolling, if already there, or at end */
             if (time < 1) {
                 scroll(
-                    el[prop],
+                    getScrollPosition(el),
                     to,
                     prop,
                     startTime,
@@ -61,8 +53,8 @@ export async function scrollTo(
         });
     };
 
-    const currentScrollPosition = getScrollPosition(el, 'y');
-    const scrollProperty = getScrollPropertyByElement(el, 'y');
+    const currentScrollPosition = getScrollPosition(el);
+    const scrollProperty = getScrollPropertyByElement(el);
     return new Promise(resolve => {
         scroll(
             currentScrollPosition,
@@ -86,14 +78,15 @@ export function scrollIntoView(
         options = scroller;
         scroller = undefined;
     }
-    const { top, duration, easing } = sanitizeScrollOptions(options);
+    const { duration, easing } = sanitizeScrollOptions(options);
     scroller = scroller || utils.getDocument().body;
     let currentContainerScrollYPos = 0;
     let elementScrollYPos = element ? element.offsetTop : 0;
+    const document = utils.getDocument();
 
     // if the container is the document body or document itself, we'll
     // need a different set of coordinates for accuracy
-    if (scroller === utils.getDocument().body) {
+    if (scroller === document.body || scroller === document.documentElement) {
         // using pageYOffset for cross-browser compatibility
         currentContainerScrollYPos = window.pageYOffset;
         // must add containers scroll y position to ensure an absolute value that does not change
@@ -122,7 +115,7 @@ function validateElement(element?: HTMLElement) {
     }
 }
 
-function getScrollPropertyByElement(el: Element | Window, axis: 'y' | 'x') {
+function getScrollPropertyByElement(el: Element | Window) {
     const props = {
         window: {
             y: 'scrollY',
@@ -133,6 +126,7 @@ function getScrollPropertyByElement(el: Element | Window, axis: 'y' | 'x') {
             x: 'scrollLeft'
         }
     };
+    const axis = 'y';
     const document = utils.getDocument();
     if (el === document.body) {
         return props.element[axis];
@@ -155,19 +149,30 @@ function sanitizeScrollOptions(
     }
     if (options.behavior === 'instant' || options.behavior === 'auto') {
         options.duration = 0;
+        options.easing = 'linear';
     }
     return options;
 }
 
-function getScrollPosition(el: Element | Window, axis: 'y' | 'x'): number {
+function getScrollPosition(el: Element | Window): number {
     const document = utils.getDocument();
-    const prop = getScrollPropertyByElement(el, axis);
-    if (el === document.body) {
+    const prop = getScrollPropertyByElement(el);
+    if (el === document.body || el === document.documentElement) {
         return document.body[prop] || document.documentElement[prop];
     } else if (el instanceof Window) {
         return window[prop];
     } else {
         return el[prop];
+    }
+}
+
+function setScrollPosition(el: Element | Window, value: number) {
+    const prop = getScrollPropertyByElement(el);
+    if (el === document.body || el === document.documentElement) {
+        document.body[prop] = value;
+        document.documentElement[prop] = value;
+    } else {
+        el[prop] = value;
     }
 }
 
