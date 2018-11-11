@@ -4,9 +4,10 @@
 # Scroll
 
 A light-weight library that will allow you to scroll any html element using native javascript. 
-This library also aims to be a polyfill for the [window.scroll](https://developer.mozilla.org/en-US/docs/Web/API/Window/scroll) 
-and allows you to scroll using animations that are based loosely on the
- [`scrollOptions` of the CSS DOM specification](https://drafts.csswg.org/cssom-view/#dictdef-scrolloptions). 
+In addition to providing extra scrolling features, this library also aims to be a polyfill for the [scrollTo](https://developer.mozilla.org/en-US/docs/Web/API/Window/scroll) 
+and [scrollIntoView](https://drafts.csswg.org/cssom-view/#dom-element-scrollintoview) APIs and allows you to scroll 
+using animations that are based loosely on the
+ [`scrollOptions` of the DOM specification](https://drafts.csswg.org/cssom-view/#dictdef-scrolloptions). 
  Manipulates native scroll properties so that native events fire appropriately and uses browser's animation frames for 
  fast and smooth rendering.
 
@@ -44,7 +45,7 @@ lends nicely to these use cases, which is what this Scroll class does.
 You can install the library as a npm module by running the following command: 
 
 ```
-npm install scroll-js --save-dev
+npm i scroll-js
 ```
 
 Alternatively, you can simply download one of the distribution files (un-minified or minified version) in the [/dist](/dist) folder and reference them directly in your html file.
@@ -120,7 +121,7 @@ import { scrollTo } from 'scroll-js';
 window.addEventListener('scroll', function() {
   // scrolling!
 })
-scrollTo(window, {top: 300}); // scroll to trigger event
+scrollTo(document.body, {top: 300}); // scroll to trigger event
 
 ```
 
