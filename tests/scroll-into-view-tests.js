@@ -173,7 +173,7 @@ describe('scrollIntoView', function() {
         secondInnerEl.style.height = '600px';
         // setup current scroll position
         outerEl.scrollTop = 0;
-        scrollIntoView(secondInnerEl, outerEl, { duration: 0 });
+        scrollIntoView(secondInnerEl, outerEl, { behavior: 'smooth' });
         mockRaf.step({ count: 3 });
         setTimeout(function() {
             assert.equal(outerEl.scrollTop, innerElHeight);

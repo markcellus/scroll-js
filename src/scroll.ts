@@ -1,13 +1,11 @@
-export interface ScrollToOptions extends ScrollOptions {
+export interface ScrollToCustomOptions extends ScrollToOptions {
     duration?: number;
     easing?: string;
 }
 
 export function scrollTo(
     el: Element | Window,
-    x: number,
-    y: number,
-    options?: ScrollToOptions
+    options?: ScrollToCustomOptions
 ) {
     if (!(el instanceof Element) && !(el instanceof Window)) {
         throw new Error(
@@ -69,7 +67,7 @@ export function scrollTo(
     return new Promise(resolve => {
         scroll(
             currentScrollPosition,
-            y,
+            options.top,
             scrollProperty,
             Date.now(),
             options.duration,
@@ -89,7 +87,7 @@ export function scrollIntoView(
         options = scroller;
         scroller = undefined;
     }
-    options = sanitizeScrollOptions(options);
+    const { top, duration, easing } = sanitizeScrollOptions(options);
     scroller = scroller || utils.getDocument().body;
     let currentContainerScrollYPos = 0;
     let elementScrollYPos = element ? element.offsetTop : 0;
@@ -104,7 +102,12 @@ export function scrollIntoView(
             element.getBoundingClientRect().top + currentContainerScrollYPos;
     }
 
-    return scrollTo(scroller, 0, elementScrollYPos, options);
+    return scrollTo(scroller, {
+        top: elementScrollYPos,
+        left: 0,
+        duration,
+        easing
+    });
 }
 
 function validateElement(element?: HTMLElement) {
@@ -141,7 +144,9 @@ function getScrollPropertyByElement(el: Element | Window, axis: 'y' | 'x') {
     }
 }
 
-function sanitizeScrollOptions(options?: ScrollToOptions): ScrollToOptions {
+function sanitizeScrollOptions(
+    options?: ScrollToCustomOptions
+): ScrollToCustomOptions {
     if (!options) {
         return {};
     }
