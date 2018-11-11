@@ -1,38 +1,22 @@
 {
   "defaultSeverity": "error",
   "extends": [
-    "tslint:latest",
+    "tslint:recommended",
     "tslint-config-prettier"
   ],
-  "jsRules": {},
   "rules": {
-    "indent": [
-      true,
-      "spaces",
-      4
-    ],
     "member-access": false,
-    "linebreak-style": [
-      true,
-      "LF"
-    ],
+    "curly": false,
+    "typedef": [true, "parameter", "member-variable-declaration"],
+    "interface-name": [true, "never-prefix"],
+    "object-literal-sort-keys": false,
     "quotemark": [
       true,
       "single"
     ],
-    "semicolon": false,
-    "no-console": [
-      true,
-      "log",
-      "error"
-    ],
-    "max-line-length": false,
-    "interface-name": [true, "never-prefix"],
     "ordered-imports": false,
-    "object-literal-sort-keys": false,
-    "object-literal-shorthand": false,
-    "only-arrow-functions": false,
-    "no-this-assignment": false
-  },
-  "rulesDirectory": []
+    "no-console": [true, "log", "error"],
+    "indent": [true, "spaces", 4],
+    "max-line-length": [true, 120]
+  }
 }

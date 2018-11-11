@@ -31,14 +31,15 @@
   },
   "main": "./dist/scroll.js",
   "scripts": {
-    "test": "karma start karma.conf.js && tslint src/**/*",
+    "test": "karma start karma.conf.js && npm run lint",
     "test-server": "karma start karma.conf.js --single-run=false",
     "preversion": "npm test",
     "minify": "uglifyjs dist/scroll.js -o dist/scroll.min.js",
     "build-dist": "rm -rf dist/* && rollup -c && npm run minify",
     "version": "npm run build-dist && banner-cli dist/*.js && git add -A dist",
     "postversion": "git push && git push --tags",
-    "start-dev": "rollup -c --watch"
+    "start-dev": "rollup -c --watch",
+    "lint": "tslint src/**/*"
   },
   "devDependencies": {
     "banner-cli": "0.11.1",
