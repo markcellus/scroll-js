@@ -1,5 +1,5 @@
 /*!
- * Scroll-js v2.0.1
+ * Scroll-js v2.0.2
  * https://github.com/mkay581/scroll-js
  *
  * Copyright (c) 2018 Mark Kennedy
@@ -35,14 +35,7 @@ function scrollTo(el, options) {
         if (!(el instanceof Element) && !(el instanceof Window)) {
             throw new Error(`element passed to scrollTo() must be either the window or a DOM element, you passed ${el}!`);
         }
-        const document = utils.getDocument();
         options = sanitizeScrollOptions(options);
-        const moveElement = (prop, value) => {
-            el[prop] = value;
-            // scroll the html element also for cross-browser compatibility
-            // (ie. silly browsers like IE who need the html element to scroll too)
-            document.documentElement[prop] = value;
-        };
         const scroll = (from, to, prop, startTime, duration = 300, easeFunc, callback) => {
             window.requestAnimationFrame(() => {
                 const currentTime = Date.now();
@@ -50,18 +43,18 @@ function scrollTo(el, options) {
                 if (from === to) {
                     return callback ? callback() : null;
                 }
-                moveElement(prop, easeFunc(time) * (to - from) + from);
+                setScrollPosition(el, easeFunc(time) * (to - from) + from);
                 /* prevent scrolling, if already there, or at end */
                 if (time < 1) {
-                    scroll(el[prop], to, prop, startTime, duration, easeFunc, callback);
+                    scroll(getScrollPosition(el), to, prop, startTime, duration, easeFunc, callback);
                 }
                 else if (callback) {
                     callback();
                 }
             });
         };
-        const currentScrollPosition = getScrollPosition(el, 'y');
-        const scrollProperty = getScrollPropertyByElement(el, 'y');
+        const currentScrollPosition = getScrollPosition(el);
+        const scrollProperty = getScrollPropertyByElement(el);
         return new Promise(resolve => {
             scroll(currentScrollPosition, options.top, scrollProperty, Date.now(), options.duration, getEasing(options.easing), resolve);
         });
@@ -73,13 +66,14 @@ function scrollIntoView(element, scroller, options) {
         options = scroller;
         scroller = undefined;
     }
-    const { top, duration, easing } = sanitizeScrollOptions(options);
+    const { duration, easing } = sanitizeScrollOptions(options);
     scroller = scroller || utils.getDocument().body;
     let currentContainerScrollYPos = 0;
     let elementScrollYPos = element ? element.offsetTop : 0;
+    const document = utils.getDocument();
     // if the container is the document body or document itself, we'll
     // need a different set of coordinates for accuracy
-    if (scroller === utils.getDocument().body) {
+    if (scroller === document.body || scroller === document.documentElement) {
         // using pageYOffset for cross-browser compatibility
         currentContainerScrollYPos = window.pageYOffset;
         // must add containers scroll y position to ensure an absolute value that does not change
@@ -102,7 +96,7 @@ function validateElement(element) {
         throw new Error(`The element passed to scrollIntoView() must be a valid element. You passed ${element}.`);
     }
 }
-function getScrollPropertyByElement(el, axis) {
+function getScrollPropertyByElement(el) {
     const props = {
         window: {
             y: 'scrollY',
@@ -113,6 +107,7 @@ function getScrollPropertyByElement(el, axis) {
             x: 'scrollLeft'
         }
     };
+    const axis = 'y';
     const document = utils.getDocument();
     if (el === document.body) {
         return props.element[axis];
@@ -134,13 +129,14 @@ function sanitizeScrollOptions(options) {
     }
     if (options.behavior === 'instant' || options.behavior === 'auto') {
         options.duration = 0;
+        options.easing = 'linear';
     }
     return options;
 }
-function getScrollPosition(el, axis) {
+function getScrollPosition(el) {
     const document = utils.getDocument();
-    const prop = getScrollPropertyByElement(el, axis);
-    if (el === document.body) {
+    const prop = getScrollPropertyByElement(el);
+    if (el === document.body || el === document.documentElement) {
         return document.body[prop] || document.documentElement[prop];
     }
     else if (el instanceof Window) {
@@ -148,6 +144,16 @@ function getScrollPosition(el, axis) {
     }
     else {
         return el[prop];
+    }
+}
+function setScrollPosition(el, value) {
+    const prop = getScrollPropertyByElement(el);
+    if (el === document.body || el === document.documentElement) {
+        document.body[prop] = value;
+        document.documentElement[prop] = value;
+    }
+    else {
+        el[prop] = value;
     }
 }
 const utils = {
