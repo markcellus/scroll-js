@@ -17,7 +17,7 @@ module.exports = function(config) {
         ],
         rollupPreprocessor: {
             output: {
-                format: 'umd',
+                format: 'umd', // we must output to UMD until karma-chrome-launcher supports 'esm'
                 sourcemap: 'inline',
                 name: 'scroll'
             },
