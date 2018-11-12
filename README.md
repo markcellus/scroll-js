@@ -146,7 +146,7 @@ but some additional ones are provided by this library until supported natively.
 | `duration`| Number| The number of milliseconds the scroll will take to complete
 | `easing`| String | The easing to use when scrolling. Only keyword values of the [animation-timing-function](https://drafts.csswg.org/css-animations/#animation-timing-function) are supported. But passing function values will eventually be supported also (ie. `cubic-bezier(0.1, 0.7, 1.0, 0.1)`, `steps(4, end)`, etc)
 
-## scrollIntoView(element, [scroller], [options])
+### scrollIntoView(element, [scroller], [options])
 
 | Option | Type | Description |
 |--------|--------|--------|
@@ -163,7 +163,7 @@ A set of [ScrollIntoViewOptions](https://drafts.csswg.org/cssom-view/#dictdef-sc
 | `behavior`| String| The type of [scroll behavior](https://drafts.csswg.org/cssom-view/#enumdef-scrollbehavior) which can be set to `auto`, `instant`, or `smooth`. Defaults to `auto`.
 
 
-### Examples
+## Examples
 
 Code samples showing how to use this package can be found in the [examples](examples) folder. To run them, pull down this project
 and
