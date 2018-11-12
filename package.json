@@ -40,17 +40,21 @@
     "postversion": "git push && git push --tags",
     "start": "rollup -c --watch",
     "lint": "tslint src/**/*",
-    "start-server": "http-server ./ -p 9383"
+    "start-server": "http-server ./ -p 9383",
+    "coveralls": "cat .coverage/lcov.info | coveralls"
   },
   "devDependencies": {
     "banner-cli": "0.11.1",
     "chai": "^4.2.0",
+    "coveralls": "^3.0.2",
     "es6-promise": "^4.0.5",
     "http-server": "^0.11.1",
     "karma": "^3.1.1",
     "karma-chrome-launcher": "^2.2.0",
+    "karma-coverage": "^1.1.2",
     "karma-mocha": "^1.3.0",
     "karma-rollup-preprocessor": "^6.1.0",
+    "karma-typescript-preprocessor": "^0.4.0",
     "mocha": "^5.2.0",
     "mock-raf": "^1.0.1",
     "rollup": "^0.67.1",

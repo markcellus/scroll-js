@@ -1,15 +1,25 @@
+const path = require('path');
+
 module.exports = function(config) {
     config.set({
-        files: ['tests/**/*.js'],
+        files: ['src/**/*.ts', 'tests/**/*.js'],
 
         preprocessors: {
-            'tests/**/*.js': ['rollup']
+            'tests/**/*.js': ['rollup'],
+            'src/**/*.ts': ['rollup', 'typescript', 'coverage']
         },
-
+        plugins: [
+            'karma-mocha',
+            'karma-chrome-launcher',
+            'karma-rollup-preprocessor',
+            'karma-typescript-preprocessor',
+            'karma-coverage'
+        ],
         rollupPreprocessor: {
             output: {
                 format: 'umd',
-                sourcemap: 'inline'
+                sourcemap: 'inline',
+                name: 'scroll'
             },
             plugins: [
                 require('rollup-plugin-node-resolve')(),
@@ -17,7 +27,19 @@ module.exports = function(config) {
                 require('rollup-plugin-commonjs')()
             ]
         },
-        reporters: ['progress'],
+        typescriptPreprocessor: {
+            options: {
+                sourceMap: false,
+                target: 'es6',
+                module: 'esnext'
+            }
+        },
+        coverageReporter: {
+            includeAllSources: true,
+            dir: '.coverage',
+            reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }]
+        },
+        reporters: ['progress', 'coverage'],
         frameworks: ['mocha'],
         port: 9876,
         colors: true,

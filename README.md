@@ -1,6 +1,5 @@
 [![Build Status](https://travis-ci.org/mkay581/scroll-js.svg?branch=master)](https://travis-ci.org/mkay581/scroll-js)
 [![npm version](https://badge.fury.io/js/scroll-js.svg)](https://www.npmjs.com/package/scroll-js)
-[![Coverage Status](https://coveralls.io/repos/github/mkay581/scroll-js/badge.svg?branch=master)](https://coveralls.io/github/mkay581/scroll-js?branch=master)
 
 # Scroll
 
