@@ -105,12 +105,12 @@ scrollTo(document.body, { top: 600, behavior: 'smooth' }).then(function() {
 });
 ```
 
-Easing is also supported simply by passing an options object with an easing string that can be found in the
+Easing is also supported simply by passing the `easing` option with an easing string that can be found in the
 [src/scroll.ts file](/src/scroll.ts#L1).
 
 ```javascript
 import { scrollTo } from 'scroll-js';
-scrollTo(document.body, { easing: 'ease-in-out' }).then(function() {
+scrollTo(document.body, { top: 200, easing: 'ease-in-out' }).then(function() {
     // scrolled down 200 pixels, easing on beginning and end
 });
 ```
