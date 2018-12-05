@@ -3,13 +3,13 @@
 
 # Scroll
 
-A light-weight library that will allow you to scroll any html element using native javascript. 
-In addition to providing extra scrolling features, this library also aims to be a polyfill for the [scrollTo](https://developer.mozilla.org/en-US/docs/Web/API/Window/scroll) 
-and [scrollIntoView](https://drafts.csswg.org/cssom-view/#dom-element-scrollintoview) APIs and allows you to scroll 
+A light-weight library that will allow you to scroll any html element using native javascript.
+In addition to providing extra scrolling features, this library also aims to be a polyfill for the [scrollTo](https://developer.mozilla.org/en-US/docs/Web/API/Window/scroll)
+and [scrollIntoView](https://drafts.csswg.org/cssom-view/#dom-element-scrollintoview) APIs and allows you to scroll
 using animations that are based loosely on the
- [`scrollOptions` of the DOM specification](https://drafts.csswg.org/cssom-view/#dictdef-scrolloptions). 
- Manipulates native scroll properties so that native events fire appropriately and uses browser's animation frames for 
- fast and smooth rendering.
+[`scrollOptions` of the DOM specification](https://drafts.csswg.org/cssom-view/#dictdef-scrolloptions).
+Manipulates native scroll properties so that native events fire appropriately and uses browser's animation frames for
+fast and smooth rendering.
 
 ## Why use this over other scroll libraries and plugins?
 
@@ -26,23 +26,22 @@ lends nicely to these use cases, which is what this Scroll class does.
 
 ## Benefits
 
-* pure, native javascript
-* returns [Promises](https://www.ecma-international.org/ecma-262/6.0/#sec-promise-objects) so you can do things when scrolling completes (`async`/`await` is supported)
-* no css transitions, animations or absolute positioning hacks
-* manually scroll to any portion of a page and detect when done
-* safe to use on the `document.body` element
-* supports scroll options from CSS DOM specification
-* battery-friendly -- uses minimal amount of CPU power (no processing on inactive tabs, and hidden elements!)
-* fast and smooth rendering (no choppiness)
-* does not hijack native browser functionality (i.e. inertia scrolling, momentum defaults)
-* native "onscroll" events can still be used ([window.onscroll](https://developer.mozilla.org/en-US/docs/Web/API/window.onscroll) and
-[Element.onscroll](https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers.onscroll))
-* Both non-AMD and AMD compatible
-
+-   pure, native javascript
+-   returns [Promises](https://www.ecma-international.org/ecma-262/6.0/#sec-promise-objects) so you can do things when scrolling completes (`async`/`await` is supported)
+-   no css transitions, animations or absolute positioning hacks
+-   manually scroll to any portion of a page and detect when done
+-   safe to use on the `document.body` element
+-   supports scroll options from CSS DOM specification
+-   battery-friendly -- uses minimal amount of CPU power (no processing on inactive tabs, and hidden elements!)
+-   fast and smooth rendering (no choppiness)
+-   does not hijack native browser functionality (i.e. inertia scrolling, momentum defaults)
+-   native "onscroll" events can still be used ([window.onscroll](https://developer.mozilla.org/en-US/docs/Web/API/window.onscroll) and
+    [Element.onscroll](https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers.onscroll))
+-   Both non-AMD and AMD compatible
 
 ## Installation
 
-You can install the library as a npm module by running the following command: 
+You can install the library as a npm module by running the following command:
 
 ```
 npm i scroll-js
@@ -52,7 +51,6 @@ Alternatively, you can simply download one of the distribution files (un-minifie
 
 ```html
 <script src="node_modules/scroll-js/dist/scroll.js"></script>
-
 ```
 
 ## Usage
@@ -60,8 +58,8 @@ Alternatively, you can simply download one of the distribution files (un-minifie
 ```js
 import { scrollTo } from 'scroll-js';
 
-scrollTo(window, {top: 500}).then(function () {
-   // window has scrolled 500 pixels down the page
+scrollTo(window, { top: 500 }).then(function() {
+    // window has scrolled 500 pixels down the page
 });
 ```
 
@@ -79,10 +77,9 @@ The following example scrolls the window (document body).
 
 ```javascript
 import { scrollTo } from 'scroll-js';
-scrollTo(document.body, {top: 500}).then(function () {
-   //scrolling down 500 pixels has completed!
+scrollTo(document.body, { top: 500 }).then(function() {
+    //scrolling down 500 pixels has completed!
 });
-
 ```
 
 ### Scroll to an element
@@ -90,27 +87,36 @@ scrollTo(document.body, {top: 500}).then(function () {
 ```javascript
 import { scrollIntoView } from 'scroll-js';
 var myElement = document.body.getElementsByClassName('my-element')[0];
-scrollIntoView(myElement, document.body, {behavior: 'instant'}).then(function () {
-    // done scrolling document's body to show myElement
-});
-
+scrollIntoView(myElement, document.body, { behavior: 'instant' }).then(
+    function() {
+        // done scrolling document's body to show myElement
+    }
+);
 ```
 
 ### Scroll easing
 
-Easing is also supported simply by passing an options object with easing. Easing strings can be found in the 
+You can scroll with easing using the [`behavior` option of the scrollTo specification](https://drafts.csswg.org/cssom-view/#enumdef-scrollbehavior).
+
+```javascript
+import { scrollTo } from 'scroll-js';
+scrollTo(document.body, { top: 600, behavior: 'smooth' }).then(function() {
+    // scrolled down 600 pixels smoothly
+});
+```
+
+Easing is also supported simply by passing an options object with an easing string that can be found in the
 [src/scroll.ts file](/src/scroll.ts#L1).
 
 ```javascript
 import { scrollTo } from 'scroll-js';
-scrollTo(document.body, {easing: 'ease-in-out'}).then(function () {
-    // scrolled down 200 pixels smoothly
+scrollTo(document.body, { easing: 'ease-in-out' }).then(function() {
+    // scrolled down 200 pixels, easing on beginning and end
 });
-
 ```
 
-Please see [window.scrollTo](https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollto) to understand the 
-scrolling options that can be provided.
+Note that even though `easing` option is supported by this package,
+it is not guaranteed that it will be supported by the specification.
 
 ### Detect scroll events
 
@@ -119,49 +125,47 @@ Listen in on native scroll events the same way you would if a user was scrolling
 ```javascript
 import { scrollTo } from 'scroll-js';
 window.addEventListener('scroll', function() {
-  // scrolling!
-})
-scrollTo(document.body, {top: 300}); // scroll to trigger event
-
+    // scrolling!
+});
+scrollTo(document.body, { top: 300 }); // scroll to trigger event
 ```
 
 ## API Documentation
 
 ### scrollTo(element, options)
 
-| Option | Type | Description |
-|--------|--------|--------|
-| `element`| `HTMLElement`| The element to scroll
-| `options`| `ScrollToOptions`| A set of scroll options (see writeup below) (i.e. `{behavior: 'smooth', top: '20', left: '0''}`)
+| Option    | Type              | Description                                                                                      |
+| --------- | ----------------- | ------------------------------------------------------------------------------------------------ |
+| `element` | `HTMLElement`     | The element to scroll                                                                            |
+| `options` | `ScrollToOptions` | A set of scroll options (see writeup below) (i.e. `{behavior: 'smooth', top: '20', left: '0''}`) |
 
 ### scrollTo Options
 
-The `scrollTo` method allows a set of options which are synonymous with the 
-[ScrollToOptions](https://drafts.csswg.org/cssom-view/#dictdef-scrolltooptions) of the CSS specification, 
+The `scrollTo` method allows a set of options which are synonymous with the
+[ScrollToOptions](https://drafts.csswg.org/cssom-view/#dictdef-scrolltooptions) of the CSS specification,
 but some additional ones are provided by this library until supported natively.
 
-| Option | Type | Description |
-|--------|--------|--------|
-| `behavior`| String| The type of [scroll behavior](https://drafts.csswg.org/cssom-view/#enumdef-scrollbehavior) which can be set to `auto`, `instant`, or `smooth`. This is the recommended option since this is already natively supported.  __If this is set, all other options are ignored__.
-| `duration`| Number| The number of milliseconds the scroll will take to complete
-| `easing`| String | The easing to use when scrolling. Only keyword values of the [animation-timing-function](https://drafts.csswg.org/css-animations/#animation-timing-function) are supported. But passing function values will eventually be supported also (ie. `cubic-bezier(0.1, 0.7, 1.0, 0.1)`, `steps(4, end)`, etc)
+| Option     | Type   | Description                                                                                                                                                                                                                                                                                              |
+| ---------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `behavior` | String | The type of [scroll behavior](https://drafts.csswg.org/cssom-view/#enumdef-scrollbehavior) which can be set to `auto`, `instant`, or `smooth`. This is the recommended option since this is already natively supported. **If this is set, all other options are ignored**.                               |
+| `duration` | Number | The number of milliseconds the scroll will take to complete                                                                                                                                                                                                                                              |
+| `easing`   | String | The easing to use when scrolling. Only keyword values of the [animation-timing-function](https://drafts.csswg.org/css-animations/#animation-timing-function) are supported. But passing function values will eventually be supported also (ie. `cubic-bezier(0.1, 0.7, 1.0, 0.1)`, `steps(4, end)`, etc) |
 
 ### scrollIntoView(element, [scroller], [options])
 
-| Option | Type | Description |
-|--------|--------|--------|
-| `element`| `HTMLElement`| The element to scroll into the viewport
-| `scroller`| `HTMLElement`| The element to be scrolled (defaults to `document.body`)
-| `options`| `ScrollIntoViewOptions`| A set of scroll options to scroll the element into view (see writeup below) (i.e. `{behavior: 'smooth', top: '20', left: '0''}`)
+| Option     | Type                    | Description                                                                                                                      |
+| ---------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `element`  | `HTMLElement`           | The element to scroll into the viewport                                                                                          |
+| `scroller` | `HTMLElement`           | The element to be scrolled (defaults to `document.body`)                                                                         |
+| `options`  | `ScrollIntoViewOptions` | A set of scroll options to scroll the element into view (see writeup below) (i.e. `{behavior: 'smooth', top: '20', left: '0''}`) |
 
 ### scrollIntoView Options
 
 A set of [ScrollIntoViewOptions](https://drafts.csswg.org/cssom-view/#dictdef-scrollintoviewoptions) can be passed to the `scrollIntoView` method.
 
-| Option | Type | Description |
-|--------|--------|--------|
-| `behavior`| String| The type of [scroll behavior](https://drafts.csswg.org/cssom-view/#enumdef-scrollbehavior) which can be set to `auto`, `instant`, or `smooth`. Defaults to `auto`.
-
+| Option     | Type   | Description                                                                                                                                                        |
+| ---------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `behavior` | String | The type of [scroll behavior](https://drafts.csswg.org/cssom-view/#enumdef-scrollbehavior) which can be set to `auto`, `instant`, or `smooth`. Defaults to `auto`. |
 
 ## Examples
 
