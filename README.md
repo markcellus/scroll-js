@@ -139,7 +139,7 @@ scrollTo(document.body, { top: 300 }); // scroll to trigger event
 | `element` | `HTMLElement`     | The element to scroll                                                                            |
 | `options` | `ScrollToOptions` | A set of scroll options (see writeup below) (i.e. `{behavior: 'smooth', top: '20', left: '0''}`) |
 
-### scrollTo Options
+#### scrollTo Options
 
 The `scrollTo` method allows a set of options which are synonymous with the
 [ScrollToOptions](https://drafts.csswg.org/cssom-view/#dictdef-scrolltooptions) of the CSS specification,
@@ -159,7 +159,7 @@ but some additional ones are provided by this library until supported natively.
 | `scroller` | `HTMLElement`           | The element to be scrolled (defaults to `document.body`)                                                                         |
 | `options`  | `ScrollIntoViewOptions` | A set of scroll options to scroll the element into view (see writeup below) (i.e. `{behavior: 'smooth', top: '20', left: '0''}`) |
 
-### scrollIntoView Options
+#### scrollIntoView Options
 
 A set of [ScrollIntoViewOptions](https://drafts.csswg.org/cssom-view/#dictdef-scrollintoviewoptions) can be passed to the `scrollIntoView` method.
 
