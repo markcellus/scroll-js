@@ -2,18 +2,11 @@
   "compilerOptions": {
     "target": "es6",
     "module": "esnext",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "strict": true,
+    "declaration": true
   },
-  "include": [
-    "src/**/*"
-  ],
-  "lib": [
-    "es5",
-    "es6",
-    "es2015",
-    "dom"
-  ],
-  "typeRoots": [
-    "types"
-  ]
+  "include": ["src/**/*"],
+  "lib": ["es5", "es6", "es2015", "dom"],
+  "typeRoots": ["types"]
 }
