@@ -22,7 +22,7 @@ Like hiding the location url bar as you scroll down the window of the document (
 [pausing heavy processes](http://developer.telerik.com/featured/scroll-event-change-ios-8-big-deal/), until
 the user is done performing a task as to not interrupt them, or adding inertia or natural momentum when scrolling. So
 it's increasingly important that the scroll logic added to these elements is done in a way that
-lends nicely to these use cases, which is what this Scroll class does.
+lends nicely to these use cases, which is what this library does.
 
 ## Benefits
 
