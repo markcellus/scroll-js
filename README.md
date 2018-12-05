@@ -153,11 +153,10 @@ but some additional ones are provided by this library until supported natively.
 
 ### scrollIntoView(element, [scroller], [options])
 
-| Option     | Type                    | Description                                                                                                                      |
-| ---------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `element`  | `HTMLElement`           | The element to scroll into the viewport                                                                                          |
-| `scroller` | `HTMLElement`           | The element to be scrolled (defaults to `document.body`)                                                                         |
-| `options`  | `ScrollIntoViewOptions` | A set of scroll options to scroll the element into view (see writeup below) (i.e. `{behavior: 'smooth', top: '20', left: '0''}`) |
+| Option | Type | Description | ---------- | ----------------------- | ---------------------------- |
+| `element` | `HTMLElement` | The element to scroll into the viewport |
+| `scroller` | `HTMLElement` | The element to be scrolled (defaults to `document.body`) |
+| `options` | `ScrollIntoViewOptions` | A set of scroll options to scroll the element into view (see writeup below) (i.e. `{behavior: 'smooth', top: '20', left: '0''}`) |
 
 #### scrollIntoView Options
 
