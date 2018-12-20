@@ -7,7 +7,7 @@ export interface ScrollToCustomOptions extends ScrollToOptions {
 
 export async function scrollTo(
     el: Element | Window,
-    options?: ScrollToCustomOptions
+    options: ScrollToCustomOptions = {}
 ) {
     if (!(el instanceof Element) && !(el instanceof Window)) {
         throw new Error(
@@ -58,7 +58,7 @@ export async function scrollTo(
     return new Promise(resolve => {
         scroll(
             currentScrollPosition,
-            options.top,
+            options.top || currentScrollPosition,
             scrollProperty,
             Date.now(),
             options.duration,
@@ -115,8 +115,8 @@ function validateElement(element?: HTMLElement) {
     }
 }
 
-function getScrollPropertyByElement(el: Element | Window) {
-    const props = {
+function getScrollPropertyByElement(el: Element | Window): 'scrollY' | 'scrollX' | 'scrollTop' | 'scrollLeft' {
+    const props: any = {
         window: {
             y: 'scrollY',
             x: 'scrollX'
@@ -127,10 +127,7 @@ function getScrollPropertyByElement(el: Element | Window) {
         }
     };
     const axis = 'y';
-    const document = utils.getDocument();
-    if (el === document.body) {
-        return props.element[axis];
-    } else if (el instanceof Window) {
+    if (el instanceof Window) {
         return props.window[axis];
     } else {
         return props.element[axis];
@@ -138,16 +135,13 @@ function getScrollPropertyByElement(el: Element | Window) {
 }
 
 function sanitizeScrollOptions(
-    options?: ScrollToCustomOptions
+    options: ScrollToCustomOptions = {}
 ): ScrollToCustomOptions {
-    if (!options) {
-        return {};
-    }
     if (options.behavior === 'smooth') {
         options.easing = 'ease-in-out';
         options.duration = 300;
     }
-    if (options.behavior === 'instant' || options.behavior === 'auto') {
+    if (options.behavior === 'auto') {
         options.duration = 0;
         options.easing = 'linear';
     }
@@ -156,23 +150,19 @@ function sanitizeScrollOptions(
 
 function getScrollPosition(el: Element | Window): number {
     const document = utils.getDocument();
-    const prop = getScrollPropertyByElement(el);
-    if (el === document.body || el === document.documentElement) {
-        return document.body[prop] || document.documentElement[prop];
-    } else if (el instanceof Window) {
-        return window[prop];
+    if (el === document.body || el === document.documentElement || el instanceof Window) {
+        return document.body.scrollTop || document.documentElement.scrollTop;
     } else {
-        return el[prop];
+        return el.scrollTop;
     }
 }
 
 function setScrollPosition(el: Element | Window, value: number) {
-    const prop = getScrollPropertyByElement(el);
-    if (el === document.body || el === document.documentElement) {
-        document.body[prop] = value;
-        document.documentElement[prop] = value;
+    if (el === document.body || el === document.documentElement || el instanceof Window) {
+        document.body.scrollTop = value;
+        document.documentElement.scrollTop = value;
     } else {
-        el[prop] = value;
+        el.scrollTop = value;
     }
 }
 
@@ -206,7 +196,7 @@ export const easingMap: EasingFunctions = {
     }
 };
 
-const getEasing = (easing: EasingOptions): EasingFunction => {
+const getEasing = (easing?: EasingOptions): EasingFunction => {
     const defaultEasing = 'linear';
     const easeFunc = easingMap[easing || defaultEasing];
     if (!easeFunc) {

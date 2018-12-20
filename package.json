@@ -1,7 +1,7 @@
 {
   "name": "scroll-js",
   "version": "2.0.3",
-  "description": "Light Scroller class that uses native javascript only",
+  "description": "Light cross-browser scroller that uses native javascript",
   "repository": {
     "type": "git",
     "url": "https://github.com/mkay581/scroll-js.git"
@@ -30,7 +30,7 @@
     "node": ">=8.9.0"
   },
   "main": "./dist/scroll.js",
-  "types": "./src/scroll.ts",
+  "types": "./dist/scroll.ts",
   "scripts": {
     "test": "karma start karma.conf.js && npm run lint",
     "test-server": "karma start karma.conf.js --single-run=false",
@@ -47,24 +47,23 @@
     "banner-cli": "0.11.1",
     "chai": "^4.2.0",
     "coveralls": "^3.0.2",
-    "es6-promise": "^4.0.5",
     "http-server": "^0.11.1",
-    "karma": "^3.1.1",
+    "karma": "^3.1.3",
     "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.2",
     "karma-mocha": "^1.3.0",
-    "karma-rollup-preprocessor": "^6.1.0",
+    "karma-rollup-preprocessor": "^6.1.1",
     "karma-typescript-preprocessor": "^0.4.0",
     "mocha": "^5.2.0",
     "mock-raf": "^1.0.1",
-    "rollup": "^0.67.1",
+    "rollup": "^0.67.4",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-typescript2": "^0.18.0",
     "rollup-plugin-terser": "^3.0.0",
-    "rollup-plugin-typescript": "^1.0.0",
     "sinon": "^7.1.1",
     "tslint": "^5.11.0",
-    "tslint-config-prettier": "^1.15.0",
-    "typescript": "^3.1.6"
-  }
+    "tslint-config-prettier": "^1.17.0",
+    "typescript": "^3.2.1"
+    }
 }
