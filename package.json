@@ -1,6 +1,6 @@
 {
   "name": "scroll-js",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "Light cross-browser scroller that uses native javascript",
   "repository": {
     "type": "git",
@@ -65,5 +65,5 @@
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.17.0",
     "typescript": "^3.2.1"
-    }
+  }
 }

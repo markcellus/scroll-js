@@ -1,5 +1,5 @@
 /*!
- * Scroll-js v2.0.3
+ * Scroll-js v2.1.0
  * https://github.com/mkay581/scroll-js
  *
  * Copyright (c) 2018 Mark Kennedy
@@ -30,7 +30,7 @@ function __awaiter(thisArg, _arguments, P, generator) {
     });
 }
 
-function scrollTo(el, options) {
+function scrollTo(el, options = {}) {
     return __awaiter(this, void 0, void 0, function* () {
         if (!(el instanceof Element) && !(el instanceof Window)) {
             throw new Error(`element passed to scrollTo() must be either the window or a DOM element, you passed ${el}!`);
@@ -56,7 +56,7 @@ function scrollTo(el, options) {
         const currentScrollPosition = getScrollPosition(el);
         const scrollProperty = getScrollPropertyByElement(el);
         return new Promise(resolve => {
-            scroll(currentScrollPosition, options.top, scrollProperty, Date.now(), options.duration, getEasing(options.easing), resolve);
+            scroll(currentScrollPosition, options.top || currentScrollPosition, scrollProperty, Date.now(), options.duration, getEasing(options.easing), resolve);
         });
     });
 }
@@ -108,26 +108,19 @@ function getScrollPropertyByElement(el) {
         }
     };
     const axis = 'y';
-    const document = utils.getDocument();
-    if (el === document.body) {
-        return props.element[axis];
-    }
-    else if (el instanceof Window) {
+    if (el instanceof Window) {
         return props.window[axis];
     }
     else {
         return props.element[axis];
     }
 }
-function sanitizeScrollOptions(options) {
-    if (!options) {
-        return {};
-    }
+function sanitizeScrollOptions(options = {}) {
     if (options.behavior === 'smooth') {
         options.easing = 'ease-in-out';
         options.duration = 300;
     }
-    if (options.behavior === 'instant' || options.behavior === 'auto') {
+    if (options.behavior === 'auto') {
         options.duration = 0;
         options.easing = 'linear';
     }
@@ -135,25 +128,20 @@ function sanitizeScrollOptions(options) {
 }
 function getScrollPosition(el) {
     const document = utils.getDocument();
-    const prop = getScrollPropertyByElement(el);
-    if (el === document.body || el === document.documentElement) {
-        return document.body[prop] || document.documentElement[prop];
-    }
-    else if (el instanceof Window) {
-        return window[prop];
+    if (el === document.body || el === document.documentElement || el instanceof Window) {
+        return document.body.scrollTop || document.documentElement.scrollTop;
     }
     else {
-        return el[prop];
+        return el.scrollTop;
     }
 }
 function setScrollPosition(el, value) {
-    const prop = getScrollPropertyByElement(el);
-    if (el === document.body || el === document.documentElement) {
-        document.body[prop] = value;
-        document.documentElement[prop] = value;
+    if (el === document.body || el === document.documentElement || el instanceof Window) {
+        document.body.scrollTop = value;
+        document.documentElement.scrollTop = value;
     }
     else {
-        el[prop] = value;
+        el.scrollTop = value;
     }
 }
 const utils = {
