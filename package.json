@@ -30,7 +30,7 @@
     "node": ">=8.9.0"
   },
   "main": "./dist/scroll.js",
-  "types": "./dist/scroll.ts",
+  "types": "./dist/scroll.d.ts",
   "scripts": {
     "test": "karma start karma.conf.js && npm run lint",
     "test-server": "karma start karma.conf.js --single-run=false",
