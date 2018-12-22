@@ -4,9 +4,9 @@
     "module": "esnext",
     "moduleResolution": "node",
     "strict": true,
-    "declaration": true
+    "declaration": true,
+    "lib": ["es5", "es6", "es2015", "dom"],
   },
   "include": ["src/**/*"],
-  "lib": ["es5", "es6", "es2015", "dom"],
   "typeRoots": ["types"]
 }
