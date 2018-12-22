@@ -39,7 +39,7 @@ export async function scrollTo(
             /* prevent scrolling, if already there, or at end */
             if (time < 1) {
                 scroll(
-                    getScrollPosition(el),
+                    from,
                     to,
                     prop,
                     startTime,

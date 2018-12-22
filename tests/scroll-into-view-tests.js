@@ -3,7 +3,7 @@ import chai from 'chai';
 import { scrollIntoView, utils } from '../src/scroll';
 import createMockRaf from 'mock-raf';
 
-const { assert } = chai;
+const { assert, expect } = chai;
 
 let mockRaf;
 
@@ -180,5 +180,48 @@ describe('scrollIntoView', function() {
             document.body.removeChild(outerEl);
             done();
         }, 0);
+    });
+
+    it('passing an element to scrollIntoView() with an extra long duration should scroll to that element within the duration', function() {
+        let time = new Date().getTime();
+        let bodyEl = document.createElement('div');
+        // must set up outer element to not have any offsetTop
+        // value by placing it at the top/left-most area in viewport
+        bodyEl.style.position = 'absolute';
+        bodyEl.style.left = '0';
+        bodyEl.style.top = '0';
+        let innerEl = document.createElement('div');
+        let secondInnerEl = document.createElement('div');
+        bodyEl.appendChild(innerEl);
+        bodyEl.appendChild(secondInnerEl);
+        document.body.appendChild(bodyEl);
+        // setup to be "scrollable"
+        bodyEl.style.overflow = 'hidden';
+        bodyEl.style.height = '150px';
+        // inner element
+        let innerElHeight = 120;
+        innerEl.style.height = `${innerElHeight}px`;
+        // second element should be underneath
+        secondInnerEl.style.height = '600px';
+        // setup current scroll position
+        bodyEl.scrollTop = 0;
+        sinon.stub(utils, 'getDocument').returns({
+            body: bodyEl,
+            documentElement: bodyEl
+        });
+        Date.now.reset();
+        Date.now.returns(time);
+        scrollIntoView(secondInnerEl, { duration: 10000 });
+        dateNowStub.returns((time += 5000));
+        window.requestAnimationFrame.yield();
+        expect(bodyEl.scrollTop).to.not.equal(innerElHeight);
+        Date.now.returns((time += 4999));
+        window.requestAnimationFrame.yield();
+        expect(bodyEl.scrollTop).to.not.equal(innerElHeight);
+        Date.now.returns((time += 1));
+        window.requestAnimationFrame.yield();
+        expect(bodyEl.scrollTop).to.equal(innerElHeight);
+        document.body.removeChild(bodyEl);
+        utils.getDocument.restore();
     });
 });
