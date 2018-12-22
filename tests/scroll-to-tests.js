@@ -130,7 +130,7 @@ describe('scroll', function() {
         }, 0);
     });
 
-    it("should update its element's scrollTop to value supplied to scrollTo() immediately when behavior is set to instant", function(done) {
+    it("should update its element's scrollTop to value supplied to scrollTo() immediately when duration is used", function(done) {
         let outerEl = document.createElement('div');
         let innerEl = document.createElement('div');
         outerEl.appendChild(innerEl);
@@ -143,7 +143,7 @@ describe('scroll', function() {
         // setup current scroll position
         outerEl.scrollTop = 100;
         let testTo = 120;
-        scrollTo(outerEl, { top: testTo, behavior: 'instant' });
+        scrollTo(outerEl, { top: testTo, duration: 1000 });
         mockRaf.step({ count: 2 });
         setTimeout(function() {
             assert.equal(outerEl.scrollTop, testTo);
