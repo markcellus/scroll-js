@@ -58,7 +58,7 @@ export async function scrollTo(
     return new Promise(resolve => {
         scroll(
             currentScrollPosition,
-            options.top || currentScrollPosition,
+            typeof options.top === 'number' ? options.top : currentScrollPosition,
             scrollProperty,
             Date.now(),
             options.duration,
@@ -158,6 +158,7 @@ function getScrollPosition(el: Element | Window): number {
 }
 
 function setScrollPosition(el: Element | Window, value: number) {
+    const document = utils.getDocument();
     if (el === document.body || el === document.documentElement || el instanceof Window) {
         document.body.scrollTop = value;
         document.documentElement.scrollTop = value;

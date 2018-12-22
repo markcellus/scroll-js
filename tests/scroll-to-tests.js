@@ -3,7 +3,7 @@ import chai from 'chai';
 import { scrollTo, utils, easingMap } from '../src/scroll';
 import createMockRaf from 'mock-raf';
 
-const { assert } = chai;
+const { assert, expect } = chai;
 
 let mockRaf;
 
@@ -162,5 +162,32 @@ describe('scroll', function() {
                 `Scroll error: scroller does not support an easing option of "${easing}". Supported options are ${options}`
             );
         });
+    });
+
+    it('body should scroll back to top after having been scrolled', function(done) {
+        let fakeBodyElement = document.createElement('div');
+        fakeBodyElement.style.overflow = 'hidden';
+        fakeBodyElement.style.height = '150px';
+        let innerEl = document.createElement('div');
+        innerEl.style.height = '600px';
+        fakeBodyElement.appendChild(innerEl);
+        document.body.appendChild(fakeBodyElement);
+        const testTo = 120;
+        sinon.stub(utils, 'getDocument').returns({
+            body: fakeBodyElement,
+            documentElement: document.createElement('div')
+        });
+        scrollTo(fakeBodyElement, { top: testTo });
+        mockRaf.step({ count: 3 });
+        setTimeout(function() {
+            scrollTo(fakeBodyElement, { top: 0 });
+            mockRaf.step({ count: 3 });
+            setTimeout(function() {
+                expect(fakeBodyElement.scrollTop).to.equal(0);
+                utils.getDocument.restore();
+                document.body.removeChild(fakeBodyElement);
+                done();
+            }, 0);
+        }, 0);
     });
 });
