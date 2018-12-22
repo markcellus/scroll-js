@@ -87,7 +87,7 @@ scrollTo(document.body, { top: 500 }).then(function() {
 ```javascript
 import { scrollIntoView } from 'scroll-js';
 var myElement = document.body.getElementsByClassName('my-element')[0];
-scrollIntoView(myElement, document.body, { behavior: 'instant' }).then(
+scrollIntoView(myElement, document.body, { behavior: 'smooth' }).then(
     function() {
         // done scrolling document's body to show myElement
     }
@@ -147,7 +147,7 @@ but some additional ones are provided by this library until supported natively.
 
 | Option     | Type   | Description  |
 | ---------- | ------ | -----------  |
-| `behavior` | String | The type of [scroll behavior](https://drafts.csswg.org/cssom-view/#enumdef-scrollbehavior) which can be set to `auto`, `instant`, or `smooth`. This is the recommended option since this is already natively supported. **If this is set, all other options are ignored**.                               |
+| `behavior` | String | The type of [scroll behavior](https://drafts.csswg.org/cssom-view/#enumdef-scrollbehavior) which can be set to `auto` or `smooth`. This is the recommended option since this is already natively supported. **If this is set, all other options are ignored**.                               |
 | `duration` | Number | The number of milliseconds the scroll will take to complete                                                                                                                                                                                                                                              |
 | `easing`   | String | The easing to use when scrolling. Only keyword values of the [animation-timing-function](https://drafts.csswg.org/css-animations/#animation-timing-function) are supported. But passing function values will eventually be supported also (ie. `cubic-bezier(0.1, 0.7, 1.0, 0.1)`, `steps(4, end)`, etc) |
 
@@ -165,7 +165,7 @@ A set of [ScrollIntoViewOptions](https://drafts.csswg.org/cssom-view/#dictdef-sc
 
 | Option     | Type   | Description |
 | ---------- | ------ | ---------------------------------------------------------------------------------------------------- |
-| `behavior` | String | The type of [scroll behavior](https://drafts.csswg.org/cssom-view/#enumdef-scrollbehavior) which can be set to `auto`, `instant`, or `smooth`. Defaults to `auto`. |
+| `behavior` | String | The type of [scroll behavior](https://drafts.csswg.org/cssom-view/#enumdef-scrollbehavior) which can be set to `auto` or `smooth`. Defaults to `auto`. |
 
 ## Examples
 
