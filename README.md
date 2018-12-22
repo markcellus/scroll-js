@@ -145,15 +145,16 @@ The `scrollTo` method allows a set of options which are synonymous with the
 [ScrollToOptions](https://drafts.csswg.org/cssom-view/#dictdef-scrolltooptions) of the CSS specification,
 but some additional ones are provided by this library until supported natively.
 
-| Option     | Type   | Description                                                                                                                                                                                                                                                                                              |
-| ---------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Option     | Type   | Description  |
+| ---------- | ------ | -----------  |
 | `behavior` | String | The type of [scroll behavior](https://drafts.csswg.org/cssom-view/#enumdef-scrollbehavior) which can be set to `auto`, `instant`, or `smooth`. This is the recommended option since this is already natively supported. **If this is set, all other options are ignored**.                               |
 | `duration` | Number | The number of milliseconds the scroll will take to complete                                                                                                                                                                                                                                              |
 | `easing`   | String | The easing to use when scrolling. Only keyword values of the [animation-timing-function](https://drafts.csswg.org/css-animations/#animation-timing-function) are supported. But passing function values will eventually be supported also (ie. `cubic-bezier(0.1, 0.7, 1.0, 0.1)`, `steps(4, end)`, etc) |
 
 ### scrollIntoView(element, [scroller], [options])
 
-| Option | Type | Description | ---------- | ----------------------- | ---------------------------- |
+| Option | Type | Description | 
+| ---------- | ----------------------- | ---------------------------- |
 | `element` | `HTMLElement` | The element to scroll into the viewport |
 | `scroller` | `HTMLElement` | The element to be scrolled (defaults to `document.body`) |
 | `options` | `ScrollIntoViewOptions` | A set of scroll options to scroll the element into view (see writeup below) (i.e. `{behavior: 'smooth', top: '20', left: '0''}`) |
@@ -162,8 +163,8 @@ but some additional ones are provided by this library until supported natively.
 
 A set of [ScrollIntoViewOptions](https://drafts.csswg.org/cssom-view/#dictdef-scrollintoviewoptions) can be passed to the `scrollIntoView` method.
 
-| Option     | Type   | Description                                                                                                                                                        |
-| ---------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Option     | Type   | Description |
+| ---------- | ------ | ---------------------------------------------------------------------------------------------------- |
 | `behavior` | String | The type of [scroll behavior](https://drafts.csswg.org/cssom-view/#enumdef-scrollbehavior) which can be set to `auto`, `instant`, or `smooth`. Defaults to `auto`. |
 
 ## Examples
