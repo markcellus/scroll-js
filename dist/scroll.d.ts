@@ -4,7 +4,7 @@ export interface ScrollToCustomOptions extends ScrollToOptions {
     easing?: EasingOptions;
 }
 export declare function scrollTo(el: Element | Window, options?: ScrollToCustomOptions): Promise<{}>;
-export declare function scrollIntoView(element: HTMLElement, scroller?: Element, options?: ScrollIntoViewOptions): Promise<{}>;
+export declare function scrollIntoView(element: HTMLElement, scroller?: Element | ScrollIntoViewOptions, options?: ScrollIntoViewOptions): Promise<{}>;
 export declare const utils: {
     getDocument(): HTMLDocument;
 };

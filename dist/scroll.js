@@ -1,8 +1,8 @@
 /*!
- * Scroll-js v2.2.0
+ * Scroll-js v2.2.1
  * https://github.com/mkay581/scroll-js
  *
- * Copyright (c) 2018 Mark Kennedy
+ * Copyright (c) 2019 Mark Kennedy
  * Licensed under the MIT license
  */
 
@@ -56,7 +56,9 @@ function scrollTo(el, options = {}) {
         const currentScrollPosition = getScrollPosition(el);
         const scrollProperty = getScrollPropertyByElement(el);
         return new Promise(resolve => {
-            scroll(currentScrollPosition, typeof options.top === 'number' ? options.top : currentScrollPosition, scrollProperty, Date.now(), options.duration, getEasing(options.easing), resolve);
+            scroll(currentScrollPosition, typeof options.top === 'number'
+                ? options.top
+                : currentScrollPosition, scrollProperty, Date.now(), options.duration, getEasing(options.easing), resolve);
         });
     });
 }
@@ -128,7 +130,9 @@ function sanitizeScrollOptions(options = {}) {
 }
 function getScrollPosition(el) {
     const document = utils.getDocument();
-    if (el === document.body || el === document.documentElement || el instanceof Window) {
+    if (el === document.body ||
+        el === document.documentElement ||
+        el instanceof Window) {
         return document.body.scrollTop || document.documentElement.scrollTop;
     }
     else {
@@ -137,7 +141,9 @@ function getScrollPosition(el) {
 }
 function setScrollPosition(el, value) {
     const document = utils.getDocument();
-    if (el === document.body || el === document.documentElement || el instanceof Window) {
+    if (el === document.body ||
+        el === document.documentElement ||
+        el instanceof Window) {
         document.body.scrollTop = value;
         document.documentElement.scrollTop = value;
     }
