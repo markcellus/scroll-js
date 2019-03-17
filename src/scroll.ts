@@ -38,15 +38,7 @@ export async function scrollTo(
 
             /* prevent scrolling, if already there, or at end */
             if (time < 1) {
-                scroll(
-                    from,
-                    to,
-                    prop,
-                    startTime,
-                    duration,
-                    easeFunc,
-                    callback
-                );
+                scroll(from, to, prop, startTime, duration, easeFunc, callback);
             } else if (callback) {
                 callback();
             }
@@ -58,7 +50,9 @@ export async function scrollTo(
     return new Promise(resolve => {
         scroll(
             currentScrollPosition,
-            typeof options.top === 'number' ? options.top : currentScrollPosition,
+            typeof options.top === 'number'
+                ? options.top
+                : currentScrollPosition,
             scrollProperty,
             Date.now(),
             options.duration,
@@ -70,7 +64,7 @@ export async function scrollTo(
 
 export function scrollIntoView(
     element: HTMLElement,
-    scroller?: Element,
+    scroller?: Element | ScrollIntoViewOptions,
     options?: ScrollIntoViewOptions
 ) {
     validateElement(element);
@@ -115,7 +109,9 @@ function validateElement(element?: HTMLElement) {
     }
 }
 
-function getScrollPropertyByElement(el: Element | Window): 'scrollY' | 'scrollX' | 'scrollTop' | 'scrollLeft' {
+function getScrollPropertyByElement(
+    el: Element | Window
+): 'scrollY' | 'scrollX' | 'scrollTop' | 'scrollLeft' {
     const props: any = {
         window: {
             y: 'scrollY',
@@ -150,7 +146,11 @@ function sanitizeScrollOptions(
 
 function getScrollPosition(el: Element | Window): number {
     const document = utils.getDocument();
-    if (el === document.body || el === document.documentElement || el instanceof Window) {
+    if (
+        el === document.body ||
+        el === document.documentElement ||
+        el instanceof Window
+    ) {
         return document.body.scrollTop || document.documentElement.scrollTop;
     } else {
         return el.scrollTop;
@@ -159,7 +159,11 @@ function getScrollPosition(el: Element | Window): number {
 
 function setScrollPosition(el: Element | Window, value: number) {
     const document = utils.getDocument();
-    if (el === document.body || el === document.documentElement || el instanceof Window) {
+    if (
+        el === document.body ||
+        el === document.documentElement ||
+        el instanceof Window
+    ) {
         document.body.scrollTop = value;
         document.documentElement.scrollTop = value;
     } else {
