@@ -1,5 +1,5 @@
 /*!
- * Scroll-js v2.2.1
+ * Scroll-js v2.3.0
  * https://github.com/mkay581/scroll-js
  *
  * Copyright (c) 2019 Mark Kennedy
@@ -181,4 +181,4 @@ const getEasing = (easing) => {
     return easeFunc;
 };
 
-export { scrollTo, scrollIntoView, utils, easingMap };
+export { easingMap, scrollIntoView, scrollTo, utils };
