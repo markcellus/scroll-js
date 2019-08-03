@@ -31,6 +31,9 @@
   },
   "main": "./dist/scroll.js",
   "types": "./dist/scroll.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
     "test": "karma start karma.conf.js && npm run lint",
     "test-server": "karma start karma.conf.js --single-run=false",
