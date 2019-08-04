@@ -1,19 +1,22 @@
-import sinon from '../node_modules/sinon/pkg/sinon-esm.js';
-import chai from 'chai';
+import sinon from 'sinon/pkg/sinon-esm';
+import 'chai/chai';
 import { scrollTo, utils, easingMap } from '../src/scroll';
-import createMockRaf from 'mock-raf';
+import createStub from 'raf-stub';
 
-const { assert, expect } = chai;
+const { assert, expect } = window.chai;
 
 let mockRaf;
 
 describe('scroll', function() {
     let dateNowStub;
     let currentTime;
+    let requestAnimationFrameStub;
 
     beforeEach(function() {
-        mockRaf = createMockRaf();
-        sinon.stub(window, 'requestAnimationFrame').callsFake(mockRaf.raf);
+        mockRaf = createStub();
+        requestAnimationFrameStub = sinon
+            .stub(window, 'requestAnimationFrame')
+            .callsFake(mockRaf.add);
         dateNowStub = sinon.stub(Date, 'now');
         currentTime = 1422630923001;
         dateNowStub.onFirstCall().returns(currentTime); // set the current time for first animation frame
@@ -24,13 +27,14 @@ describe('scroll', function() {
     });
 
     afterEach(function() {
-        window.requestAnimationFrame.restore();
+        requestAnimationFrameStub.restore();
         dateNowStub.restore();
     });
 
     it('should throw an error when attempting to scroll anything that is not a DOM element', async function() {
         return Promise.all(
             [true, false, {}].map(async testValue => {
+                // @ts-ignore
                 return await scrollTo(testValue).catch(e => {
                     assert.equal(
                         e.message,
@@ -54,7 +58,7 @@ describe('scroll', function() {
         innerEl.style.height = '200vh';
         let testTo = 120;
         let scrollPromise = scrollTo(window, { top: testTo });
-        mockRaf.step({ count: 3 });
+        mockRaf.step(3);
         await scrollPromise;
         assert.equal(window.scrollY, testTo);
         document.body.removeChild(innerEl);
@@ -74,7 +78,7 @@ describe('scroll', function() {
         outerEl.scrollTop = 100;
         let testTo = 120;
         let scrollPromise = scrollTo(outerEl, { top: testTo });
-        mockRaf.step({ count: 3 });
+        mockRaf.step(3);
         await scrollPromise;
         assert.equal(outerEl.scrollTop, testTo);
         document.body.removeChild(outerEl);
@@ -96,14 +100,16 @@ describe('scroll', function() {
         let testTo = 120;
         let testDocumentElement = {
             documentElement: docEl,
-            body: bodyElement
+            body: bodyElement,
         };
-        sinon.stub(utils, 'getDocument').returns(testDocumentElement);
+        const getDocumentStub = sinon
+            .stub(utils, 'getDocument')
+            .returns(testDocumentElement);
         let scrollPromise = scrollTo(docEl, { top: testTo });
-        mockRaf.step({ count: 3 });
+        mockRaf.step(3);
         return scrollPromise.then(function() {
             assert.equal(docEl.scrollTop, testTo);
-            utils.getDocument.restore();
+            getDocumentStub.restore();
             document.body.removeChild(docEl);
         });
     });
@@ -122,7 +128,7 @@ describe('scroll', function() {
         outerEl.scrollTop = 100;
         let testTo = 120;
         scrollTo(outerEl, { top: testTo, duration: 0 });
-        mockRaf.step({ count: 2 });
+        mockRaf.step(2);
         setTimeout(function() {
             assert.equal(outerEl.scrollTop, testTo);
             document.body.removeChild(outerEl);
@@ -144,7 +150,7 @@ describe('scroll', function() {
         outerEl.scrollTop = 100;
         let testTo = 120;
         scrollTo(outerEl, { top: testTo, behavior: 'auto' });
-        mockRaf.step({ count: 2 });
+        mockRaf.step(2);
         setTimeout(function() {
             assert.equal(outerEl.scrollTop, testTo);
             document.body.removeChild(outerEl);
@@ -173,18 +179,18 @@ describe('scroll', function() {
         fakeBodyElement.appendChild(innerEl);
         document.body.appendChild(fakeBodyElement);
         const testTo = 120;
-        sinon.stub(utils, 'getDocument').returns({
+        const getDocumentStub = sinon.stub(utils, 'getDocument').returns({
             body: fakeBodyElement,
-            documentElement: document.createElement('div')
+            documentElement: document.createElement('div'),
         });
         scrollTo(fakeBodyElement, { top: testTo });
-        mockRaf.step({ count: 3 });
+        mockRaf.step(3);
         setTimeout(function() {
             scrollTo(fakeBodyElement, { top: 0 });
-            mockRaf.step({ count: 3 });
+            mockRaf.step(3);
             setTimeout(function() {
                 expect(fakeBodyElement.scrollTop).to.equal(0);
-                utils.getDocument.restore();
+                getDocumentStub.restore();
                 document.body.removeChild(fakeBodyElement);
                 done();
             }, 0);

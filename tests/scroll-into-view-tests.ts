@@ -1,19 +1,28 @@
-import sinon from '../node_modules/sinon/pkg/sinon-esm.js';
-import chai from 'chai';
+import sinon from 'sinon/pkg/sinon-esm';
+import 'chai/chai';
 import { scrollIntoView, utils } from '../src/scroll';
-import createMockRaf from 'mock-raf';
+import createStub from 'raf-stub';
 
-const { assert, expect } = chai;
+declare global {
+    interface Window {
+        chai: Chai.ChaiStatic;
+    }
+}
+
+const { assert, expect } = window.chai;
 
 let mockRaf;
 
 describe('scrollIntoView', function() {
     let dateNowStub;
     let currentTime;
+    let requestAnimationFrameStub;
 
     beforeEach(function() {
-        mockRaf = createMockRaf();
-        sinon.stub(window, 'requestAnimationFrame').callsFake(mockRaf.raf);
+        mockRaf = createStub();
+        requestAnimationFrameStub = sinon
+            .stub(window, 'requestAnimationFrame')
+            .callsFake(mockRaf.add);
         dateNowStub = sinon.stub(Date, 'now');
         currentTime = 1422630923001;
         dateNowStub.onFirstCall().returns(currentTime); // set the current time for first animation frame
@@ -24,13 +33,14 @@ describe('scrollIntoView', function() {
     });
 
     afterEach(function() {
-        window.requestAnimationFrame.restore();
+        requestAnimationFrameStub.restore();
         dateNowStub.restore();
     });
 
     [true, false, {}].forEach(testValue => {
         it(`should throw an error when attempting to pass ${typeof testValue} to scrollIntoView()`, function() {
             assert.throws(() => {
+                // @ts-ignore
                 scrollIntoView(testValue);
             }, `The element passed to scrollIntoView() must be a valid element. You passed ${testValue}.`);
         });
@@ -38,6 +48,7 @@ describe('scrollIntoView', function() {
 
     it('should throw an error when nothing is passed to scrollIntoView()', function() {
         assert.throws(() => {
+            // @ts-ignore
             scrollIntoView();
         }, `The element passed to scrollIntoView() was undefined.`);
     });
@@ -71,7 +82,7 @@ describe('scrollIntoView', function() {
         // setup current scroll position
         outerEl.scrollTop = 0;
         scrollIntoView(secondInnerEl, outerEl);
-        mockRaf.step({ count: 3 });
+        mockRaf.step(3);
         setTimeout(function() {
             assert.equal(outerEl.scrollTop, innerElHeight);
             document.body.removeChild(outerEl);
@@ -101,15 +112,15 @@ describe('scrollIntoView', function() {
         secondInnerEl.style.height = '600px';
         // setup current scroll position
         bodyEl.scrollTop = 0;
-        sinon.stub(utils, 'getDocument').returns({
+        const getDocumentStub = sinon.stub(utils, 'getDocument').returns({
             body: bodyEl,
-            documentElement: bodyEl
+            documentElement: bodyEl,
         });
         scrollIntoView(secondInnerEl);
-        mockRaf.step({ count: 3 });
+        mockRaf.step(3);
         setTimeout(function() {
             assert.equal(bodyEl.scrollTop, innerElHeight);
-            utils.getDocument.restore();
+            getDocumentStub.restore();
             document.body.removeChild(bodyEl);
             done();
         }, 0);
@@ -136,16 +147,16 @@ describe('scrollIntoView', function() {
         innerEl.style.height = '200px';
         containerEl.appendChild(innerEl);
         document.body.appendChild(bodyEl);
-        sinon.stub(utils, 'getDocument').returns({
+        const getDocumentStub = sinon.stub(utils, 'getDocument').returns({
             body: bodyEl,
-            documentElement: bodyEl
+            documentElement: bodyEl,
         });
         assert.equal(innerEl.getBoundingClientRect().top, firstInnerElHeight); // make sure element is in right position
         scrollIntoView(innerEl);
-        mockRaf.step({ count: 3 });
+        mockRaf.step(3);
         setTimeout(function() {
             assert.equal(bodyEl.scrollTop, firstInnerElHeight);
-            utils.getDocument.restore();
+            getDocumentStub.restore();
             bodyEl.removeChild(containerEl);
             done();
         }, 0);
@@ -174,7 +185,7 @@ describe('scrollIntoView', function() {
         // setup current scroll position
         outerEl.scrollTop = 0;
         scrollIntoView(secondInnerEl, outerEl, { behavior: 'smooth' });
-        mockRaf.step({ count: 3 });
+        mockRaf.step(3);
         setTimeout(function() {
             assert.equal(outerEl.scrollTop, innerElHeight);
             document.body.removeChild(outerEl);
@@ -205,23 +216,23 @@ describe('scrollIntoView', function() {
         secondInnerEl.style.height = '600px';
         // setup current scroll position
         bodyEl.scrollTop = 0;
-        sinon.stub(utils, 'getDocument').returns({
+        const getDocumentStub = sinon.stub(utils, 'getDocument').returns({
             body: bodyEl,
-            documentElement: bodyEl
+            documentElement: bodyEl,
         });
-        Date.now.reset();
-        Date.now.returns(time);
+        dateNowStub.reset();
+        dateNowStub.returns(time);
         scrollIntoView(secondInnerEl, { duration: 10000 });
         dateNowStub.returns((time += 5000));
-        window.requestAnimationFrame.yield();
+        requestAnimationFrameStub.yield();
         expect(bodyEl.scrollTop).to.not.equal(innerElHeight);
-        Date.now.returns((time += 4999));
-        window.requestAnimationFrame.yield();
+        dateNowStub.returns((time += 4999));
+        requestAnimationFrameStub.yield();
         expect(bodyEl.scrollTop).to.not.equal(innerElHeight);
-        Date.now.returns((time += 1));
-        window.requestAnimationFrame.yield();
+        dateNowStub.returns((time += 1));
+        requestAnimationFrameStub.yield();
         expect(bodyEl.scrollTop).to.equal(innerElHeight);
         document.body.removeChild(bodyEl);
-        utils.getDocument.restore();
+        getDocumentStub.restore();
     });
 });

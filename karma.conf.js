@@ -1,52 +1,35 @@
-const path = require('path');
-
 module.exports = function(config) {
     config.set({
-        files: ['src/**/*.ts', 'tests/**/*.js'],
+        files: [{ pattern: 'tests/**/*.ts', type: 'module' }],
 
-        preprocessors: {
-            'tests/**/*.js': ['rollup'],
-            'src/**/*.ts': ['rollup', 'typescript', 'coverage']
-        },
         plugins: [
+            require.resolve('@open-wc/karma-esm'),
             'karma-mocha',
             'karma-chrome-launcher',
-            'karma-rollup-preprocessor',
-            'karma-typescript-preprocessor',
-            'karma-coverage'
+            'karma-coverage',
         ],
-        rollupPreprocessor: {
-            output: {
-                format: 'umd', // we must output to UMD until karma-chrome-launcher supports 'esm'
-                sourcemap: 'inline',
-                name: 'scroll'
-            },
-            plugins: [
-                require('rollup-plugin-node-resolve')(),
-                require('rollup-plugin-typescript2')(),
-                require('rollup-plugin-commonjs')()
-            ]
-        },
-        typescriptPreprocessor: {
-            options: {
-                sourceMap: false,
-                target: 'es6',
-                module: 'esnext'
-            }
+        esm: {
+            nodeResolve: true,
+            compatibility: 'all',
+            fileExtensions: ['.ts'],
+            babel: true,
         },
         coverageReporter: {
             includeAllSources: true,
             dir: '.coverage',
-            reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }]
+            reporters: [
+                { type: 'lcov', subdir: '.' },
+                { type: 'text-summary' },
+            ],
         },
         reporters: ['progress', 'coverage'],
-        frameworks: ['mocha'],
+        frameworks: ['esm', 'mocha'],
         port: 9876,
         colors: true,
         logLevel: config.LOG_INFO,
         browsers: ['ChromeHeadless'],
         autoWatch: true,
         singleRun: true,
-        concurrency: Infinity
+        concurrency: Infinity,
     });
 };
