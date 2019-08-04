@@ -38,7 +38,7 @@
     "test": "karma start karma.conf.js && npm run lint",
     "test-server": "karma start karma.conf.js --single-run=false",
     "preversion": "npm test",
-    "build-dist": "rm -rf dist/* && rollup -c",
+    "build": "rm -rf dist/* && rollup -c",
     "banner": "banner-cli dist/*.js",
     "start": "rollup -c --watch",
     "lint": "eslint '**/*.{js,ts}'",
