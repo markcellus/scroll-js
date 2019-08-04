@@ -1,9 +1,9 @@
 /*!
- * Scroll-js v2.3.1
- * https://github.com/mkay581/scroll-js
- *
- * Copyright (c) 2019 Mark Kennedy
- * Licensed under the MIT license
+  * Scroll-js v2.3.2
+  * https://github.com/mkay581/scroll-js
+  *
+  * Copyright (c) 2019 Mark Kennedy
+  * Licensed under the MIT license
  */
 
 /*! *****************************************************************************
