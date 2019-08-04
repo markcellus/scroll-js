@@ -39,7 +39,8 @@
     "test-server": "karma start karma.conf.js --single-run=false",
     "preversion": "npm test",
     "build-dist": "rm -rf dist/* && rollup -c",
-    "version": "npm run build-dist && banner-cli dist/*.js && git add -A dist",
+    "banner": "banner-cli dist/*.js",
+    "version": "npm run build-dist && npm run banner && git add -A dist",
     "postversion": "git push && git push --tags",
     "start": "rollup -c --watch",
     "lint": "tslint src/**/*",
@@ -47,7 +48,7 @@
     "coveralls": "cat .coverage/lcov.info | coveralls"
   },
   "devDependencies": {
-    "banner-cli": "0.11.1",
+    "banner-cli": "^0.14.0",
     "chai": "^4.2.0",
     "coveralls": "^3.0.5",
     "http-server": "^0.11.1",
@@ -64,7 +65,7 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-typescript2": "^0.22.1",
-    "sinon": "^7.3.2",
+    "sinon": "^7.4.0",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.5.3"
