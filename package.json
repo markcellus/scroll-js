@@ -43,7 +43,6 @@
     "banner": "banner-cli dist/*.js",
     "start": "rollup -c --watch",
     "lint": "eslint '**/*.{js,ts}'",
-    "start-server": "http-server ./ -p 9383",
     "coveralls": "cat .coverage/lcov.info | coveralls"
   },
   "devDependencies": {
@@ -59,7 +58,6 @@
     "chai": "^4.2.0",
     "coveralls": "^3.0.5",
     "eslint": "^6.1.0",
-    "http-server": "^0.11.1",
     "karma": "^4.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^1.1.2",
@@ -72,6 +70,7 @@
     "rollup": "^1.18.0",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.0.2",
+    "rollup-plugin-serve": "^1.0.1",
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-typescript2": "^0.22.1",
     "sinon": "^7.4.0",

@@ -2,6 +2,7 @@ import typescript from 'rollup-plugin-typescript2';
 import commonjs from 'rollup-plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 import babel from 'rollup-plugin-babel';
+import serve from 'rollup-plugin-serve';
 
 const basePlugins = [typescript()];
 const commonJSPlugins = [
@@ -11,6 +12,12 @@ const commonJSPlugins = [
         extensions: ['.ts'],
     }),
     commonjs(),
+    process.env.ROLLUP_WATCH &&
+        serve({
+            historyApiFallback: true,
+            contentBase: '.',
+            port: 9383,
+        }),
 ];
 
 export default [
