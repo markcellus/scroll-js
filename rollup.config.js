@@ -15,7 +15,7 @@ const commonJSPlugins = [
     process.env.ROLLUP_WATCH &&
         serve({
             historyApiFallback: true,
-            contentBase: '.',
+            contentBase: '',
             port: 9383,
         }),
 ];
