@@ -3,29 +3,44 @@ import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 
+const basePlugins = [resolve(), typescript()];
+const commonJSPlugins = [...basePlugins, commonjs()];
+
 export default [
     {
         input: 'src/scroll.ts',
         output: {
             format: 'esm',
-            file: 'dist/scroll.js'
+            file: 'dist/scroll.js',
         },
-        plugins: [resolve(), typescript(), commonjs()],
+        plugins: basePlugins,
         watch: {
-            include: 'src/**'
-        }
+            include: 'src/**',
+        },
     },
     {
-        input: 'dist/scroll.js',
+        input: 'src/scroll.ts',
+        output: {
+            format: 'cjs',
+            file: 'dist/scroll.common.js',
+        },
+        plugins: commonJSPlugins,
+        watch: {
+            include: 'src/**',
+        },
+    },
+    {
+        input: 'src/scroll.ts',
         output: {
             format: 'esm',
-            file: 'dist/scroll.min.js'
+            file: 'dist/scroll.min.js',
         },
         plugins: [
+            ...commonJSPlugins,
             terser({
                 compress: true,
-                mangle: true
-            })
-        ]
-    }
+                mangle: true,
+            }),
+        ],
+    },
 ];

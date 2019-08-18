@@ -29,7 +29,8 @@
   "engines": {
     "node": ">=8.9.0"
   },
-  "main": "./dist/scroll.js",
+  "main": "./dist/scroll.common.js",
+  "module": "./dist/scroll.js",
   "types": "./dist/scroll.d.ts",
   "files": [
     "dist/**/*"
