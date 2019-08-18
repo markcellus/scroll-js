@@ -8,3 +8,4 @@
 *.log
 .coverage
 .rpt2_cache
+dist

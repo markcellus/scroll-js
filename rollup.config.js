@@ -1,31 +1,60 @@
 import typescript from 'rollup-plugin-typescript2';
-import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
+import babel from 'rollup-plugin-babel';
+import serve from 'rollup-plugin-serve';
+
+const basePlugins = [typescript()];
+const commonJSPlugins = [
+    ...basePlugins,
+    babel({
+        exclude: 'node_modules/**',
+        extensions: ['.ts'],
+    }),
+    commonjs(),
+    process.env.ROLLUP_WATCH &&
+        serve({
+            historyApiFallback: true,
+            contentBase: '',
+            port: 9383,
+        }),
+];
 
 export default [
     {
         input: 'src/scroll.ts',
         output: {
             format: 'esm',
-            file: 'dist/scroll.js'
+            file: 'dist/scroll.js',
         },
-        plugins: [resolve(), typescript(), commonjs()],
+        plugins: basePlugins,
         watch: {
-            include: 'src/**'
-        }
+            include: 'src/**',
+        },
     },
     {
-        input: 'dist/scroll.js',
+        input: 'src/scroll.ts',
+        output: {
+            format: 'cjs',
+            file: 'dist/scroll.common.js',
+        },
+        plugins: commonJSPlugins,
+        watch: {
+            include: 'src/**',
+        },
+    },
+    {
+        input: 'src/scroll.ts',
         output: {
             format: 'esm',
-            file: 'dist/scroll.min.js'
+            file: 'dist/scroll.min.js',
         },
         plugins: [
+            ...commonJSPlugins,
             terser({
                 compress: true,
-                mangle: true
-            })
-        ]
-    }
+                mangle: true,
+            }),
+        ],
+    },
 ];

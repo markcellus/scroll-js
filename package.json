@@ -29,7 +29,8 @@
   "engines": {
     "node": ">=8.9.0"
   },
-  "main": "./dist/scroll.js",
+  "main": "./dist/scroll.common.js",
+  "module": "./dist/scroll.js",
   "types": "./dist/scroll.d.ts",
   "files": [
     "dist/**/*"
@@ -42,10 +43,11 @@
     "banner": "banner-cli dist/*.js",
     "start": "rollup -c --watch",
     "lint": "eslint '**/*.{js,ts}'",
-    "start-server": "http-server ./ -p 9383",
     "coveralls": "cat .coverage/lcov.info | coveralls"
   },
   "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
     "@babel/preset-typescript": "^7.3.3",
     "@open-wc/karma-esm": "^2.2.8",
     "@types/chai": "^4.1.7",
@@ -56,7 +58,6 @@
     "chai": "^4.2.0",
     "coveralls": "^3.0.5",
     "eslint": "^6.1.0",
-    "http-server": "^0.11.1",
     "karma": "^4.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^1.1.2",
@@ -67,8 +68,9 @@
     "prettier": "^1.18.2",
     "raf-stub": "^3.0.0",
     "rollup": "^1.18.0",
+    "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.0.2",
-    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-serve": "^1.0.1",
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-typescript2": "^0.22.1",
     "sinon": "^7.4.0",
