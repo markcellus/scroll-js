@@ -11,7 +11,4 @@ module.exports = {
         es6: true,
         mocha: true,
     },
-    globals: {
-        YT: true,
-    },
 };
