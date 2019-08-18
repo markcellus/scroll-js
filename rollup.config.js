@@ -1,9 +1,17 @@
 import typescript from 'rollup-plugin-typescript2';
 import commonjs from 'rollup-plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
+import babel from 'rollup-plugin-babel';
 
 const basePlugins = [typescript()];
-const commonJSPlugins = [...basePlugins, commonjs()];
+const commonJSPlugins = [
+    ...basePlugins,
+    babel({
+        exclude: 'node_modules/**',
+        extensions: ['.ts'],
+    }),
+    commonjs(),
+];
 
 export default [
     {
