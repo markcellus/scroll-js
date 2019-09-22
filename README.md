@@ -1,5 +1,9 @@
-[![Build Status](https://travis-ci.org/mkay581/scroll-js.svg?branch=master)](https://travis-ci.org/mkay581/scroll-js)
-[![npm version](https://badge.fury.io/js/scroll-js.svg)](https://www.npmjs.com/package/scroll-js)
+![build](https://img.shields.io/travis/mkay581/scroll-js)
+![npm](https://img.shields.io/npm/v/scroll-js)
+![node](https://img.shields.io/node/v/scroll-js)
+![minified](https://img.shields.io/bundlephobia/min/scroll-js)
+![downloads](https://img.shields.io/npm/dm/scroll-js)
+![license](https://img.shields.io/npm/l/scroll-js)
 
 # Scroll
 
