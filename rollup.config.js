@@ -1,24 +1,9 @@
 import typescript from 'rollup-plugin-typescript2';
-import commonjs from 'rollup-plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 import babel from 'rollup-plugin-babel';
 import serve from 'rollup-plugin-serve';
-
-const basePlugins = [typescript()];
-const commonJSPlugins = [
-    ...basePlugins,
-    babel({
-        exclude: 'node_modules/**',
-        extensions: ['.ts'],
-    }),
-    commonjs(),
-    process.env.ROLLUP_WATCH &&
-        serve({
-            historyApiFallback: true,
-            contentBase: '',
-            port: 9383,
-        }),
-];
+import commonjs from 'rollup-plugin-commonjs';
+import resolve from 'rollup-plugin-node-resolve';
 
 export default [
     {
@@ -27,34 +12,43 @@ export default [
             format: 'esm',
             file: 'dist/scroll.js',
         },
-        plugins: basePlugins,
+        plugins: [typescript()],
         watch: {
             include: 'src/**',
         },
     },
     {
-        input: 'src/scroll.ts',
+        input: 'dist/scroll.js',
         output: {
-            format: 'cjs',
+            format: 'umd',
+            name: 'Scroll',
             file: 'dist/scroll.common.js',
         },
-        plugins: commonJSPlugins,
-        watch: {
-            include: 'src/**',
-        },
+        plugins: [
+            resolve({ browser: true }),
+            commonjs(),
+            babel({
+                extensions: ['.js'],
+            }),
+        ],
     },
     {
-        input: 'src/scroll.ts',
+        input: 'dist/scroll.js',
         output: {
             format: 'esm',
             file: 'dist/scroll.min.js',
         },
         plugins: [
-            ...commonJSPlugins,
             terser({
                 compress: true,
                 mangle: true,
             }),
+            process.env.ROLLUP_WATCH &&
+                serve({
+                    historyApiFallback: true,
+                    contentBase: '',
+                    port: 9383,
+                }),
         ],
     },
 ];
