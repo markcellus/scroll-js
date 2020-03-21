@@ -74,7 +74,7 @@
     "rollup-plugin-serve": "^1.0.1",
     "rollup-plugin-terser": "^5.1.2",
     "rollup-plugin-typescript2": "^0.24.3",
-    "sinon": "^7.5.0",
+    "sinon": "^9.0.1",
     "typescript": "^3.6.4"
   }
 }
