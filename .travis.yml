@@ -1,9 +1,12 @@
 language: node_js
 node_js:
-  - '8'
-  - 'node'
-  - 'lts/*'
+    - '8'
+    - 'node'
+    - 'lts/*'
+script:
+    - npm test
+    - npm run build # ensure it builds
 after_success: 'npm run coveralls'
 branches:
-  only:
-  - master
+    only:
+        - master
