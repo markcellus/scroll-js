@@ -10,7 +10,7 @@ module.exports = function(config) {
         ],
         esm: {
             nodeResolve: true,
-            compatibility: 'all',
+            compatibility: 'min',
             fileExtensions: ['.ts'],
             babel: true,
         },
