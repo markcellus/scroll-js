@@ -27,7 +27,7 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=8.9.0"
+    "node": ">=10.16"
   },
   "main": "./dist/scroll.common.js",
   "module": "./dist/scroll.js",
