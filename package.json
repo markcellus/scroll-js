@@ -65,7 +65,7 @@
     "karma-mocha": "^2.0.0",
     "karma-rollup-preprocessor": "^7.0.2",
     "karma-typescript-preprocessor": "^0.4.0",
-    "mocha": "^7.1.1",
+    "mocha": "^8.0.1",
     "prettier": "^2.0.0",
     "raf-stub": "^3.0.0",
     "rollup": "^2.3.2",
