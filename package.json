@@ -49,7 +49,7 @@
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-typescript": "^7.6.0",
     "@open-wc/karma-esm": "^3.0.3",
-    "@rollup/plugin-commonjs": "^14.0.0",
+    "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
     "@types/chai": "^4.2.4",
     "@types/mocha": "^8.0.0",
