@@ -42,7 +42,9 @@
     "build": "rm -rf dist/* && rollup -c",
     "banner": "banner-cli dist/*.js",
     "start": "rollup -c --watch",
-    "lint": "eslint '**/*.{js,ts}'",
+    "lint": "npm run lint:scripts && npm run lint:format",
+    "lint:scripts": "eslint '**/*.{js,ts}'",
+    "lint:format": "prettier --check '**/*'",
     "coveralls": "cat .coverage/lcov.info | coveralls"
   },
   "devDependencies": {
