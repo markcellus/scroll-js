@@ -5,7 +5,6 @@ import serve from 'rollup-plugin-serve';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 
-
 export default [
     {
         input: 'src/scroll.ts',
@@ -45,11 +44,11 @@ export default [
                 mangle: true,
             }),
             process.env.ROLLUP_WATCH &&
-            serve({
-                historyApiFallback: true,
-                contentBase: '',
-                port: 9383,
-            }),
+                serve({
+                    historyApiFallback: true,
+                    contentBase: '',
+                    port: 9383,
+                }),
         ],
     },
 ];

@@ -13,12 +13,12 @@ const { assert, expect } = window.chai;
 
 let mockRaf;
 
-describe('scrollIntoView', function() {
+describe('scrollIntoView', function () {
     let dateNowStub;
     let currentTime;
     let requestAnimationFrameStub;
 
-    beforeEach(function() {
+    beforeEach(function () {
         mockRaf = createStub();
         requestAnimationFrameStub = sinon
             .stub(window, 'requestAnimationFrame')
@@ -32,13 +32,13 @@ describe('scrollIntoView', function() {
         dateNowStub.onThirdCall().returns(currentTime); // set the current animation time enough time forward to simulate a time that will trigger the last frame
     });
 
-    afterEach(function() {
+    afterEach(function () {
         requestAnimationFrameStub.restore();
         dateNowStub.restore();
     });
 
-    [true, false, {}].forEach(testValue => {
-        it(`should throw an error when attempting to pass ${typeof testValue} to scrollIntoView()`, function() {
+    [true, false, {}].forEach((testValue) => {
+        it(`should throw an error when attempting to pass ${typeof testValue} to scrollIntoView()`, function () {
             assert.throws(() => {
                 // @ts-ignore
                 scrollIntoView(testValue);
@@ -46,20 +46,20 @@ describe('scrollIntoView', function() {
         });
     });
 
-    it('should throw an error when nothing is passed to scrollIntoView()', function() {
+    it('should throw an error when nothing is passed to scrollIntoView()', function () {
         assert.throws(() => {
             // @ts-ignore
             scrollIntoView();
         }, `The element passed to scrollIntoView() was undefined.`);
     });
 
-    it('should NOT throw an error when initializing with a value that is a DOM element', function() {
+    it('should NOT throw an error when initializing with a value that is a DOM element', function () {
         assert.doesNotThrow(() => {
             scrollIntoView(document.createElement('div'));
         });
     });
 
-    it('passing an element scrollIntoView() with a custom container should move the element the amount of distance from the top of its container', function(done) {
+    it('passing an element scrollIntoView() with a custom container should move the element the amount of distance from the top of its container', function (done) {
         let outerEl = document.createElement('div');
         // must set up outer element to not have any offsetTop
         // value by placing it at the top/left-most area in viewport
@@ -83,14 +83,14 @@ describe('scrollIntoView', function() {
         outerEl.scrollTop = 0;
         scrollIntoView(secondInnerEl, outerEl);
         mockRaf.step(3);
-        setTimeout(function() {
+        setTimeout(function () {
             assert.equal(outerEl.scrollTop, innerElHeight);
             document.body.removeChild(outerEl);
             done();
         }, 0);
     });
 
-    it('passing an element scrollIntoView() with no container element should move the element from the top of document.body el', function(done) {
+    it('passing an element scrollIntoView() with no container element should move the element from the top of document.body el', function (done) {
         let bodyEl = document.createElement('div');
         // must set up outer element to not have any offsetTop
         // value by placing it at the top/left-most area in viewport
@@ -118,7 +118,7 @@ describe('scrollIntoView', function() {
         });
         scrollIntoView(secondInnerEl);
         mockRaf.step(3);
-        setTimeout(function() {
+        setTimeout(function () {
             assert.equal(bodyEl.scrollTop, innerElHeight);
             getDocumentStub.restore();
             document.body.removeChild(bodyEl);
@@ -126,7 +126,7 @@ describe('scrollIntoView', function() {
         }, 0);
     });
 
-    it('passing a deeply nested element that is out of viewport to scrollIntoView() should move the element the proper amount of distance from the top of document.body el', function(done) {
+    it('passing a deeply nested element that is out of viewport to scrollIntoView() should move the element the proper amount of distance from the top of document.body el', function (done) {
         let bodyEl = document.createElement('div');
         let firstInnerElHeight = 73;
         bodyEl.style.position = 'absolute';
@@ -154,7 +154,7 @@ describe('scrollIntoView', function() {
         assert.equal(innerEl.getBoundingClientRect().top, firstInnerElHeight); // make sure element is in right position
         scrollIntoView(innerEl);
         mockRaf.step(3);
-        setTimeout(function() {
+        setTimeout(function () {
             assert.equal(bodyEl.scrollTop, firstInnerElHeight);
             getDocumentStub.restore();
             bodyEl.removeChild(containerEl);
@@ -162,7 +162,7 @@ describe('scrollIntoView', function() {
         }, 0);
     });
 
-    it('passing an element to scrollIntoView() with a duration of 0 should scroll to that element immediately', function(done) {
+    it('passing an element to scrollIntoView() with a duration of 0 should scroll to that element immediately', function (done) {
         let outerEl = document.createElement('div');
         // must set up outer element to not have any offsetTop
         // value by placing it at the top/left-most area in viewport
@@ -186,14 +186,14 @@ describe('scrollIntoView', function() {
         outerEl.scrollTop = 0;
         scrollIntoView(secondInnerEl, outerEl, { behavior: 'smooth' });
         mockRaf.step(3);
-        setTimeout(function() {
+        setTimeout(function () {
             assert.equal(outerEl.scrollTop, innerElHeight);
             document.body.removeChild(outerEl);
             done();
         }, 0);
     });
 
-    it('passing an element to scrollIntoView() with an extra long duration should scroll to that element within the duration', function() {
+    it('passing an element to scrollIntoView() with an extra long duration should scroll to that element within the duration', function () {
         let time = new Date().getTime();
         let bodyEl = document.createElement('div');
         // must set up outer element to not have any offsetTop
