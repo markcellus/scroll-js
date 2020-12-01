@@ -60,7 +60,7 @@
     "banner-cli": "^0.14.1",
     "chai": "^4.2.0",
     "coveralls": "^3.0.7",
-    "eslint": "^6.6.0",
+    "eslint": "^7.14.0",
     "karma": "^5.0.1",
     "karma-chrome-launcher": "^3.1.0",
     "karma-coverage": "^2.0.1",
