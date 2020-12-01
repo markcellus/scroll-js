@@ -1,81 +1,84 @@
 <html lang="">
-<head>
-    <title>Scroll To Element Example</title>
-</head>
-<style>
+    <head>
+        <title>Scroll To Element Example</title>
+    </head>
+    <style>
+        .module {
+            margin: 20px auto;
+            width: 215%;
+            height: 300px;
+        }
 
-    .module {
-        margin: 20px auto;
-        width: 215%;
-        height: 300px;
-    }
+        .module-dummy {
+            background-color: lightgrey;
+        }
 
-    .module-dummy {
-        background-color: lightgrey;
-    }
+        .red {
+            background-color: burlywood;
+        }
 
-    .red {
-        background-color: burlywood;
-    }
+        .blue {
+            background-color: cornflowerblue;
+        }
 
-    .blue {
-        background-color: cornflowerblue;
-    }
+        .pink {
+            background-color: lightpink;
+        }
 
-    .pink {
-        background-color: lightpink;
-    }
+        .green {
+            background-color: darkseagreen;
+        }
 
-    .green {
-        background-color: darkseagreen;
-    }
+        .orange {
+            background-color: orange;
+        }
+    </style>
+    <body>
+        <p>
+            Click <button id="scroll-btn">here</button> to scroll down to the
+            green box.
+        </p>
+        <p>Then click on the green box to scroll to the pink box</p>
+        <p>Then click on the pink box to scroll back up</p>
+        <div class="module module-dummy"></div>
+        <div class="module module-dummy red"></div>
+        <div class="module module-dummy"></div>
+        <div class="module module-dummy blue"></div>
+        <div class="module module-dummy"></div>
+        <div class="module module-dummy green"></div>
+        <div class="module module-dummy"></div>
+        <div class="module module-dummy pink"></div>
+        <div class="module module-dummy"></div>
+        <div class="module module-dummy orange"></div>
 
-    .orange {
-        background-color: orange;
-    }
+        <!-- update the path to scroll script below -->
+        <script type="module">
+            import { scrollTo, scrollIntoView } from '../dist/scroll.min.js';
+            const scrollButton = document.getElementById('scroll-btn');
+            const greenBox = document.querySelector('.green');
+            const pink = document.querySelector('.pink');
 
-</style>
-<body>
-    <p>Click <button id="scroll-btn">here</button> to scroll down to the green box.</p>
-    <p>Then click on the green box to scroll to the pink box</p>
-    <p>Then click on the pink box to scroll back up</p>
-    <div class="module module-dummy"></div>
-    <div class="module module-dummy red"></div>
-    <div class="module module-dummy"></div>
-    <div class="module module-dummy blue"></div>
-    <div class="module module-dummy"></div>
-    <div class="module module-dummy green"></div>
-    <div class="module module-dummy"></div>
-    <div class="module module-dummy pink"></div>
-    <div class="module module-dummy"></div>
-    <div class="module module-dummy orange"></div>
+            // when the scroll button is clicked, scroll down 2000 pixels
+            scrollButton.onclick = function () {
+                scrollIntoView(greenBox, { duration: 1000 }).then(function () {
+                    console.log('finished scrolling to green box!');
+                });
+            };
 
-    <!-- update the path to scroll script below -->
-    <script type="module">
-        import { scrollTo, scrollIntoView } from '../dist/scroll.min.js';
-        const scrollButton = document.getElementById("scroll-btn");
-        const greenBox = document.querySelector(".green");
-        const pink = document.querySelector(".pink");
+            greenBox.onclick = function () {
+                scrollIntoView(pink, {
+                    duration: 1000,
+                    easing: 'ease-in-out',
+                }).then(function () {
+                    console.log('finished scrolling up from green box!');
+                });
+            };
 
-        // when the scroll button is clicked, scroll down 2000 pixels
-        scrollButton.onclick = function () {
-        scrollIntoView(greenBox, {duration: 1000}).then(function () {
-          console.log('finished scrolling to green box!');
-        });
-        };
-
-        greenBox.onclick = function () {
-          scrollIntoView(pink, {duration: 1000, easing: 'ease-in-out'}).then(function () {
-          console.log('finished scrolling up from green box!');
-        });
-        };
-
-        pink.onclick = function() {
-        scrollTo(document.body, {top: 0}).then(function () {
-          console.log('scrolled back up to top');
-        });
-      }
-
-    </script>
-</body>
+            pink.onclick = function () {
+                scrollTo(document.body, { top: 0 }).then(function () {
+                    console.log('scrolled back up to top');
+                });
+            };
+        </script>
+    </body>
 </html>

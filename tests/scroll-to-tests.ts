@@ -7,12 +7,12 @@ const { assert, expect } = window.chai;
 
 let mockRaf;
 
-describe('scroll', function() {
+describe('scroll', function () {
     let dateNowStub;
     let currentTime;
     let requestAnimationFrameStub;
 
-    beforeEach(function() {
+    beforeEach(function () {
         mockRaf = createStub();
         requestAnimationFrameStub = sinon
             .stub(window, 'requestAnimationFrame')
@@ -26,16 +26,16 @@ describe('scroll', function() {
         dateNowStub.onThirdCall().returns(currentTime); // set the current animation time enough time forward to simulate a time that will trigger the last frame
     });
 
-    afterEach(function() {
+    afterEach(function () {
         requestAnimationFrameStub.restore();
         dateNowStub.restore();
     });
 
-    it('should throw an error when attempting to scroll anything that is not a DOM element', async function() {
+    it('should throw an error when attempting to scroll anything that is not a DOM element', async function () {
         return Promise.all(
-            [true, false, {}].map(async testValue => {
+            [true, false, {}].map(async (testValue) => {
                 // @ts-ignore
-                return await scrollTo(testValue).catch(e => {
+                return await scrollTo(testValue).catch((e) => {
                     assert.equal(
                         e.message,
                         `element passed to scrollTo() must be either the window or a DOM element, you passed ${testValue}!`
@@ -45,13 +45,13 @@ describe('scroll', function() {
         );
     });
 
-    it('should NOT throw an error when initializing with a value that is a DOM element', function() {
+    it('should NOT throw an error when initializing with a value that is a DOM element', function () {
         assert.doesNotThrow(() => {
             scrollTo(document.createElement('div'));
         });
     });
 
-    it("should update the window's scrollTop property when nothing is passed as the container", async function() {
+    it("should update the window's scrollTop property when nothing is passed as the container", async function () {
         let innerEl = document.createElement('div');
         document.body.appendChild(innerEl);
         // inner element
@@ -64,7 +64,7 @@ describe('scroll', function() {
         document.body.removeChild(innerEl);
     });
 
-    it("should update the scrolled element's scrollTop property to the same coordinate specified in the second parameter supplied to scrollTo()", async function() {
+    it("should update the scrolled element's scrollTop property to the same coordinate specified in the second parameter supplied to scrollTo()", async function () {
         let outerEl = document.createElement('div');
         let innerEl = document.createElement('div');
         outerEl.appendChild(innerEl);
@@ -84,7 +84,7 @@ describe('scroll', function() {
         document.body.removeChild(outerEl);
     });
 
-    it('scrollTo() should update document.documentElement (html element) scrollTop property if passed into scroll', function() {
+    it('scrollTo() should update document.documentElement (html element) scrollTop property if passed into scroll', function () {
         // setup element to be "scrollable"
         let bodyElement = document.createElement('div');
         bodyElement.scrollTop = 0;
@@ -107,14 +107,14 @@ describe('scroll', function() {
             .returns(testDocumentElement);
         let scrollPromise = scrollTo(docEl, { top: testTo });
         mockRaf.step(3);
-        return scrollPromise.then(function() {
+        return scrollPromise.then(function () {
             assert.equal(docEl.scrollTop, testTo);
             getDocumentStub.restore();
             document.body.removeChild(docEl);
         });
     });
 
-    it("should update its element's scrollTop to value supplied to scrollTo() immediately when duration 0 is used", function(done) {
+    it("should update its element's scrollTop to value supplied to scrollTo() immediately when duration 0 is used", function (done) {
         let outerEl = document.createElement('div');
         let innerEl = document.createElement('div');
         outerEl.appendChild(innerEl);
@@ -129,14 +129,14 @@ describe('scroll', function() {
         let testTo = 120;
         scrollTo(outerEl, { top: testTo, duration: 0 });
         mockRaf.step(2);
-        setTimeout(function() {
+        setTimeout(function () {
             assert.equal(outerEl.scrollTop, testTo);
             document.body.removeChild(outerEl);
             done();
         }, 0);
     });
 
-    it("should update its element's scrollTop to value supplied to scrollTo() immediately when behavior is set to auto", function(done) {
+    it("should update its element's scrollTop to value supplied to scrollTo() immediately when behavior is set to auto", function (done) {
         let outerEl = document.createElement('div');
         let innerEl = document.createElement('div');
         outerEl.appendChild(innerEl);
@@ -151,18 +151,18 @@ describe('scroll', function() {
         let testTo = 120;
         scrollTo(outerEl, { top: testTo, behavior: 'auto' });
         mockRaf.step(2);
-        setTimeout(function() {
+        setTimeout(function () {
             assert.equal(outerEl.scrollTop, testTo);
             document.body.removeChild(outerEl);
             done();
         }, 0);
     });
 
-    it('should throw an error when attempting to scroll with an unsupported easing function', function() {
+    it('should throw an error when attempting to scroll with an unsupported easing function', function () {
         const options = Object.keys(easingMap).join(',');
         const easing = 'invalidEasing';
         let outerEl = document.createElement('div');
-        return scrollTo(outerEl, { easing }).catch(e => {
+        return scrollTo(outerEl, { easing }).catch((e) => {
             assert.equal(
                 e.message,
                 `Scroll error: scroller does not support an easing option of "${easing}". Supported options are ${options}`
@@ -170,7 +170,7 @@ describe('scroll', function() {
         });
     });
 
-    it('body should scroll back to top after having been scrolled', function(done) {
+    it('body should scroll back to top after having been scrolled', function (done) {
         let fakeBodyElement = document.createElement('div');
         fakeBodyElement.style.overflow = 'hidden';
         fakeBodyElement.style.height = '150px';
@@ -185,10 +185,10 @@ describe('scroll', function() {
         });
         scrollTo(fakeBodyElement, { top: testTo });
         mockRaf.step(3);
-        setTimeout(function() {
+        setTimeout(function () {
             scrollTo(fakeBodyElement, { top: 0 });
             mockRaf.step(3);
-            setTimeout(function() {
+            setTimeout(function () {
                 expect(fakeBodyElement.scrollTop).to.equal(0);
                 getDocumentStub.restore();
                 document.body.removeChild(fakeBodyElement);

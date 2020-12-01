@@ -47,7 +47,7 @@ export async function scrollTo(
 
     const currentScrollPosition = getScrollPosition(el);
     const scrollProperty = getScrollPropertyByElement(el);
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         scroll(
             currentScrollPosition,
             typeof options.top === 'number'
@@ -92,7 +92,7 @@ export function scrollIntoView(
         top: elementScrollYPos,
         left: 0,
         duration,
-        easing
+        easing,
     });
 }
 
@@ -115,12 +115,12 @@ function getScrollPropertyByElement(
     const props: any = {
         window: {
             y: 'scrollY',
-            x: 'scrollX'
+            x: 'scrollX',
         },
         element: {
             y: 'scrollTop',
-            x: 'scrollLeft'
-        }
+            x: 'scrollLeft',
+        },
     };
     const axis = 'y';
     if (el instanceof Window) {
@@ -175,7 +175,7 @@ export const utils = {
     // we're really just exporting this so that tests can mock the document.documentElement
     getDocument(): HTMLDocument {
         return document;
-    }
+    },
 };
 
 type EasingFunction = (t: number) => number;
@@ -198,7 +198,7 @@ export const easingMap: EasingFunctions = {
     },
     'ease-in-out'(t: number) {
         return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-    }
+    },
 };
 
 const getEasing = (easing?: EasingOptions): EasingFunction => {

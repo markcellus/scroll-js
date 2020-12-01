@@ -62,7 +62,7 @@ Alternatively, you can simply download one of the distribution files (un-minifie
 ```js
 import { scrollTo } from 'scroll-js';
 
-scrollTo(window, { top: 500 }).then(function() {
+scrollTo(window, { top: 500 }).then(function () {
     // window has scrolled 500 pixels down the page
 });
 ```
@@ -81,7 +81,7 @@ The following example scrolls the window (document body).
 
 ```javascript
 import { scrollTo } from 'scroll-js';
-scrollTo(document.body, { top: 500 }).then(function() {
+scrollTo(document.body, { top: 500 }).then(function () {
     //scrolling down 500 pixels has completed!
 });
 ```
@@ -92,7 +92,7 @@ scrollTo(document.body, { top: 500 }).then(function() {
 import { scrollIntoView } from 'scroll-js';
 var myElement = document.body.getElementsByClassName('my-element')[0];
 scrollIntoView(myElement, document.body, { behavior: 'smooth' }).then(
-    function() {
+    function () {
         // done scrolling document's body to show myElement
     }
 );
@@ -104,7 +104,7 @@ You can scroll with easing using the [`behavior` option of the scrollTo specific
 
 ```javascript
 import { scrollTo } from 'scroll-js';
-scrollTo(document.body, { top: 600, behavior: 'smooth' }).then(function() {
+scrollTo(document.body, { top: 600, behavior: 'smooth' }).then(function () {
     // scrolled down 600 pixels smoothly
 });
 ```
@@ -114,7 +114,7 @@ Easing is also supported simply by passing the `easing` option with an easing st
 
 ```javascript
 import { scrollTo } from 'scroll-js';
-scrollTo(document.body, { top: 200, easing: 'ease-in-out' }).then(function() {
+scrollTo(document.body, { top: 200, easing: 'ease-in-out' }).then(function () {
     // scrolled down 200 pixels, easing on beginning and end
 });
 ```
@@ -128,7 +128,7 @@ Listen in on native scroll events the same way you would if a user was scrolling
 
 ```javascript
 import { scrollTo } from 'scroll-js';
-window.addEventListener('scroll', function() {
+window.addEventListener('scroll', function () {
     // scrolling!
 });
 scrollTo(document.body, { top: 300 }); // scroll to trigger event
