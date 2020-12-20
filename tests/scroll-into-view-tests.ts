@@ -1,15 +1,10 @@
 import sinon from 'sinon/pkg/sinon-esm';
-import 'chai/chai';
+import 'chai/chai'; // make window.chai available
+import * as chai from 'chai'; // import for typings
 import { scrollIntoView, utils } from '../src/scroll';
 import createStub from 'raf-stub';
 
-declare global {
-    interface Window {
-        chai: Chai.ChaiStatic;
-    }
-}
-
-const { assert, expect } = window.chai;
+const { assert, expect } = (window as any).chai as typeof chai;
 
 let mockRaf;
 
