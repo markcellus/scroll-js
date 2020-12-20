@@ -23,8 +23,8 @@ export async function scrollTo(
         prop: string,
         startTime: number,
         duration: number | undefined = 300,
-        easeFunc: (time: number) => number,
-        callback: () => void
+        easeFunc: EasingFunction,
+        callback: Function
     ) => {
         window.requestAnimationFrame(() => {
             const currentTime = Date.now();
@@ -178,6 +178,7 @@ export const utils = {
     },
 };
 
+// eslint-disable-next-line no-unused-vars
 type EasingFunction = (t: number) => number;
 
 interface EasingFunctions {
