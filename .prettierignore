@@ -1,3 +1,8 @@
 package*.json
 dist
 .coverage
+.eslintignore
+.gitignore
+.npmrc
+.prettierignore
+LICENSE
