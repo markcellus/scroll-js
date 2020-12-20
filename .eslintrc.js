@@ -11,4 +11,8 @@ module.exports = {
         es6: true,
         mocha: true,
     },
+    globals: {
+        ScrollToOptions: 'readonly',
+        ScrollIntoViewOptions: 'readonly',
+    },
 };
