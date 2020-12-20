@@ -55,12 +55,12 @@
     "@rollup/plugin-node-resolve": "^11.0.0",
     "@types/chai": "^4.2.4",
     "@types/mocha": "^8.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.9.0",
-    "@typescript-eslint/parser": "^4.9.0",
+    "@typescript-eslint/eslint-plugin": "^4.10.0",
+    "@typescript-eslint/parser": "^4.10.0",
     "banner-cli": "^0.14.1",
     "chai": "^4.2.0",
     "coveralls": "^3.0.7",
-    "eslint": "^7.14.0",
+    "eslint": "^7.16.0",
     "karma": "^5.0.1",
     "karma-chrome-launcher": "^3.1.0",
     "karma-coverage": "^2.0.1",
@@ -76,6 +76,6 @@
     "rollup-plugin-terser": "^7.0.0",
     "rollup-plugin-typescript2": "^0.29.0",
     "sinon": "^9.0.1",
-    "typescript": "^4.0.2"
+    "typescript": "^4.1.3"
   }
 }
