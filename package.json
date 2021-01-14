@@ -4,9 +4,9 @@
   "description": "Light cross-browser scroller that uses native javascript",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mkay581/scroll-js.git"
+    "url": "https://github.com/markcellus/scroll-js.git"
   },
-  "homepage": "https://github.com/mkay581/scroll-js",
+  "homepage": "https://github.com/markcellus/scroll-js",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

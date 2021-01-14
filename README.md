@@ -1,4 +1,4 @@
-![build](https://img.shields.io/travis/mkay581/scroll-js)
+![build](https://img.shields.io/travis/markcellus/scroll-js)
 ![npm](https://img.shields.io/npm/v/scroll-js)
 ![node](https://img.shields.io/node/v/scroll-js)
 ![minified](https://img.shields.io/bundlephobia/min/scroll-js)
