@@ -50,7 +50,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-typescript": "^7.12.7",
-    "@open-wc/karma-esm": "^3.0.3",
+    "@open-wc/karma-esm": "^4.0.0",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
     "@types/chai": "^4.2.4",
