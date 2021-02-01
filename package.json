@@ -61,7 +61,7 @@
     "chai": "^4.2.0",
     "coveralls": "^3.0.7",
     "eslint": "^7.16.0",
-    "karma": "^5.0.1",
+    "karma": "^6.0.3",
     "karma-chrome-launcher": "^3.1.0",
     "karma-coverage": "^2.0.1",
     "karma-mocha": "^2.0.0",
