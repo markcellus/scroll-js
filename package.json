@@ -41,7 +41,7 @@
     "preversion": "npm test",
     "build": "rm -rf dist/* && rollup -c",
     "banner": "banner-cli dist/*.js",
-    "start": "rollup -c --watch",
+    "start": "rm -rf examples/dist/* && rollup -c --watch",
     "lint": "npm run lint:scripts && npm run lint:format",
     "lint:scripts": "eslint '**/*.{js,ts}'",
     "lint:format": "prettier --check '**/*'",

@@ -5,50 +5,54 @@ import serve from 'rollup-plugin-serve';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 
-export default [
-    {
-        input: 'src/scroll.ts',
-        output: {
-            format: 'esm',
-            file: 'dist/scroll.js',
+export default function (commandOptions) {
+    const distPath = commandOptions.watch ? 'examples/dist' : 'dist';
+    return [
+        {
+            input: 'src/scroll.ts',
+            output: {
+                format: 'esm',
+                file: `${distPath}/scroll.js`,
+            },
+            plugins: [typescript()],
+            watch: {
+                include: 'src/**',
+            },
         },
-        plugins: [typescript()],
-        watch: {
-            include: 'src/**',
-        },
-    },
-    {
-        input: 'dist/scroll.js',
-        output: {
-            format: 'umd',
-            name: 'Scroll',
-            file: 'dist/scroll.common.js',
-        },
-        plugins: [
-            resolve({ browser: true }),
-            commonjs(),
-            babel({
-                extensions: ['.js'],
-            }),
-        ],
-    },
-    {
-        input: 'dist/scroll.js',
-        output: {
-            format: 'esm',
-            file: 'dist/scroll.min.js',
-        },
-        plugins: [
-            terser({
-                compress: true,
-                mangle: true,
-            }),
-            process.env.ROLLUP_WATCH &&
-                serve({
-                    historyApiFallback: true,
-                    contentBase: '',
-                    port: 9383,
+        {
+            input: `${distPath}/scroll.js`,
+            output: {
+                format: 'umd',
+                name: 'Scroll',
+                file: `${distPath}/scroll.common.js`,
+            },
+            plugins: [
+                resolve({ browser: true }),
+                commonjs(),
+                babel({
+                    extensions: ['.js'],
                 }),
-        ],
-    },
-];
+            ],
+        },
+        {
+            input: `${distPath}/scroll.js`,
+            output: {
+                format: 'esm',
+                file: `${distPath}/scroll.min.js`,
+            },
+            plugins: [
+                terser({
+                    compress: true,
+                    mangle: true,
+                }),
+                commandOptions.watch &&
+                    serve({
+                        open: true,
+                        historyApiFallback: true,
+                        contentBase: 'examples',
+                        port: 9383,
+                    }),
+            ],
+        },
+    ];
+}
