@@ -6,3 +6,4 @@ dist
 .npmrc
 .prettierignore
 LICENSE
+.env

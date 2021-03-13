@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 module.exports = function (config) {
     config.set({
         files: [{ pattern: 'tests/**/*.ts', type: 'module' }],
@@ -17,12 +19,25 @@ module.exports = function (config) {
                 { type: 'text-summary' },
             ],
         },
+        browserStack: {
+            username: process.env.BROWSERSTACK_USERNAME,
+            accessKey: process.env.BROWSERSTACK_ACCESS_KEY,
+        },
+        customLaunchers: {
+            chrome: {
+                base: 'BrowserStack',
+                browser: 'chrome',
+                os: 'OS X',
+                os_version: 'Big Sur',
+                browser_version: '83.0',
+            },
+        },
+        browsers: ['chrome'],
         reporters: ['progress', 'coverage'],
         frameworks: ['esm', 'mocha'],
         port: 9876,
         colors: true,
         logLevel: config.LOG_INFO,
-        browsers: ['ChromeHeadless'],
         autoWatch: true,
         singleRun: true,
         concurrency: Infinity,

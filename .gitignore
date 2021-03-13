@@ -9,3 +9,4 @@
 .coverage
 .rpt2_cache
 dist
+.env
