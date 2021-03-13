@@ -2,12 +2,7 @@ module.exports = function (config) {
     config.set({
         files: [{ pattern: 'tests/**/*.ts', type: 'module' }],
 
-        plugins: [
-            require.resolve('@open-wc/karma-esm'),
-            'karma-mocha',
-            'karma-chrome-launcher',
-            'karma-coverage',
-        ],
+        plugins: [require.resolve('@open-wc/karma-esm'), 'karma-*'],
         esm: {
             nodeResolve: true,
             compatibility: 'min',
