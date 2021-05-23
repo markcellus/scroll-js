@@ -1,7 +1,7 @@
-import { config } from 'dotenv';
+import dotenv from 'dotenv';
 import { esbuildPlugin } from '@web/dev-server-esbuild';
 
-config();
+dotenv.config();
 
 import { browserstackLauncher } from '@web/test-runner-browserstack';
 const sharedCapabilities = {
