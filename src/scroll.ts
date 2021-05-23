@@ -5,6 +5,8 @@ export interface ScrollToCustomOptions extends ScrollToOptions {
     easing?: EasingOptions;
 }
 
+export const DEFAULT_DURATION = 300;
+
 export async function scrollTo(
     el: Element | Window,
     options: ScrollToCustomOptions = {}
@@ -22,7 +24,7 @@ export async function scrollTo(
         to: number,
         prop: string,
         startTime: number,
-        duration: number | undefined = 300,
+        duration: number | undefined = DEFAULT_DURATION,
         easeFunc: EasingFunction,
         callback: Function
     ) => {
@@ -88,7 +90,7 @@ export function scrollIntoView(
             element.getBoundingClientRect().top + currentContainerScrollYPos;
     }
 
-    return scrollTo(scroller, {
+    return scrollTo(scroller as Element, {
         top: elementScrollYPos,
         left: 0,
         duration,
@@ -135,7 +137,7 @@ function sanitizeScrollOptions(
 ): ScrollToCustomOptions {
     if (options.behavior === 'smooth') {
         options.easing = 'ease-in-out';
-        options.duration = 300;
+        options.duration = DEFAULT_DURATION;
     }
     if (options.behavior === 'auto') {
         options.duration = 0;
