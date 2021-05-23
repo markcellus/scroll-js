@@ -49,6 +49,7 @@
     "coveralls": "cat .coverage/lcov.info | coveralls"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.3",
     "@babel/preset-env": "^7.6.3",
     "@babel/preset-typescript": "^7.12.7",
     "@esm-bundle/chai": "^4.3.4",
