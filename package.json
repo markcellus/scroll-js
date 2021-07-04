@@ -1,6 +1,6 @@
 {
   "name": "scroll-js",
-  "version": "3.4.1",
+  "version": "3.4.2",
   "description": "Light cross-browser scroller that uses native javascript",
   "repository": {
     "type": "git",
