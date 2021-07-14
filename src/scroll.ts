@@ -35,7 +35,7 @@ export async function scrollTo(
             const currentTime = Date.now();
             const time = Math.min(1, (currentTime - startTime) / duration);
 
-            if ((scrollVert && fromVert === toVert) || (scrollHoriz && fromHoriz === toHoriz)) {
+            if ((!scrollVert || fromVert === toVert) && (!scrollHoriz || fromHoriz === toHoriz)) {
                 return callback ? callback() : null;
             }
 
