@@ -20,9 +20,12 @@ export async function scrollTo(
     options = sanitizeScrollOptions(options);
 
     const scroll = (
-        from: number,
-        to: number,
-        prop: string,
+        scrollVert: boolean,
+        fromVert: number,
+        toVert: number,
+        scrollHoriz: boolean,
+        fromHoriz: number,
+        toHoriz: number,
         startTime: number,
         duration: number | undefined = DEFAULT_DURATION,
         easeFunc: EasingFunction,
@@ -32,30 +35,36 @@ export async function scrollTo(
             const currentTime = Date.now();
             const time = Math.min(1, (currentTime - startTime) / duration);
 
-            if (from === to) {
+            if ((scrollVert && fromVert === toVert) || (scrollHoriz && fromHoriz === toHoriz)) {
                 return callback ? callback() : null;
             }
 
-            setScrollPosition(el, easeFunc(time) * (to - from) + from);
+            if (scrollVert) {
+                setScrollPosition(el, easeFunc(time) * (toVert - fromVert) + fromVert, true);
+            }
+            if (scrollHoriz) {
+                setScrollPosition(el, easeFunc(time) * (toHoriz - fromHoriz) + fromHoriz, false);
+            }
 
             /* prevent scrolling, if already there, or at end */
             if (time < 1) {
-                scroll(from, to, prop, startTime, duration, easeFunc, callback);
+                scroll(scrollVert, fromVert, toVert, scrollHoriz, fromHoriz, toHoriz, startTime, duration, easeFunc, callback);
             } else if (callback) {
                 callback();
             }
         });
     };
 
-    const currentScrollPosition = getScrollPosition(el);
-    const scrollProperty = getScrollPropertyByElement(el);
-    return new Promise((resolve) => {
+    const currenVertScrollPosition = getScrollPosition(el, true);
+    const currenHorizScrollPosition = getScrollPosition(el, false);
+    return new Promise(resolve => {
         scroll(
-            currentScrollPosition,
-            typeof options.top === 'number'
-                ? options.top
-                : currentScrollPosition,
-            scrollProperty,
+            typeof options.top === 'number',
+            currenVertScrollPosition,
+            typeof options.top === 'number' ? options.top : currenVertScrollPosition,
+            typeof options.left === 'number',
+            currenHorizScrollPosition,
+            typeof options.left === 'number' ? options.left : currenHorizScrollPosition,
             Date.now(),
             options.duration,
             getEasing(options.easing),
@@ -77,7 +86,9 @@ export function scrollIntoView(
     const { duration, easing } = sanitizeScrollOptions(options);
     scroller = scroller || utils.getDocument().body;
     let currentContainerScrollYPos = 0;
+    let currentContainerScrollXPos = 0;
     let elementScrollYPos = element ? element.offsetTop : 0;
+    let elementScrollXPos = element ? element.offsetLeft : 0;
     const document = utils.getDocument();
 
     // if the container is the document body or document itself, we'll
@@ -85,16 +96,17 @@ export function scrollIntoView(
     if (scroller === document.body || scroller === document.documentElement) {
         // using pageYOffset for cross-browser compatibility
         currentContainerScrollYPos = window.pageYOffset;
+        currentContainerScrollXPos = window.pageXOffset;
         // must add containers scroll y position to ensure an absolute value that does not change
-        elementScrollYPos =
-            element.getBoundingClientRect().top + currentContainerScrollYPos;
+        elementScrollYPos = element.getBoundingClientRect().top + currentContainerScrollYPos;
+        elementScrollXPos = element.getBoundingClientRect().top + currentContainerScrollXPos;
     }
 
     return scrollTo(scroller as Element, {
         top: elementScrollYPos,
-        left: 0,
+        left: elementScrollXPos,
         duration,
-        easing,
+        easing
     });
 }
 
@@ -146,30 +158,43 @@ function sanitizeScrollOptions(
     return options;
 }
 
-function getScrollPosition(el: Element | Window): number {
+function getScrollPosition(el: Element | Window, vertical = true): number {
     const document = utils.getDocument();
     if (
         el === document.body ||
         el === document.documentElement ||
         el instanceof Window
     ) {
-        return document.body.scrollTop || document.documentElement.scrollTop;
+        if (vertical) {
+            return document.body.scrollTop || document.documentElement.scrollTop;
+        } else {
+            return document.body.scrollLeft || document.documentElement.scrollLeft;
+        }
     } else {
-        return el.scrollTop;
+        return vertical ? el.scrollTop : el.scrollLeft;
     }
 }
 
-function setScrollPosition(el: Element | Window, value: number) {
+function setScrollPosition(el: Element | Window, value: number, vertical = true) {
     const document = utils.getDocument();
     if (
         el === document.body ||
         el === document.documentElement ||
         el instanceof Window
     ) {
-        document.body.scrollTop = value;
-        document.documentElement.scrollTop = value;
+        if (vertical) {
+            document.body.scrollTop = value;
+            document.documentElement.scrollTop = value;
+        } else {
+            document.body.scrollLeft = value;
+            document.documentElement.scrollLeft = value;
+        }
     } else {
-        el.scrollTop = value;
+        if (vertical) {
+            el.scrollTop = value;
+        } else {
+            el.scrollLeft = value;
+        }
     }
 }
 
