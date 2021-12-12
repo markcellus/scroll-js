@@ -4,5 +4,3 @@ updates:
       directory: '/'
       schedule:
           interval: monthly
-      # Disable npm dep upgrades - will handle manually from now on
-      open-pull-requests-limit: 0
