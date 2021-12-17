@@ -4,4 +4,5 @@ node_js:
 script:
     - npm test
     - npm run build # ensure it builds
+    - npm run test:e2e
 after_success: 'npm run coveralls'

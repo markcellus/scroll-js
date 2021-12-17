@@ -1,7 +1,7 @@
 module.exports = {
-    extends: 'eslint:recommended',
+    extends: ['eslint:recommended', 'plugin:testcafe/recommended'],
     parser: '@typescript-eslint/parser',
-    plugins: ['@typescript-eslint'],
+    plugins: ['@typescript-eslint', 'testcafe'],
     parserOptions: {
         sourceType: 'module',
     },

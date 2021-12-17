@@ -1,0 +1,9 @@
+{
+    "browsers": [
+        "browserstack:firefox@95:Windows 10",
+        "browserstack:edge@96:Windows 10"
+    ],
+    "hostname": "localhost",
+    "src": "**/*.e2e.js",
+    "appCommand": "npm run start:e2e"
+}

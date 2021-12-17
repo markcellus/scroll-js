@@ -190,3 +190,11 @@ Run tests:
 npm install
 npm test
 ```
+
+### E2E Tests
+
+The following runs E2E tests on the files in the examples folder.
+
+```
+npm run test:e2e
+```
