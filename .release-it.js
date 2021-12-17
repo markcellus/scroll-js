@@ -11,7 +11,7 @@ module.exports = {
         releaseNotes: null,
     },
     hooks: {
-        'before:init': ['npm test'],
+        'before:init': ['npm test', 'npm run test:e2e'],
         'after:bump': 'npm run build && npm run banner',
         'after:release':
             'echo Successfully released ${name} v${version} to ${repo.repository}.',
