@@ -84,9 +84,7 @@ describe('scroll', function () {
             documentElement: docEl,
             body: bodyElement,
         };
-        getDocumentStub.returns(
-            (testDocumentElement as unknown) as HTMLDocument
-        );
+        getDocumentStub.returns(testDocumentElement as unknown as HTMLDocument);
         await scrollTo(docEl, { top: testTo });
         expect(docEl.scrollTop).to.equal(testTo);
         docEl.remove();
@@ -153,10 +151,10 @@ describe('scroll', function () {
         fakeBodyElement.appendChild(innerEl);
         document.body.appendChild(fakeBodyElement);
         const testTo = 120;
-        getDocumentStub.returns(({
+        getDocumentStub.returns({
             body: fakeBodyElement,
             documentElement: document.createElement('div'),
-        } as unknown) as HTMLDocument);
+        } as unknown as HTMLDocument);
         await scrollTo(fakeBodyElement, { top: testTo });
         await scrollTo(fakeBodyElement, { top: 0 });
         expect(fakeBodyElement.scrollTop).to.equal(0);

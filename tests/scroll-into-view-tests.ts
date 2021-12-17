@@ -8,10 +8,10 @@ describe('scrollIntoView', function () {
     let getDocumentStub: SinonStub;
 
     beforeEach(function () {
-        getDocumentStub = sinon.stub(utils, 'getDocument').returns(({
+        getDocumentStub = sinon.stub(utils, 'getDocument').returns({
             body: document.createElement('div'),
             documentElement: document.createElement('div'),
-        } as unknown) as HTMLDocument);
+        } as unknown as HTMLDocument);
     });
 
     afterEach(function () {
@@ -70,10 +70,10 @@ describe('scrollIntoView', function () {
         fakeDocumentBody.appendChild(innerEl);
         fakeDocumentBody.appendChild(secondInnerEl);
         document.body.appendChild(fakeDocumentBody);
-        getDocumentStub.returns(({
+        getDocumentStub.returns({
             body: fakeDocumentBody,
             documentElement: fakeDocumentBody,
-        } as unknown) as HTMLDocument);
+        } as unknown as HTMLDocument);
         scrollIntoView(secondInnerEl);
         await aTimeout(1);
         expect(fakeDocumentBody.scrollTop).to.not.equal(innerElHeight);
@@ -100,10 +100,10 @@ describe('scrollIntoView', function () {
         innerEl.style.height = '200px';
         containerEl.appendChild(innerEl);
         document.body.appendChild(fakeDocumentBody);
-        getDocumentStub.returns(({
+        getDocumentStub.returns({
             body: fakeDocumentBody,
             documentElement: fakeDocumentBody,
-        } as unknown) as HTMLDocument);
+        } as unknown as HTMLDocument);
         assert.equal(innerEl.getBoundingClientRect().top, firstInnerElHeight); // make sure element is in right position
         scrollIntoView(innerEl);
         await aTimeout(1);
@@ -148,10 +148,10 @@ describe('scrollIntoView', function () {
         fakeDocumentBody.appendChild(innerEl);
         fakeDocumentBody.appendChild(secondInnerEl);
         document.body.appendChild(fakeDocumentBody);
-        getDocumentStub.returns(({
+        getDocumentStub.returns({
             body: fakeDocumentBody,
             documentElement: fakeDocumentBody,
-        } as unknown) as HTMLDocument);
+        } as unknown as HTMLDocument);
         scrollIntoView(secondInnerEl, {
             duration: 5000,
         } as ScrollIntoViewOptions);
