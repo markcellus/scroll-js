@@ -5,6 +5,3 @@ script:
     - npm test
     - npm run build # ensure it builds
 after_success: 'npm run coveralls'
-branches:
-    only:
-        - master
