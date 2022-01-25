@@ -26,9 +26,6 @@
     "scroll into view polyfill"
   ],
   "license": "MIT",
-  "engines": {
-    "node": ">=16"
-  },
   "main": "./dist/scroll.common.js",
   "module": "./dist/scroll.js",
   "types": "./dist/scroll.d.ts",
