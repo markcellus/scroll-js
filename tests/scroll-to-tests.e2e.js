@@ -20,7 +20,7 @@ test('scrolls to green box into view after clicking scroll button after 1000ms',
     await t
         .expect(await green.getBoundingClientRectProperty('top'))
         .gte(viewportHeight);
-    await t.wait(1100); // some browsers take longer than 1000ms
+    await t.wait(1500); // some browsers take longer than 1000ms
     // should be inside viewport here
     await t.expect(await green.getBoundingClientRectProperty('top')).gte(0);
 });
@@ -36,7 +36,7 @@ test('clicking green box scrolls pink box to top of viewport after 1000 ms', asy
     await t
         .expect(await pink.getBoundingClientRectProperty('top'))
         .gt(viewportHeight);
-    await t.wait(1100); // some browsers take longer than 1000ms
+    await t.wait(1500); // some browsers take longer than 1000ms
     const top = await pink.getBoundingClientRectProperty('top');
     await t.expect(top).eql(0, 'top of pink element is NOT at top of viewport');
 });
