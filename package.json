@@ -64,7 +64,7 @@
     "@typescript-eslint/parser": "^5.7.0",
     "@web/dev-server-esbuild": "^0.3.0",
     "@web/test-runner": "^0.13.4",
-    "@web/test-runner-browserstack": "^0.4.2",
+    "@web/test-runner-browserstack": "^0.5.0",
     "banner-cli": "^0.14.1",
     "coveralls": "^3.0.7",
     "dotenv": "^16.0.0",
