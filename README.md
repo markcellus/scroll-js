@@ -51,13 +51,25 @@ You can install the library as a npm module by running the following command:
 npm i scroll-js
 ```
 
-Alternatively, you can simply download one of the distribution files (un-minified or minified version) in the dist folder (available when npm installed) and reference them directly in your html file.
+## Importing
+
+After installing, you can either `import` the component into your file:
+
+```js
+import { scrollTo, scrollIntoView } from 'scroll-js';
+```
+
+Or, you can reference any of the files made available in the dist folder in your html file.
 
 ```html
 <script src="node_modules/scroll-js/dist/scroll.js"></script>
 ```
 
 ## Usage
+
+In addition to the samples below, you can find more in the [examples](/examples) folder.
+
+### Scrolling the window
 
 ```js
 import { scrollTo } from 'scroll-js';
@@ -66,8 +78,6 @@ scrollTo(window, { top: 500 }).then(function () {
     // window has scrolled 500 pixels down the page
 });
 ```
-
-In addition to the samples below, you can find more in the [examples](/examples) folder.
 
 ### Scrolling an element
 
