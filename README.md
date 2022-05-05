@@ -51,7 +51,7 @@ You can install the library as a npm module by running the following command:
 npm i scroll-js
 ```
 
-Alternatively, you can simply download one of the distribution files (un-minified or minified version) in the [/dist](/dist) folder and reference them directly in your html file.
+Alternatively, you can simply download one of the distribution files (un-minified or minified version) in the dist folder (available when npm installed) and reference them directly in your html file.
 
 ```html
 <script src="node_modules/scroll-js/dist/scroll.js"></script>
