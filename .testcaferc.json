@@ -1,7 +1,7 @@
 {
     "browsers": [
-        "browserstack:firefox@95:Windows 10",
-        "browserstack:edge@96:Windows 10"
+        "browserstack:firefox@95.0:Windows 10",
+        "browserstack:edge@96.0:Windows 10"
     ],
     "hostname": "localhost",
     "src": "**/*.e2e.js",
