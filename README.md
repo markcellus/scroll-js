@@ -5,6 +5,8 @@
 ![downloads](https://img.shields.io/npm/dm/scroll-js)
 ![license](https://img.shields.io/npm/l/scroll-js)
 
+## _This repository has been deprecated in favor of the [`scrollIntoView`](https://w3c.github.io/csswg-drafts/cssom-view/#dom-element-scrollintoview), which is supported in all major browsers. Please use that for scroll animations going forward. Thanks to all who have helped contribute to this package._
+
 # Scroll
 
 A light-weight library that will allow you to scroll any html element using native javascript.
